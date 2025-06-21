@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Portfolio</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            margin-top: 40px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 50px;
+        }
+        .icon-box {
+            text-align: center;
+            width: 150px;
+        }
+        .icon-box img {
+            width: 100px;
+            height: 100px;
+            transition: transform 0.3s;
+        }
+        .icon-box img:hover {
+            transform: scale(1.1);
+        }
+        a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Καλώς ήρθατε στο Portfolio μου</h1>
+    <div class="container">
+        <div class="icon-box">
+            <a href="/about">
+                <img src="{{ url_for('static', filename='img/info.png') }}" alt="About">
+                <span>Σχετικά</span>
+            </a>
+        </div>
+        <div class="icon-box">
+            <a href="/projects">
+                <img src="{{ url_for('static', filename='img/info.png') }}" alt="Projects">
+                <span>Έργα</span>
+            </a>
+        </div>
+        <div class="icon-box">
+            <a href="/contact">
+                <img src="{{ url_for('static', filename='img/mail.png') }}" alt="Contact">
+                <span>Επικοινωνία</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+<div class="topnav" id="myTopnav">
+  
+    <a class="active" href="#home">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <a href="javascript:void(0);" class="topnav" onclick="myFunction()">
+    </a>
+</div>
+
+
+
+
+
+
+@app.route('/search', methods=['POST'])
+def search():
+    query = request.form.get('search_query')
+    return f"Αναζήτησες: {query}"
+
+
+
+    @app.route('/guest')
+def guest():
+    session['guest'] = True
+    return redirect(url_for('search_page'))
+
+
+    <div class="search-wrapper">
+        <form action="/search" method="POST" class="search-container">
+          <input type="text" id="search-input" name="location" placeholder="Search..." autocomplete="off">
+          <button type="submit">
+              🔍
+          </button>
+        </form>
+        <ul id="suggestions" class="suggestions-list"></ul>
+      </div>
+
+
+      
+@app.route('/')
+def home():
+    title = 'Home'
+    return render_template('home_1.html',title = title)
+
+    <div class="text-center">
+        <form action="/login" method="get" class="d-inline">
+            <button type="submit" class="btn btn-primary btn-lg mb-2">Σύνδεση με Account</button>
+        </form>
+        <br>
+        <form action="/guest" method="get" class="d-inline">
+            <button type="submit" class="btn btn-secondary btn-lg">Συνέχεια ως Επισκέπτης</button>
+        </form>
+    </div>
+
+
+
+    function initLiveSearch() {
+        const input = document.getElementById('search-input');
+        const suggestions = document.getElementById('suggestions');
+    
+        input.addEventListener('input', () => {
+            const query = input.value.trim();
+            if (query.length === 0) {
+                suggestions.innerHTML = '';
+                return;
+            }
+    
+            fetch(`/suggest?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    suggestions.innerHTML = '';
+    
+                    data.forEach(item => {
+                        const li = document.createElement('li');
+                        li.classList.add('suggestion-item');
+    
+                        
+                        const a = document.createElement('a');
+                        a.href = item.url;
+                        a.classList.add('suggestion-link');
+    
+                        a.innerHTML = `
+                            <img src="${item.image}" alt="${item.title}" />
+                            <div class="suggestion-info">
+                                <strong>${item.title}</strong>
+                                <p>${item.description}</p>
+                            </div>
+                        `;
+    
+                        li.appendChild(a);
+                        suggestions.appendChild(li);
+                    });
+                });
+        });
+    }
+    
+
+
+
+
+    <!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Flask Parent Template</title>
+
+    <link rel="stylesheet" href="{{ url_for('static',    filename='css/template.css') }}">
+    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          initLiveSearch();
+      });
+  </script>
+</head>
+  <body>
+    <header>
+      <div class="search-wrapper">
+        <form action="/" method="POST" class="search-container">
+            <input type="text" id="search-input" name="search_input" placeholder="Search..." autocomplete="off" required>
+            <button type="submit">🔍</button>
+        </form>
+        <ul id="suggestions" class="suggestions-list"></ul>
+    </div>
+    <br>
+    <a href="/history">Ιστορικό Αναζητήσεων</a> |
+    <a href="/login">Αλλαγή χρήστη</a>
+      <div class="container">
+          <div class="icon-box">
+              <a href="/about">
+                  <img src="{{ url_for('static', filename='img/info.png') }}" alt="About">
+                  <span>About Us</span>
+              </a>
+          </div>
+          <div class="icon-box">
+              <a href="/routes">
+                  <img src="{{ url_for('static', filename='img/routes.png') }}" alt="Routes">
+                  <span>Routes</span>
+              </a>
+          </div>
+          <div class="icon-box">
+              <a href="/contact">
+                  <img src="{{ url_for('static', filename='img/contact.png') }}" alt="Contact">
+                  <span>Contact</span>
+              </a>
+          </div>
+          <div class="icon-box">
+              <a href="{{ url_for('home') }}">
+                  <img src="{{ url_for('static', filename='img/home.png') }}" alt="Home">
+                  <span>Home</span>
+              </a>
+              </div>
+    </header>
+    </header>
+
+{% block content %}
+{% endblock %}
+<footer style="background-color: #333; color: white; text-align: center; padding: 20px 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; align-items: center;">
+        <p style="margin-bottom: 10px;">&copy; 2025 MyWebsite. Όλα τα δικαιώματα κατοχυρωμένα.</p>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+            <a href="/terms" style="color: white; text-decoration: none;">Όροι Χρήσης</a>
+            <span>|</span>
+            <a href="/privacy" style="color: white; text-decoration: none;">Πολιτική Απορρήτου</a>
+            <span>|</span>
+            <a href="/" style="color: white; text-decoration: none;">Αρχική</a>
+        </div>
+    </div>
+</footer>
+ </body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Ιστορικό</title>
+</head>
+<body>
+    {% extends "template.html" %}
+
+    {% block content %}
+    <h1>Ιστορικό Αναζητήσεων</h1>
+    
+    {% if searches %}
+        <ul>
+        {% for search in searches %}
+            <li>{{ search.location }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Δεν υπάρχουν αναζητήσεις ακόμα.</p>
+    {% endif %}
+    
+    <br>
+    <a href="/">Επιστροφή στο Home</a>
+    {% endblock %}
+    
+
+</body>
+</html>
+
+with app.app_context():
+    db.create_all()
+    print("Η βάση δημιουργήθηκε ή είναι ήδη έτοιμη.")
+    print("Η βάση δεδομένων αποθηκεύεται στη διαδρομή:", os.path.abspath('users.db'))
+
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="container mt-3">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+footer {
+    width: 100vw;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    margin: 0;
+    border: none;
+  }
+  .footer-inner {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .footer-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  .footer-links a:hover {
+    text-decoration: underline;
+  }
+  
+
+
+
+
+  function initLiveSearch() {
+    const input = document.getElementById('search-input');
+    const suggestions = document.getElementById('suggestions');
+
+    input.addEventListener('input', () => {
+        const query = input.value.trim();
+        if (query.length === 0) {
+            suggestions.innerHTML = '';
+            return;
+        }
+
+        fetch(`/suggest?q=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Data που γύρισε:", data); // <-- βάλε το
+                suggestions.innerHTML = '';
+
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.classList.add('suggestion-item');
+
+                    const a = document.createElement('a');
+                    a.href = "#";  // Δεν πάει πουθενά
+                    a.classList.add('suggestion-link');
+
+                    a.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}" />
+                        <div class="suggestion-info">
+                            <strong>${item.title}</strong>
+                            <p>${item.description}</p>
+                        </div>
+                    `;
+
+                    // Προσθήκη event listener στο a
+                    a.addEventListener('click', (event) => {
+                        event.preventDefault(); // Μπλοκάρουμε το href
+                        input.value = item.title; // Βάζουμε το title στο input
+                        suggestions.innerHTML = ''; // Καθαρίζουμε τα suggestions
+                    });
+
+                    li.appendChild(a);
+                    suggestions.appendChild(li);
+                });
+            }); // <-- εδώ κλείνει το δεύτερο .then
+    }); // <-- εδώ κλείνει το input.addEventListener
+} // <-- εδώ κλείνει η function initLiveSearch

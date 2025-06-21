@@ -1,0 +1,2 @@
+/.venv/lib/python3.12/site-packages/cryptography/hazmat/bindings/_rust.abi3.so filter=lfs diff=lfs merge=lfs -text
+/static/img/arkoudilas/arkoudilas/20231218_153121.mp4 filter=lfs diff=lfs merge=lfs -text
