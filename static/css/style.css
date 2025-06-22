@@ -408,3 +408,10 @@ footer {
   background-color: #f2dede;
   color: #a94442;
 }
+
+/* Map container for routes page */
+#routes-map {
+  width: 100%;
+  height: 500px;
+  margin: 20px 0;
+}
