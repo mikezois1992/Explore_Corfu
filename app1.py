@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, request, redirect, url_for, session, flash
+from flask import Flask, render_template, jsonify, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask import get_flashed_messages

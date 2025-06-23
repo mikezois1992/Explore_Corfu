@@ -22,20 +22,19 @@ const ROUTES = [
 ];
 
 function initRoutesMap() {
-  const map = new google.maps.Map(document.getElementById('routes-map'), {
-    center: { lat: 39.6065, lng: 19.8998 },
-    zoom: 10
+  const map = L.map('routes-map').setView([39.62, 19.92], 11); // Κέντρο στην Κέρκυρα
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  ROUTES.forEach(route => {
+  L.marker([route.position.lat, route.position.lng])
+    .addTo(map)
+    .bindPopup(`<a href="${route.url}">${route.title}</a>`);
   });
 
-  ROUTES.forEach(item => {
-    const marker = new google.maps.Marker({
-      position: item.position,
-      map,
-      title: item.title
-    });
-    marker.addListener('click', () => {
-      window.location.href = item.url;
-    });
-  });
 }
+
+document.addEventListener('DOMContentLoaded', initRoutesMap);
 
