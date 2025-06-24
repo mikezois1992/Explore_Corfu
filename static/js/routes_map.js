@@ -27,14 +27,20 @@ function initRoutesMap() {
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
   }).addTo(map);
+  
+  const bounds = L.latLngBounds([]);
 
   ROUTES.forEach(route => {
-  L.marker([route.position.lat, route.position.lng])
-    .addTo(map)
-    .bindPopup(`<a href="${route.url}">${route.title}</a>`);
+    const marker = L.marker([route.position.lat, route.position.lng])
+      .addTo(map)
+      .bindPopup(`<a href="${route.url}">${route.title}</a>`);
+    
+    bounds.extend(marker.getLatLng());
   });
 
+  map.fitBounds(bounds);
 }
+ 
 
 document.addEventListener('DOMContentLoaded', initRoutesMap);
 
