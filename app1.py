@@ -180,7 +180,12 @@ SUGGESTIONS = [{
 # Καταχώρηση αναζήτησης
 @app.route('/search', methods=['POST'])
 def search():
-    location = request.form.get('location')
+     if request.is_json:
+        data = request.get_json()
+        location = data.get('location')
+    else:
+        location = request.form.get('location')
+
     if not location:
         return "No search term provided", 400
 
