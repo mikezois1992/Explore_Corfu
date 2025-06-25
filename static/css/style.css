@@ -211,6 +211,24 @@ a {
   background-color: #f1f1f1;
 }
 
+.history-list {
+  list-style: none;
+  margin: 5px 0 0;
+  padding: 0;
+  width: 300px;
+  text-align: left;
+}
+
+.history-list li {
+  padding: 5px 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.history-list li:hover {
+  background-color: #f1f1f1;
+}
+
 #map-container {
   display: none; /* κρυφό στην αρχή */
   width: 50vw; /* μισό πλάτος οθόνης */
