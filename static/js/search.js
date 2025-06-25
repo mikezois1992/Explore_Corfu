@@ -76,6 +76,7 @@ function saveSearch(term) {
     const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
     history.push(term);
     localStorage.setItem('searchHistory', JSON.stringify(history));
+    loadHistory();
 }
 
 function loadHistory() {
