@@ -71,3 +71,23 @@ function initLiveSearch() {
         }
     });
 }
+function saveSearch(term) {
+    if (!term) return;
+    const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+    history.push(term);
+    localStorage.setItem('searchHistory', JSON.stringify(history));
+}
+
+function loadHistory() {
+    const list = document.getElementById('search-history');
+    if (!list) return;
+    const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+    list.innerHTML = '';
+    history.slice().reverse().forEach(term => {
+        const li = document.createElement('li');
+        li.textContent = term;
+        list.appendChild(li);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', loadHistory);
