@@ -47,6 +47,7 @@ function initLiveSearch() {
                             console.log("👉 Redirecting to:", item.url);
                             window.location.href = item.url; // 🔥 redirect χειροκίνητα
                         });
+                     });
 
                     li.appendChild(a);
                     suggestions.appendChild(li);
