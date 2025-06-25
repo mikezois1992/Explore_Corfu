@@ -180,7 +180,7 @@ SUGGESTIONS = [{
 # Καταχώρηση αναζήτησης
 @app.route('/search', methods=['POST'])
 def search():
-     if request.is_json:
+    if request.is_json:
         data = request.get_json()
         location = data.get('location')
     else:
