@@ -35,9 +35,18 @@ function initLiveSearch() {
                         event.preventDefault(); // μπλοκάρουμε default <a> href
                         input.value = item.title;
                         suggestions.innerHTML = '';
-                        console.log("👉 Redirecting to:", item.url);
-                        window.location.href = item.url; // 🔥 redirect χειροκίνητα
-                    });
+                         fetch('/search', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ location: item.title })
+                        })
+                        .catch(err => {
+                            console.error('Error logging search:', err);
+                        })
+                        .finally(() => {
+                            console.log("👉 Redirecting to:", item.url);
+                            window.location.href = item.url; // 🔥 redirect χειροκίνητα
+                        });
 
                     li.appendChild(a);
                     suggestions.appendChild(li);
