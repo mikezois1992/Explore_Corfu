@@ -1,7 +1,13 @@
 function initLiveSearch() {
     const input = document.getElementById('search-input');
     const suggestions = document.getElementById('suggestions');
+    const form = input ? input.closest('form') : null;
 
+    if (form) {
+        form.addEventListener('submit', () => {
+            saveSearch(input.value.trim());
+        });
+    }
     input.addEventListener('input', () => {
         const query = input.value.trim();
         if (query.length === 0) {
