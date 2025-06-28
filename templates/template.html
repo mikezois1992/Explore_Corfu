@@ -27,21 +27,24 @@
   <div class="container">
 
     <!-- Search bar -->
-    <div class="search-wrapper mb-3">
-       <form action="/search" method="POST" class="search-container d-flex gap-2">
-        <input type="text" id="search-input" name="location" class="form-control" placeholder="Search..." autocomplete="off" required>
-        <button type="submit" class="btn btn-outline-primary">🔍</button>
-      </form>
-      <ul id="suggestions" class="suggestions-list"></ul>
-      <ul id="search-history" class="suggestions-list"></ul>
-      <ul id="search-history" class="history-list"></ul>
-    </div>
+   <section class="search-area">
+      <!-- Search bar -->
+      <div class="search-wrapper mb-3">
+         <form action="/search" method="POST" class="search-container d-flex gap-2">
+          <input type="text" id="search-input" name="location" class="form-control" placeholder="Search..." autocomplete="off" required>
+          <button type="submit" class="btn btn-outline-primary">🔍</button>
+        </form>
+        <ul id="suggestions" class="suggestions-list"></ul>
+        <ul id="search-history" class="suggestions-list"></ul>
+        <ul id="search-history" class="history-list"></ul>
+      </div>
 
     <!-- Links -->
-    <div class="mb-3">
-      <a href="/history">Ιστορικό Αναζητήσεων</a> 
-      <a href="/login">Αλλαγή χρήστη</a>
-    </div>
+      <div class="mb-3">
+        <a href="/history">Ιστορικό Αναζητήσεων</a>
+        <a href="/login">Αλλαγή χρήστη</a>
+      </div>
+    </section>
 
     <!-- Icon boxes -->
     <div class="d-flex flex-wrap justify-content-center gap-4">
