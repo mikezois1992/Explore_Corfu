@@ -124,6 +124,15 @@ a {
     display: block;
     margin-top: 10px;
 }
+
+.search-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
 .search-wrapper {
   display: flex;
   justify-content: center;
