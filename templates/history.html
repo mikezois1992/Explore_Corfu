@@ -33,13 +33,16 @@
                                     </a>
                                 {% else %}
                                     {{ search.location }}
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
+                            </div>
+                            <form action="{{ url_for('delete_search', search_id=search.id) }}" method="post" style="margin:0;">
+                                <button type="submit" class="btn btn-sm btn-danger">Διαγραφή</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% else %}
                 <p style="text-align: center; color: #777;">Δεν υπάρχουν αναζητήσεις ακόμα.</p>
-                {% endif %}
+         {% endif %}
     
         </div>
 
