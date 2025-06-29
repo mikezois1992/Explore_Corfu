@@ -124,6 +124,7 @@ def history():
         if loc not in seen:
             seen.add(loc)
             unique_searches.append({
+                'id': s.id,
                 'location': s.location,
                 'url': title_to_url.get(loc)
             })
@@ -131,6 +132,25 @@ def history():
     unique_searches.reverse()  # Για να τα εμφανίζεις με σωστή σειρά
 
     return render_template('history.html', searches=unique_searches)
+
+@app.route('/delete_search/<int:search_id>', methods=['POST'])
+def delete_search(search_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    search = Search.query.get_or_404(search_id)
+    if search.user_id != session['user_id']:
+        flash('Μη εξουσιοδοτημένη ενέργεια.', 'danger')
+        return redirect(url_for('history'))
+
+    # Διαγράφουμε όλες τις εμφανίσεις της συγκεκριμένης τοποθεσίας για τον χρήστη
+    Search.query.filter_by(user_id=session['user_id'], location=search.location).delete()
+    db.session.commit()
+
+    flash('Η αναζήτηση διαγράφηκε.', 'success')
+    return redirect(url_for('history'))
+
+
 
 
 # Route για Logout
