@@ -24,7 +24,7 @@ const ROUTES = [
     elevation: 0,
     terrain: 'Παραθαλάσσιο με λόφους',
     description: 'Δημοφιλής παραλία με χρυσή άμμο και βράχια γύρω.',
-    image: '/static/img/arkoudilas/arkoudilas/icon1.jpg'
+    image: '/static/img/Ag.Gorgios/nayagio agios gordis-20250524T162344Z-1-001/nayagio agios gordis/icon1.jpg'
   },
   {
     title: 'Arkoudilas',
@@ -32,7 +32,8 @@ const ROUTES = [
     position: { lat: 39.37473498319727, lng: 20.097719694390793 },
     elevation: 125,
     terrain: 'Δασώδης λόφος με απότομες ακτές',
-    description: 'Φυσική περιοχή με μοναστήρι και μονοπάτια.'
+    description: 'Φυσική περιοχή με μοναστήρι και μονοπάτια.',
+    image: '/static/img/arkoudilas/arkoudilas/icon1.jpg'
   }
 ];
 
