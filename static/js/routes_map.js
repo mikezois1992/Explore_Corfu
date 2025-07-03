@@ -45,8 +45,16 @@ function initRoutesMap() {
   ROUTES.forEach(route => {
     const marker = L.marker([route.position.lat, route.position.lng])
       .addTo(map)
-      .bindPopup(`<a href="${route.url}">${route.title}</a>`);
-    
+      /*.bindPopup(`<a href="${route.url}">${route.title}</a>`);*/
+    const popupContent = `
+    <div style="min-width: 200px">
+      <strong>${route.title}</strong><br>
+      <em>${route.terrain}</em><br>
+      Ύψόμετρο: ${route.elevation} μ<br>
+      <p style="margin:4px 0">${route.description}</p>
+      <small>Κλικ για μετάβαση...</small>
+    </div>
+  `;
     bounds.extend(marker.getLatLng());
   });
 
