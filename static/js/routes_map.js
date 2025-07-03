@@ -30,18 +30,16 @@ function initRoutesMap() {
   
   const bounds = L.latLngBounds([]);
 
- ROUTES.forEach(route => {
+ROUTES.forEach(route => {
   const marker = L.marker([route.position.lat, route.position.lng]).addTo(map);
 
-  const popupContent = `
-    <div style="min-width: 200px">
-      <h3>${route.title}</h3>
-      ${route.description ? `<p>${route.description}</p>` : ''}
-      <p><em>Κάνε κλικ για περισσότερα</em></p>
-    </div>
-  `;
+  // Ελαφρύ popup μόνο με τίτλο
+  const popupContent = `<strong>${route.title}</strong><br><em>Κάνε κλικ για μετάβαση</em>`;
 
-  marker.bindPopup(popupContent);
+  marker.bindPopup(popupContent, {
+    closeButton: false,
+    offset: L.point(0, -20)
+  });
 
   // Εμφάνιση popup με hover
   marker.on('mouseover', function () {
@@ -53,13 +51,14 @@ function initRoutesMap() {
     this.closePopup();
   });
 
-  // Μετάβαση στη σελίδα με click
+  // Κλικ για μετάβαση
   marker.on('click', function () {
     window.location.href = route.url;
   });
 
   bounds.extend(marker.getLatLng());
 });
+
 
 document.addEventListener('DOMContentLoaded', initRoutesMap);
 
