@@ -30,14 +30,18 @@ function initRoutesMap() {
   
   const bounds = L.latLngBounds([]);
 
-ROUTES.forEach(route => {
-  const marker = L.marker([route.position.lat, route.position.lng])
-    .addTo(map)
-    .bindPopup(`<a href="${route.url}">${route.title}</a>`);
-  
-  bounds.extend(marker.getLatLng());
-});
+  ROUTES.forEach(route => {
+    const marker = L.marker([route.position.lat, route.position.lng])
+      .addTo(map)
+      .bindPopup(`<a href="${route.url}">${route.title}</a>`);
+    
+    bounds.extend(marker.getLatLng());
+  });
 
+  map.fitBounds(bounds);
+}
+ 
 
 document.addEventListener('DOMContentLoaded', initRoutesMap);
+
 
