@@ -36,7 +36,11 @@
     </div>
   {% endif %}
 {% endwith %}
-
+<div class="logout-container">
+    <form action="/logout" method="POST" class="d-inline">
+        <button type="submit" class="btn btn-danger">Αποσύνδεση</button>
+    </form>
+</div>
   <div class="button-container">
     <form action="/login" method="get" class="d-inline">
         <button type="submit" class="btn btn-primary btn-lg mb-2">Σύνδεση με Account</button>
@@ -44,9 +48,6 @@
     <form action="/guest" method="get" class="d-inline">
         <button type="submit" class="btn btn-secondary btn-lg">Συνέχεια ως Επισκέπτης</button>
     </form>
-        <form action="/logout" method="POST" class="d-inline">
-            <button type="submit" class="btn btn-danger">Αποσύνδεση</button>
-        </form>
   </div>
 
 <div class="container">
