@@ -45,7 +45,7 @@ function initRoutesMap() {
   ROUTES.forEach(route => {
     const marker = L.marker([route.position.lat, route.position.lng])
       .addTo(map)
-      .bindPopup(`<a href="${route.url}">${route.title}${route.elevation}</a>`);
+      .bindPopup(`<a href="${route.url}">${route.title}</a>`);
     
     bounds.extend(marker.getLatLng());
   });
