@@ -54,7 +54,7 @@ function initRoutesMap() {
       <p style="margin:4px 0">${route.description}</p>
       <small>Κλικ για μετάβαση...</small>
     </div>
-  `;
+  ;
     bounds.extend(marker.getLatLng());
   });
 
