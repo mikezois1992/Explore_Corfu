@@ -104,8 +104,8 @@ html, body {
   position: absolute;
   top: 10px;        /* same vertical position as the right buttons */
   left: 20px;
+}
 
-  
 .container {
     display: flex;
     justify-content: center;
