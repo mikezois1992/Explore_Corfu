@@ -31,31 +31,10 @@ function initRoutesMap() {
   const bounds = L.latLngBounds([]);
 
 ROUTES.forEach(route => {
-  const marker = L.marker([route.position.lat, route.position.lng]).addTo(map);
-
-  // Ελαφρύ popup μόνο με τίτλο
-  const popupContent = `<strong>${route.title}</strong><br><em>Κάνε κλικ για μετάβαση</em>`;
-
-  marker.bindPopup(popupContent, {
-    closeButton: false,
-    offset: L.point(0, -20)
-  });
-
-  // Εμφάνιση popup με hover
-  marker.on('mouseover', function () {
-    this.openPopup();
-  });
-
-  // Απόκρυψη popup όταν φεύγει το ποντίκι
-  marker.on('mouseout', function () {
-    this.closePopup();
-  });
-
-  // Κλικ για μετάβαση
-  marker.on('click', function () {
-    window.location.href = route.url;
-  });
-
+  const marker = L.marker([route.position.lat, route.position.lng])
+    .addTo(map)
+    .bindPopup(`<a href="${route.url}">${route.title}</a>`);
+  
   bounds.extend(marker.getLatLng());
 });
 
