@@ -50,7 +50,7 @@ def home():
                 db.session.commit()
             else:
                  flash(_('Πρέπει να συνδεθείς πρώτα για να κάνεις αναζήτηση.'), 'warning')
-                return redirect(url_for('login'))
+                 return redirect(url_for('login'))
     return render_template('home_1.html')
 
 # Login page
