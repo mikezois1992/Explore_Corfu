@@ -13,14 +13,11 @@ app.config['BABEL_DEFAULT_LOCALE'] = 'el'
 app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-babel = Babel(app)
 
-
-@babel.localeselector
 def get_locale():
     return session.get('lang', 'el')
 
-
+babel = Babel(app, locale_selector=get_locale)
 
 
 # Μοντέλα
