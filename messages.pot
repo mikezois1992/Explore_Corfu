@@ -1,0 +1,215 @@
+# Translations template for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-07-03 17:35+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app1.py:52
+msgid "Πρέπει να συνδεθείς πρώτα για να κάνεις αναζήτηση."
+msgstr ""
+
+#: app1.py:61
+msgid "Ήδη είσαι συνδεδεμένος."
+msgstr ""
+
+#: app1.py:72
+msgid "Η σύνδεση ήταν επιτυχής!"
+msgstr ""
+
+#: app1.py:75
+msgid "Λάθος όνομα χρήστη ή κωδικός."
+msgstr ""
+
+#: app1.py:86
+msgid ""
+"Είσαι ήδη συνδεδεμένος. Κάνε αποσύνδεση για να δημιουργήσεις νέο "
+"λογαριασμό."
+msgstr ""
+
+#: app1.py:95
+msgid "Συμπλήρωσε όλα τα πεδία."
+msgstr ""
+
+#: app1.py:99
+msgid "Το όνομα χρήστη υπάρχει ήδη."
+msgstr ""
+
+#: app1.py:103
+msgid "Το email χρησιμοποιείται ήδη."
+msgstr ""
+
+#: app1.py:112
+msgid "Η εγγραφή ήταν επιτυχής!"
+msgstr ""
+
+#: app1.py:152
+msgid "Μη εξουσιοδοτημένη ενέργεια."
+msgstr ""
+
+#: app1.py:159
+msgid "Η αναζήτηση διαγράφηκε."
+msgstr ""
+
+#: app1.py:170
+msgid "Αποσυνδεθήκατε."
+msgstr ""
+
+#: app1.py:225
+msgid "No search term provided"
+msgstr ""
+
+#: app1.py:248 templates/home_1.html:112 templates/template.html:52
+msgid "About Us"
+msgstr ""
+
+#: templates/history.html:18 templates/template.html:42
+msgid "Ιστορικό Αναζητήσεων"
+msgstr ""
+
+#: templates/history.html:34
+msgid "Διαγραφή"
+msgstr ""
+
+#: templates/history.html:40
+msgid "Δεν υπάρχουν αναζητήσεις ακόμα."
+msgstr ""
+
+#: templates/home_1.html:23
+#, python-format
+msgid "Καλωσόρισες, %(user)s!"
+msgstr ""
+
+#: templates/home_1.html:41
+msgid "Αποσύνδεση"
+msgstr ""
+
+#: templates/home_1.html:46
+msgid "Σύνδεση με Account"
+msgstr ""
+
+#: templates/home_1.html:49
+msgid "Συνέχεια ως Επισκέπτης"
+msgstr ""
+
+#: templates/home_1.html:53
+msgid "Ελληνικά"
+msgstr ""
+
+#: templates/home_1.html:54
+msgid "Αγγλικά"
+msgstr ""
+
+#: templates/home_1.html:92
+msgid "Περπατώντας στην Κέρκυρα"
+msgstr ""
+
+#: templates/home_1.html:93
+msgid ""
+"Η Κέρκυρα είναι ένας τόπος που αξίζει να τον ζήσεις με το ρυθμό του "
+"περπατήματος. Μέσα από το site μας, σας προσκαλούμε να γνωρίσετε το νησί "
+"με έναν πιο αυθεντικό και βιωματικό τρόπο: περπατώντας."
+msgstr ""
+
+#: templates/home_1.html:94
+msgid ""
+"Προτείνουμε διαδρομές που συνδυάζουν φυσικές ομορφιές, ιστορικά μνημεία "
+"και τοπικές παραδόσεις, δίνοντάς σας τη δυνατότητα να ανακαλύψετε την "
+"Κέρκυρα πέρα από τα συνηθισμένα."
+msgstr ""
+
+#: templates/home_1.html:95
+msgid "Εξερευνήστε, εμπνευστείτε και απολαύστε κάθε σας βήμα!"
+msgstr ""
+
+#: templates/home_1.html:99 templates/template.html:34
+msgid "Search..."
+msgstr ""
+
+#: templates/home_1.html:118 templates/template.html:58
+msgid "Routes"
+msgstr ""
+
+#: templates/home_1.html:124 templates/template.html:64
+msgid "Contact"
+msgstr ""
+
+#: templates/home_1.html:131 templates/template.html:85
+msgid "Όλα τα δικαιώματα κατοχυρωμένα."
+msgstr ""
+
+#: templates/home_1.html:133 templates/template.html:87
+msgid "Όροι Χρήσης"
+msgstr ""
+
+#: templates/home_1.html:135 templates/template.html:89
+msgid "Πολιτική Απορρήτου"
+msgstr ""
+
+#: templates/home_1.html:137 templates/template.html:91
+msgid "Αρχική"
+msgstr ""
+
+#: templates/login.html:5
+msgid "Σύνδεση Χρήστη"
+msgstr ""
+
+#: templates/login.html:115 templates/login.html:125
+msgid "Σύνδεση"
+msgstr ""
+
+#: templates/login.html:119 templates/register.html:132
+msgid "Όνομα Χρήστη"
+msgstr ""
+
+#: templates/login.html:123 templates/register.html:140
+msgid "Κωδικός"
+msgstr ""
+
+#: templates/login.html:129
+msgid "Δεν έχεις λογαριασμό;"
+msgstr ""
+
+#: templates/login.html:129
+msgid "Εγγράψου εδώ"
+msgstr ""
+
+#: templates/register.html:9
+msgid "Εγγραφή Χρήστη"
+msgstr ""
+
+#: templates/register.html:128 templates/register.html:142
+msgid "Εγγραφή"
+msgstr ""
+
+#: templates/register.html:136
+msgid "Email"
+msgstr ""
+
+#: templates/register.html:146
+msgid "Έχεις ήδη λογαριασμό;"
+msgstr ""
+
+#: templates/register.html:146
+msgid "Σύνδεση εδώ"
+msgstr ""
+
+#: templates/template.html:43
+msgid "Αλλαγή χρήστη"
+msgstr ""
+
+#: templates/template.html:70
+msgid "Home"
+msgstr ""
