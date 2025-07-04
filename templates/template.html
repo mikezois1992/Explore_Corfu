@@ -42,6 +42,10 @@
         <a href="/history">{{ _('Ιστορικό Αναζητήσεων') }}</a>
         <a href="/login">{{ _('Αλλαγή χρήστη') }}</a>
       </div>
+      <div class="language-selector mt-2">
+        <a href="{{ url_for('set_language', lang='el') }}">{{ _('Ελληνικά') }}</a> |
+        <a href="{{ url_for('set_language', lang='en') }}">{{ _('Αγγλικά') }}</a>
+      </div>
     </section>
     
     <!-- Icon boxes -->
