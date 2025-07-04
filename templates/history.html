@@ -15,7 +15,7 @@
   {% endwith %}
 
     <div class="history-container" style="max-width: 800px; margin: 0 auto; padding: 2rem;">
-        <h1 style="text-align: center; color: #333; margin-bottom: 1.5rem;">Ιστορικό Αναζητήσεων</h1>
+        <h1 style="text-align: center; color: #333; margin-bottom: 1.5rem;">{{ _('Ιστορικό Αναζητήσεων') }}</h1>
 
          {% if searches %}
             <ol class="list-group list-group-numbered" style="padding: 0;">
@@ -31,13 +31,13 @@
                             {% endif %}
                         </div>
                         <form action="{{ url_for('delete_search', search_id=search.id) }}" method="post" style="margin:0;">
-                            <button type="submit" class="btn btn-sm btn-danger">Διαγραφή</button>
+                            <button type="submit" class="btn btn-sm btn-danger">{{ _('Διαγραφή') }}</button>
                         </form>
                     </li>
                 {% endfor %}
             </ol>
         {% else %}
-            <p style="text-align: center; color: #777;">Δεν υπάρχουν αναζητήσεις ακόμα.</p>
+            <p style="text-align: center; color: #777;">{{ _('Δεν υπάρχουν αναζητήσεις ακόμα.') }}</p>
      {% endif %}
 
     </div>
