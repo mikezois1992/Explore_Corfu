@@ -37,16 +37,20 @@
   {% endif %}
 {% endwith %}
 <div style="position: fixed; top: 10px; left: 10px; display: flex; gap: 12px; align-items: center; z-index: 1000;">
-  
+
   <!-- Κουμπί Ελληνικά -->
-  <a href="/set_language/el" class="btn btn-primary">
-    🇬🇷 Ελληνικά
-  </a>
+  <form action="/set_language/el" method="GET" style="margin: 0;">
+    <button type="submit" class="btn btn-primary">
+      🇬🇷 Ελληνικά
+    </button>
+  </form>
 
   <!-- Κουμπί Αγγλικά -->
-  <a href="/set_language/en" class="btn btn-secondary">
-    🇬🇧 English
-  </a>
+  <form action="/set_language/en" method="GET" style="margin: 0;">
+    <button type="submit" class="btn btn-secondary">
+      🇬🇧 English
+    </button>
+  </form>
 
   <!-- Κουμπί Αποσύνδεσης -->
   <form action="/logout" method="POST" style="margin: 0;">
@@ -54,6 +58,7 @@
       {{ _('Αποσύνδεση') }}
     </button>
   </form>
+
 </div>
 
 
