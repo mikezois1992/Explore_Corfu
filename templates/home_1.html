@@ -36,19 +36,26 @@
     </div>
   {% endif %}
 {% endwith %}
-<div class="logout-container">
-    <form action="/logout" method="POST" class="d-inline">
-        <button type="submit" class="btn btn-danger">{{ _('Αποσύνδεση') }}</button>
-    </form>
-</div>
-<div style="position: absolute; top: 10px; left: 10px; display: flex; gap: 10px;">
+<div style="position: fixed; top: 10px; left: 10px; display: flex; gap: 12px; align-items: center; z-index: 1000;">
+  
+  <!-- Κουμπί Ελληνικά -->
   <a href="/set_language/el" style="padding: 8px 12px; background-color: #007BFF; color: white; border-radius: 5px; text-decoration: none; font-weight: bold;">
     🇬🇷 Ελληνικά
   </a>
+
+  <!-- Κουμπί Αγγλικά -->
   <a href="/set_language/en" style="padding: 8px 12px; background-color: #6c757d; color: white; border-radius: 5px; text-decoration: none; font-weight: bold;">
     🇬🇧 English
   </a>
+
+  <!-- Κουμπί Αποσύνδεσης -->
+  <form action="/logout" method="POST" style="margin: 0;">
+    <button type="submit" class="btn btn-danger" style="font-weight: bold;">
+      {{ _('Αποσύνδεση') }}
+    </button>
+  </form>
 </div>
+
   <div class="button-container">
     <form action="/login" method="get" class="d-inline">
         <button type="submit" class="btn btn-primary btn-lg">{{ _('Σύνδεση με Account') }}</button>
