@@ -2,14 +2,23 @@ from flask import Flask, render_template, jsonify, request, redirect, url_for, s
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask import get_flashed_messages
+from flask_babel import Babel, gettext as _
 import os 
 
 
 app = Flask(__name__)
 app.secret_key = 'my_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['BABEL_DEFAULT_LOCALE'] = 'el'
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+babel = Babel(app)
+
+
+@babel.localeselector
+def get_locale():
+    return session.get('lang', 'el')
 
 
 
@@ -40,7 +49,7 @@ def home():
                 db.session.add(new_search)
                 db.session.commit()
             else:
-                flash('Πρέπει να συνδεθείς πρώτα για να κάνεις αναζήτηση.', 'warning')
+                 flash(_('Πρέπει να συνδεθείς πρώτα για να κάνεις αναζήτηση.'), 'warning')
                 return redirect(url_for('login'))
     return render_template('home_1.html')
 
@@ -49,7 +58,7 @@ def home():
 def login():
     if 'user_id' in session:  # Ελέγχουμε αν ο χρήστης είναι ήδη συνδεδεμένος
         session.modified = True
-        flash('Ήδη είσαι συνδεδεμένος.', 'info')
+        flash(_('Ήδη είσαι συνδεδεμένος.'), 'info')
         return redirect(url_for('home'))  # Επιστροφή στην αρχική σελίδα
     if request.method == 'POST':
         username = request.form['username']
@@ -60,10 +69,10 @@ def login():
         if user and user.password == password:
             session['user_id'] = user.id  # Αποθήκευση στο session
             session['username'] = user.username  # 
-            flash('Η σύνδεση ήταν επιτυχής!', 'success')
+            flash(_('Η σύνδεση ήταν επιτυχής!'), 'success')
             return redirect(url_for('home'))  # Μετά την είσοδο πηγαίνουμε στο home
         else:
-            flash('Λάθος όνομα χρήστη ή κωδικός.', 'danger')
+            flash(_('Λάθος όνομα χρήστη ή κωδικός.'), 'danger')
             return redirect(url_for('login'))  # Αν υπάρχει λάθος, επιστροφή στο login
     
     return render_template('login.html')
@@ -74,7 +83,7 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if 'user_id' in session:
-        flash('Είσαι ήδη συνδεδεμένος. Κάνε αποσύνδεση για να δημιουργήσεις νέο λογαριασμό.', 'warning')
+        flash(_('Είσαι ήδη συνδεδεμένος. Κάνε αποσύνδεση για να δημιουργήσεις νέο λογαριασμό.'), 'warning')
         return redirect(url_for('home'))
 
     if request.method == 'POST':
@@ -83,15 +92,15 @@ def register():
         password = request.form['password']
 
         if not username or not email or not password:
-            flash('Συμπλήρωσε όλα τα πεδία.', 'danger')
+             flash(_('Συμπλήρωσε όλα τα πεδία.'), 'danger')
             return redirect(url_for('register'))
 
         if User.query.filter_by(username=username).first():
-            flash('Το όνομα χρήστη υπάρχει ήδη.', 'danger')
+            flash(_('Το όνομα χρήστη υπάρχει ήδη.'), 'danger')
             return redirect(url_for('register'))
 
         if User.query.filter_by(email=email).first():
-            flash('Το email χρησιμοποιείται ήδη.', 'danger')
+            flash(_('Το email χρησιμοποιείται ήδη.'), 'danger')
             return redirect(url_for('register'))
 
         new_user = User(username=username, email=email, password=password)
@@ -100,7 +109,7 @@ def register():
 
         session['user_id'] = new_user.id
         session['username'] = new_user.username  
-        flash('Η εγγραφή ήταν επιτυχής!', 'success')
+        flash(_('Η εγγραφή ήταν επιτυχής!'), 'success')
         return redirect(url_for('home'))
     
     return render_template('register.html')
@@ -140,14 +149,14 @@ def delete_search(search_id):
 
     search = Search.query.get_or_404(search_id)
     if search.user_id != session['user_id']:
-        flash('Μη εξουσιοδοτημένη ενέργεια.', 'danger')
+        flash(_('Μη εξουσιοδοτημένη ενέργεια.'), 'danger')
         return redirect(url_for('history'))
 
     # Διαγράφουμε όλες τις εμφανίσεις της συγκεκριμένης τοποθεσίας για τον χρήστη
     Search.query.filter_by(user_id=session['user_id'], location=search.location).delete()
     db.session.commit()
 
-    flash('Η αναζήτηση διαγράφηκε.', 'success')
+    flash(_('Η αναζήτηση διαγράφηκε.'), 'success')
     return redirect(url_for('history'))
 
 
@@ -158,7 +167,7 @@ def delete_search(search_id):
 def logout():
     session.pop('user_id', None)
     session.pop('username', None)  #  καθάρισε και αυτό
-    flash('Αποσυνδεθήκατε.', 'info')
+    flash(_('Αποσυνδεθήκατε.'), 'info')
     return redirect(url_for('home'))
 
 
@@ -168,7 +177,10 @@ def guest():
     session['guest'] = True
     return redirect(url_for('home'))
 
-
+@app.route('/set_language/<lang>')
+def set_language(lang):
+    session['lang'] = lang
+    return redirect(request.referrer or url_for('home'))
 
 
 SUGGESTIONS = [{
@@ -207,7 +219,7 @@ def search():
         location = request.form.get('location')
 
     if not location:
-        return "No search term provided", 400
+        return _("No search term provided"), 400
 
     if 'user_id' in session:
         user_id = session['user_id']
@@ -230,7 +242,7 @@ def suggest():
 
 @app.route("/about/")
 def about():
-    title = 'About Us'
+    title = _('About Us')
     return render_template("about.html", title=title)
 
 
