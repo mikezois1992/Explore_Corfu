@@ -16,7 +16,7 @@ migrate = Migrate(app, db)
 babel = Babel(app)
 
 
-@babel.select_locale
+@babel.localeselector
 def get_locale():
     return session.get('lang', 'el')
 
