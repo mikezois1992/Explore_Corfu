@@ -15,7 +15,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 babel = Babel(app)
 
-babel = Babel(app)
 
 @babel.select_locale
 def get_locale():
