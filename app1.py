@@ -93,7 +93,7 @@ def register():
 
         if not username or not email or not password:
              flash(_('Συμπλήρωσε όλα τα πεδία.'), 'danger')
-            return redirect(url_for('register'))
+             return redirect(url_for('register'))
 
         if User.query.filter_by(username=username).first():
             flash(_('Το όνομα χρήστη υπάρχει ήδη.'), 'danger')
