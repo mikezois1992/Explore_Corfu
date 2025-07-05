@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-03 17:35+0000\n"
+"POT-Creation-Date: 2025-07-05 17:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,62 +17,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app1.py:52
+#: app1.py:49
 msgid "Πρέπει να συνδεθείς πρώτα για να κάνεις αναζήτηση."
 msgstr ""
 
-#: app1.py:61
+#: app1.py:58
 msgid "Ήδη είσαι συνδεδεμένος."
 msgstr ""
 
-#: app1.py:72
+#: app1.py:69
 msgid "Η σύνδεση ήταν επιτυχής!"
 msgstr ""
 
-#: app1.py:75
+#: app1.py:72
 msgid "Λάθος όνομα χρήστη ή κωδικός."
 msgstr ""
 
-#: app1.py:86
+#: app1.py:83
 msgid ""
 "Είσαι ήδη συνδεδεμένος. Κάνε αποσύνδεση για να δημιουργήσεις νέο "
 "λογαριασμό."
 msgstr ""
 
-#: app1.py:95
+#: app1.py:92
 msgid "Συμπλήρωσε όλα τα πεδία."
 msgstr ""
 
-#: app1.py:99
+#: app1.py:96
 msgid "Το όνομα χρήστη υπάρχει ήδη."
 msgstr ""
 
-#: app1.py:103
+#: app1.py:100
 msgid "Το email χρησιμοποιείται ήδη."
 msgstr ""
 
-#: app1.py:112
+#: app1.py:109
 msgid "Η εγγραφή ήταν επιτυχής!"
 msgstr ""
 
-#: app1.py:152
+#: app1.py:149
 msgid "Μη εξουσιοδοτημένη ενέργεια."
 msgstr ""
 
-#: app1.py:159
+#: app1.py:156
 msgid "Η αναζήτηση διαγράφηκε."
 msgstr ""
 
-#: app1.py:170
+#: app1.py:167
 msgid "Αποσυνδεθήκατε."
 msgstr ""
 
-#: app1.py:225
+#: app1.py:219
 msgid "No search term provided"
 msgstr ""
 
-#: app1.py:248 templates/home_1.html:112 templates/template.html:52
+#: app1.py:242 templates/about.html:7 templates/home_1.html:133
+#: templates/template.html:56
 msgid "About Us"
+msgstr ""
+
+#: templates/about.html:28 templates/home_1.html:113
+msgid "Περπατώντας στην Κέρκυρα"
+msgstr ""
+
+#: templates/about.html:55
+msgid "Η Φιλοσοφία μας"
+msgstr ""
+
+#: templates/about.html:62
+msgid "Το Όραμά μας"
+msgstr ""
+
+#: templates/about.html:69
+msgid "Γνωρίστε το Νησί"
+msgstr ""
+
+#: templates/about.html:76
+msgid "Γιατί να περπατήσετε στην Κέρκυρα"
+msgstr ""
+
+#: templates/about.html:83
+msgid "Οι αγαπημένες μας διαδρομές"
+msgstr ""
+
+#: templates/about.html:90
+msgid "Συμβουλές για το περπάτημα στο νησί"
 msgstr ""
 
 #: templates/history.html:18 templates/template.html:42
@@ -92,23 +121,23 @@ msgstr ""
 msgid "Καλωσόρισες, %(user)s!"
 msgstr ""
 
-#: templates/home_1.html:41
+#: templates/home_1.html:58
 msgid "Αποσύνδεση"
 msgstr ""
 
-#: templates/home_1.html:46
+#: templates/home_1.html:67
 msgid "Σύνδεση με Account"
 msgstr ""
 
-#: templates/home_1.html:49
+#: templates/home_1.html:70
 msgid "Συνέχεια ως Επισκέπτης"
 msgstr ""
 
-#: templates/home_1.html:53
+#: templates/home_1.html:74 templates/template.html:46
 msgid "Ελληνικά"
 msgstr ""
 
-#: templates/home_1.html:54
+#: templates/home_1.html:75 templates/template.html:47
 msgid "Αγγλικά"
 msgstr ""
 
@@ -116,49 +145,49 @@ msgstr ""
 msgid "Περπατώντας στην Κέρκυρα"
 msgstr ""
 
-#: templates/home_1.html:93
+#: templates/home_1.html:114
 msgid ""
 "Η Κέρκυρα είναι ένας τόπος που αξίζει να τον ζήσεις με το ρυθμό του "
 "περπατήματος. Μέσα από το site μας, σας προσκαλούμε να γνωρίσετε το νησί "
 "με έναν πιο αυθεντικό και βιωματικό τρόπο: περπατώντας."
 msgstr ""
 
-#: templates/home_1.html:94
+#: templates/home_1.html:115
 msgid ""
 "Προτείνουμε διαδρομές που συνδυάζουν φυσικές ομορφιές, ιστορικά μνημεία "
 "και τοπικές παραδόσεις, δίνοντάς σας τη δυνατότητα να ανακαλύψετε την "
 "Κέρκυρα πέρα από τα συνηθισμένα."
 msgstr ""
 
-#: templates/home_1.html:95
+#: templates/home_1.html:116
 msgid "Εξερευνήστε, εμπνευστείτε και απολαύστε κάθε σας βήμα!"
 msgstr ""
 
-#: templates/home_1.html:99 templates/template.html:34
+#: templates/home_1.html:120 templates/template.html:34
 msgid "Search..."
 msgstr ""
 
-#: templates/home_1.html:118 templates/template.html:58
+#: templates/home_1.html:139 templates/template.html:62
 msgid "Routes"
 msgstr ""
 
-#: templates/home_1.html:124 templates/template.html:64
+#: templates/home_1.html:145 templates/template.html:68
 msgid "Contact"
 msgstr ""
 
-#: templates/home_1.html:131 templates/template.html:85
+#: templates/home_1.html:152 templates/template.html:89
 msgid "Όλα τα δικαιώματα κατοχυρωμένα."
 msgstr ""
 
-#: templates/home_1.html:133 templates/template.html:87
+#: templates/home_1.html:154 templates/template.html:91
 msgid "Όροι Χρήσης"
 msgstr ""
 
-#: templates/home_1.html:135 templates/template.html:89
+#: templates/home_1.html:156 templates/template.html:93
 msgid "Πολιτική Απορρήτου"
 msgstr ""
 
-#: templates/home_1.html:137 templates/template.html:91
+#: templates/home_1.html:158 templates/template.html:95
 msgid "Αρχική"
 msgstr ""
 
@@ -210,6 +239,6 @@ msgstr ""
 msgid "Αλλαγή χρήστη"
 msgstr ""
 
-#: templates/template.html:70
+#: templates/template.html:74
 msgid "Home"
 msgstr ""
