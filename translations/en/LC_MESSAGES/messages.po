@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-03 17:35+0000\n"
+"POT-Creation-Date: 2025-07-05 17:46+0000\n"
 "PO-Revision-Date: 2025-07-03 17:36+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,63 +18,93 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app1.py:52
+#: app1.py:49
 msgid "Πρέπει να συνδεθείς πρώτα για να κάνεις αναζήτηση."
 msgstr "You must login first to search."
 
-#: app1.py:61
+#: app1.py:58
 msgid "Ήδη είσαι συνδεδεμένος."
 msgstr "You are already logged in."
 
-#: app1.py:72
+#: app1.py:69
 msgid "Η σύνδεση ήταν επιτυχής!"
 msgstr "Logged in successfully!"
 
-#: app1.py:75
+#: app1.py:72
 msgid "Λάθος όνομα χρήστη ή κωδικός."
 msgstr "Incorrect username or password."
 
-#: app1.py:86
+#: app1.py:83
 msgid ""
 "Είσαι ήδη συνδεδεμένος. Κάνε αποσύνδεση για να δημιουργήσεις νέο "
 "λογαριασμό."
 msgstr "You are already logged in. Log out to create a new account."
 
-#: app1.py:95
+#: app1.py:92
 msgid "Συμπλήρωσε όλα τα πεδία."
 msgstr "Fill in all fields."
 
-#: app1.py:99
+#: app1.py:96
 msgid "Το όνομα χρήστη υπάρχει ήδη."
 msgstr "Username already exists."
 
-#: app1.py:103
+#: app1.py:100
 msgid "Το email χρησιμοποιείται ήδη."
 msgstr "Email is already taken."
 
-#: app1.py:112
+#: app1.py:109
 msgid "Η εγγραφή ήταν επιτυχής!"
 msgstr "Registration successful!"
 
-#: app1.py:152
+#: app1.py:149
 msgid "Μη εξουσιοδοτημένη ενέργεια."
 msgstr "Unauthorized action."
 
-#: app1.py:159
+#: app1.py:156
 msgid "Η αναζήτηση διαγράφηκε."
 msgstr "Search deleted."
 
-#: app1.py:170
+#: app1.py:167
 msgid "Αποσυνδεθήκατε."
 msgstr "Logged out."
 
-#: app1.py:225
+#: app1.py:219
 msgid "No search term provided"
 msgstr "No search term provided."
 
-#: app1.py:248 templates/home_1.html:112 templates/template.html:52
+#: app1.py:242 templates/about.html:7 templates/home_1.html:133
+#: templates/template.html:56
 msgid "About Us"
 msgstr "About Us"
+
+#: templates/about.html:28 templates/home_1.html:113
+msgid "Περπατώντας στην Κέρκυρα"
+msgstr "Walking in Corfu"
+
+#: templates/about.html:55
+msgid "Η Φιλοσοφία μας"
+msgstr "Our Philosophy"
+
+#: templates/about.html:62
+msgid "Το Όραμά μας"
+msgstr "Our Vision"
+
+#: templates/about.html:69
+msgid "Γνωρίστε το Νησί"
+msgstr "Meet the Island"
+
+#: templates/about.html:76
+#, fuzzy
+msgid "Γιατί να περπατήσετε στην Κέρκυρα"
+msgstr "Why Walk in Corfu"
+
+#: templates/about.html:83
+msgid "Οι αγαπημένες μας διαδρομές"
+msgstr "Our Favorite Routes"
+
+#: templates/about.html:90
+msgid "Συμβουλές για το περπάτημα στο νησί"
+msgstr "Tips for Walking on the Island"
 
 #: templates/history.html:18 templates/template.html:42
 msgid "Ιστορικό Αναζητήσεων"
@@ -93,73 +123,76 @@ msgstr "No searches yet."
 msgid "Καλωσόρισες, %(user)s!"
 msgstr "Welcome, %(user)s!"
 
-#: templates/home_1.html:41
+#: templates/home_1.html:58
 msgid "Αποσύνδεση"
 msgstr "Logout"
 
-#: templates/home_1.html:46
+#: templates/home_1.html:67
 msgid "Σύνδεση με Account"
 msgstr "Login with Account"
 
-#: templates/home_1.html:49
+#: templates/home_1.html:70
 msgid "Συνέχεια ως Επισκέπτης"
 msgstr "Continue as Guest"
 
-#: templates/home_1.html:53
+#: templates/home_1.html:74 templates/template.html:46
 msgid "Ελληνικά"
 msgstr "Greek"
 
-#: templates/home_1.html:54
+#: templates/home_1.html:75 templates/template.html:47
 msgid "Αγγλικά"
 msgstr "English"
 
-#: templates/home_1.html:92
-msgid "Περπατώντας στην Κέρκυρα"
-msgstr "Walking in Corfu"
-
-#: templates/home_1.html:93
+#: templates/home_1.html:114
 msgid ""
 "Η Κέρκυρα είναι ένας τόπος που αξίζει να τον ζήσεις με το ρυθμό του "
 "περπατήματος. Μέσα από το site μας, σας προσκαλούμε να γνωρίσετε το νησί "
 "με έναν πιο αυθεντικό και βιωματικό τρόπο: περπατώντας."
-msgstr "Corfu is a place best experienced at walking pace. Through our site we invite you to get to know the island in a more authentic and experiential way: by walking."
+msgstr ""
+"Corfu is a place best experienced at walking pace. Through our site we "
+"invite you to get to know the island in a more authentic and experiential"
+" way: by walking."
+#: templates/home_1.html:115
 
-#: templates/home_1.html:94
+#: templates/home_1.html:115
 msgid ""
 "Προτείνουμε διαδρομές που συνδυάζουν φυσικές ομορφιές, ιστορικά μνημεία "
 "και τοπικές παραδόσεις, δίνοντάς σας τη δυνατότητα να ανακαλύψετε την "
 "Κέρκυρα πέρα από τα συνηθισμένα."
-msgstr "We suggest routes that combine natural beauty, historic monuments and local traditions, giving you the chance to discover Corfu beyond the usual."
+msgstr ""
+"We suggest routes that combine natural beauty, historic monuments and "
+"local traditions, giving you the chance to discover Corfu beyond the "
+"usual."
 
-#: templates/home_1.html:95
+#: templates/home_1.html:116
 msgid "Εξερευνήστε, εμπνευστείτε και απολαύστε κάθε σας βήμα!"
 msgstr "Explore, be inspired and enjoy every step!"
 
-#: templates/home_1.html:99 templates/template.html:34
+#: templates/home_1.html:120 templates/template.html:34
 msgid "Search..."
 msgstr "Search..."
 
-#: templates/home_1.html:118 templates/template.html:58
+#: templates/home_1.html:139 templates/template.html:62
 msgid "Routes"
 msgstr "Routes"
 
-#: templates/home_1.html:124 templates/template.html:64
+#: templates/home_1.html:145 templates/template.html:68
 msgid "Contact"
 msgstr "Contact"
 
-#: templates/home_1.html:131 templates/template.html:85
+#: templates/home_1.html:152 templates/template.html:89
 msgid "Όλα τα δικαιώματα κατοχυρωμένα."
 msgstr "All rights reserved."
 
-#: templates/home_1.html:133 templates/template.html:87
+#: templates/home_1.html:154 templates/template.html:91
 msgid "Όροι Χρήσης"
 msgstr "Terms of Use"
 
-#: templates/home_1.html:135 templates/template.html:89
+#: templates/home_1.html:156 templates/template.html:93
 msgid "Πολιτική Απορρήτου"
 msgstr "Privacy Policy"
 
-#: templates/home_1.html:137 templates/template.html:91
+#: templates/home_1.html:158 templates/template.html:95
 msgid "Αρχική"
 msgstr "Home"
 
@@ -211,6 +244,6 @@ msgstr "Login here"
 msgid "Αλλαγή χρήστη"
 msgstr "Switch user"
 
-#: templates/template.html:70
+#: templates/template.html:74
 msgid "Home"
 msgstr "Home"
