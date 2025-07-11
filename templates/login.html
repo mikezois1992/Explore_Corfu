@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <title>{{ _('Σύνδεση Χρήστη') }}</title>
+    <title>{{ 'Σύνδεση Χρήστη' | autotranslate }}</title>
     <style>
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
@@ -112,21 +112,21 @@
     {% endif %}
   {% endwith %}
     <div class="login-container">
-        <h1>{{ _('Σύνδεση') }}</h1>
+        <h1>{{ 'Σύνδεση' | autotranslate }}</h1>
         <form method="POST">
             <div class="input-wrapper">
                 <i class="fas fa-user"></i>
-                <input type="text" name="username" placeholder="{{ _('Όνομα Χρήστη') }}" required>
+                <input type="text" name="username" placeholder="{{ 'Όνομα Χρήστη' | autotranslate }}" required>
             </div>
             <div class="input-wrapper">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="password" placeholder="{{ _('Κωδικός') }}" required>
+                <input type="password" name="password" placeholder="{{ 'Κωδικός' | autotranslate }}" required>
             </div>
-            <button type="submit">{{ _('Σύνδεση') }}</button>
+            <button type="submit">{{ 'Σύνδεση' | autotranslate }}</button>
         </form>
     
         <div class="register-link">
-            {{ _('Δεν έχεις λογαριασμό;') }} <a href="/register">{{ _('Εγγράψου εδώ') }}</a>
+            {{ 'Δεν έχεις λογαριασμό;' | autotranslate }} <a href="/register">{{ 'Εγγράψου εδώ' | autotranslate }}</a>
         </div>
     </div>
     

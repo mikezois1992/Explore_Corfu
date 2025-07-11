@@ -31,7 +31,7 @@
       <!-- Search bar -->
       <div class="search-wrapper mb-3">
          <form action="/search" method="POST" class="search-container d-flex gap-2">
-         <input type="text" id="search-input" name="location" class="form-control" placeholder="{{ _('Search...') }}" autocomplete="off" required>
+         <input type="text" id="search-input" name="location" class="form-control" placeholder="{{ 'Search...' | autotranslate }}" autocomplete="off" required>
           <button type="submit" class="btn btn-outline-primary">🔍</button>
         </form>
         <ul id="suggestions" class="suggestions-list"></ul>
@@ -39,12 +39,8 @@
 
     <!-- Links -->
       <div class="mb-3">
-        <a href="/history">{{ _('Ιστορικό Αναζητήσεων') }}</a>
-        <a href="/login">{{ _('Αλλαγή χρήστη') }}</a>
-      </div>
-      <div class="language-selector mt-2">
-        <a href="{{ url_for('set_language', lang='el') }}">{{ _('Ελληνικά') }}</a> |
-        <a href="{{ url_for('set_language', lang='en') }}">{{ _('Αγγλικά') }}</a>
+        <a href="/history">{{ 'Ιστορικό Αναζητήσεων' | autotranslate }}</a>
+        <a href="/login">{{ 'Αλλαγή χρήστη' | autotranslate }}</a>
       </div>
     </section>
     
@@ -53,25 +49,25 @@
       <div class="icon-box text-center">
         <a href="/about">
           <img src="{{ url_for('static', filename='img/info.png') }}" alt="About">
-          <span>{{ _('About Us') }}</span>
+          <span>{{ 'About Us' | autotranslate }}</span>
         </a>
       </div>
       <div class="icon-box text-center">
         <a href="/routes">
           <img src="{{ url_for('static', filename='img/routes.png') }}" alt="Routes">
-           <span>{{ _('Routes') }}</span>
+            <span>{{ 'Routes' | autotranslate }}</span>
         </a>
       </div>
       <div class="icon-box text-center">
         <a href="/contact">
           <img src="{{ url_for('static', filename='img/contact.png') }}" alt="Contact">
-          <span>{{ _('Contact') }}</span>
+          <span>{{ 'Contact' | autotranslate }}</span>
         </a>
       </div>
       <div class="icon-box text-center">
         <a href="{{ url_for('home') }}">
           <img src="{{ url_for('static', filename='img/home.png') }}" alt="Home">
-           <span>{{ _('Home') }}</span>
+           <span>{{ 'Home' | autotranslate }}</span>
         </a>
       </div>
     </div>
@@ -86,13 +82,13 @@
 <!-- Footer -->
 <footer class="footer">
     <div class="footer-container">
-      <p>&copy; 2025 MyWebsite. {{ _('Όλα τα δικαιώματα κατοχυρωμένα.') }}</p>
+      <p>&copy; 2025 MyWebsite. {{ 'Όλα τα δικαιώματα κατοχυρωμένα.' | autotranslate }}</p>
       <div class="footer-links">
-        <a href="/terms">{{ _('Όροι Χρήσης') }}</a>
+        <a href="/terms">{{ 'Όροι Χρήσης' | autotranslate }}</a>
         |
-        <a href="/privacy">{{ _('Πολιτική Απορρήτου') }}</a>
+        <a href="/privacy">{{ 'Πολιτική Απορρήτου' | autotranslate }}</a>
         |
-        <a href="/">{{ _('Αρχική') }}</a>
+        <a href="/">{{ 'Αρχική' | autotranslate }}</a>
       </div>
     </div>
   </footer>

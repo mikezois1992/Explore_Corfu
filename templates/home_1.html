@@ -20,7 +20,7 @@
 <body >
   {% if session.get('username') %}
   <div class="container mt-4">
-    <h4 class="text-success">{{ _('Καλωσόρισες, %(user)s!', user=session['username']) }}</h4>
+    <h4 class="text-success">{{ ('Καλωσόρισες, ' ~ session['username'] ~ '!') | autotranslate }}</h4>
   </div>
 {% endif %}
 
@@ -55,7 +55,7 @@
   <!-- Κουμπί Αποσύνδεσης -->
   <form action="/logout" method="POST" style="margin: 0;">
     <button type="submit" class="btn btn-danger">
-      {{ _('Αποσύνδεση') }}
+      {{ 'Αποσύνδεση' | autotranslate }}
     </button>
   </form>
 
@@ -64,17 +64,13 @@
 
   <div class="button-container">
     <form action="/login" method="get" class="d-inline">
-        <button type="submit" class="btn btn-primary btn-lg">{{ _('Σύνδεση με Account') }}</button>
+        <button type="submit" class="btn btn-primary btn-lg">{{ 'Σύνδεση με Account' | autotranslate }}</button>
     </form>
     <form action="/guest" method="get" class="d-inline">
-        <button type="submit" class="btn btn-secondary btn-lg">{{ _('Συνέχεια ως Επισκέπτης') }}</button>
+        <button type="submit" class="btn btn-secondary btn-lg">{{ 'Συνέχεια ως Επισκέπτης' | autotranslate }}</button>
     </form>
   </div>
- <!-- <div class="language-selector mt-2">
-    <a href="{{ url_for('set_language', lang='el') }}">{{ _('Ελληνικά') }}</a> |
-    <a href="{{ url_for('set_language', lang='en') }}">{{ _('Αγγλικά') }}</a>
-  </div>
--->
+
 <div class="container">
     <h1>EXPLORE CORFU</h1>  
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -110,14 +106,14 @@
     </div>
     
   <section id="about-us">
-     <h2>{{ _('Περπατώντας στην Κέρκυρα') }}</h2>
-    <p>{{ _('Η Κέρκυρα είναι ένας τόπος που αξίζει να τον ζήσεις με το ρυθμό του περπατήματος. Μέσα από το site μας, σας προσκαλούμε να γνωρίσετε το νησί με έναν πιο αυθεντικό και βιωματικό τρόπο: περπατώντας.') }}</p>
-    <p>{{ _('Προτείνουμε διαδρομές που συνδυάζουν φυσικές ομορφιές, ιστορικά μνημεία και τοπικές παραδόσεις, δίνοντάς σας τη δυνατότητα να ανακαλύψετε την Κέρκυρα πέρα από τα συνηθισμένα.') }}</p>
-    <p>{{ _('Εξερευνήστε, εμπνευστείτε και απολαύστε κάθε σας βήμα!') }}</p>
+     <h2>{{ 'Περπατώντας στην Κέρκυρα' | autotranslate }}</h2>
+    <p>{{ 'Η Κέρκυρα είναι ένας τόπος που αξίζει να τον ζήσεις με το ρυθμό του περπατήματος. Μέσα από το site μας, σας προσκαλούμε να γνωρίσετε το νησί με έναν πιο αυθεντικό και βιωματικό τρόπο: περπατώντας.' | autotranslate }}</p>
+    <p>{{ 'Προτείνουμε διαδρομές που συνδυάζουν φυσικές ομορφιές, ιστορικά μνημεία και τοπικές παραδόσεις, δίνοντάς σας τη δυνατότητα να ανακαλύψετε την Κέρκυρα πέρα από τα συνηθισμένα.' | autotranslate }}</p>
+    <p>{{ 'Εξερευνήστε, εμπνευστείτε και απολαύστε κάθε σας βήμα!' | autotranslate }}</p>
   </section>
 <div class="search-wrapper">
   <form action="/search" method="POST" class="search-container">
-     <input type="text" id="search-input" name="location" placeholder="{{ _('Search...') }}" autocomplete="off">
+     <input type="text" id="search-input" name="location" placeholder="{{ 'Search...' | autotranslate }}" autocomplete="off">
 
     <button type="submit">
         🔍
@@ -130,32 +126,32 @@
   <div class="icon-box">
       <a href="/about">
           <img src="{{ url_for('static', filename='img/info.png') }}" alt="About">
-          <span>{{ _('About Us') }}</span>
+          <span>{{ 'About Us' | autotranslate }}</span>
       </a>
   </div>
   <div class="icon-box">
       <a href="/routes">
           <img src="{{ url_for('static', filename='img/routes.png') }}" alt="Routes">
-          <span>{{ _('Routes') }}</span>
+          <span>{{ 'Routes' | autotranslate }}</span>
       </a>
   </div>
   <div class="icon-box">
       <a href="/contact">
           <img src="{{ url_for('static', filename='img/contact.png') }}" alt="Contact">
-          <span>{{ _('Contact') }}</span>
+          <span>{{ 'Contact' | autotranslate }}</span>
       </a>
   </div>
 </div>
 </div>
 <footer style="position: relative; left: 0; width: 100%; background-color: #333; color: white; text-align: center; padding: 20px 0; margin: 0; border: none;">
   <div style="max-width: 100%; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; align-items: center;">
-    <p style="margin-bottom: 10px;">&copy; 2025 MyWebsite. {{ _('Όλα τα δικαιώματα κατοχυρωμένα.') }}</p>
+    <p style="margin-bottom: 10px;">&copy; 2025 MyWebsite. {{ 'Όλα τα δικαιώματα κατοχυρωμένα.' | autotranslate }}</p>
     <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-      <a href="/terms" style="color: white; text-decoration: none;">{{ _('Όροι Χρήσης') }}</a>
+      <a href="/terms" style="color: white; text-decoration: none;">{{ 'Όροι Χρήσης' | autotranslate }}</a>
       <span>|</span>
-      <a href="/privacy" style="color: white; text-decoration: none;">{{ _('Πολιτική Απορρήτου') }}</a>
+      <a href="/privacy" style="color: white; text-decoration: none;">{{ 'Πολιτική Απορρήτου' | autotranslate }}</a>
       <span>|</span>
-      <a href="/" style="color: white; text-decoration: none;">{{ _('Αρχική') }}</a>
+      <a href="/" style="color: white; text-decoration: none;">{{ 'Αρχική' | autotranslate }}</a>
     </div>
   </div>
 </footer>

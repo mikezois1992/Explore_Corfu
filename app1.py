@@ -1,23 +1,49 @@
-from flask import Flask, render_template, jsonify, request, redirect, url_for, session, flash
+from flask import Flask, render_template, make_response, jsonify, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask import get_flashed_messages
-from flask_babel import Babel, gettext as _
 import os 
 
 
 app = Flask(__name__)
 app.secret_key = 'my_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-app.config['BABEL_DEFAULT_LOCALE'] = 'el'
-app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-def get_locale():
-    return session.get('lang', 'el')
+def translate(text, target_lang='en'):
+    try:
+        response = requests.post(
+            'https://libretranslate.com/translate',
+            headers={'Content-Type': 'application/json'},
+            json={
+                'q': text,
+                'source': 'el',  # πηγαία γλώσσα: ελληνικά
+                'target': target_lang,
+                'format': 'text'
+            }
+        )
+        if response.status_code == 200:
+            return response.json()['translatedText']
+    except Exception as e:
+        print(f"Translation error: {e}")
+    
+    return text  # Αν υπάρξει σφάλμα, επιστρέφει το αρχικό κείμενο
 
-babel = Babel(app, locale_selector=get_locale)
+
+app.jinja_env.filters['autotranslate'] = lambda text: translate(
+    text,
+    target_lang=request.cookies.get('language', 'el')
+)
+
+@app.route('/set_language/<lang>')
+def set_language(lang):
+    response = make_response(redirect(request.referrer or '/'))
+    response.set_cookie('language', lang, max_age=60*60*24*30)  # 30 ημέρες
+    return response
+
+
+
 
 
 # Μοντέλα
@@ -46,8 +72,8 @@ def home():
                 db.session.add(new_search)
                 db.session.commit()
             else:
-                 flash(_('Πρέπει να συνδεθείς πρώτα για να κάνεις αναζήτηση.'), 'warning')
-                 return redirect(url_for('login'))
+                    flash(_('Πρέπει να συνδεθείς πρώτα για να κάνεις αναζήτηση.'), 'warning')
+                    return redirect(url_for('login'))
     return render_template('home_1.html')
 
 # Login page
@@ -89,8 +115,8 @@ def register():
         password = request.form['password']
 
         if not username or not email or not password:
-             flash(_('Συμπλήρωσε όλα τα πεδία.'), 'danger')
-             return redirect(url_for('register'))
+            flash(_('Συμπλήρωσε όλα τα πεδία.'), 'danger')
+            return redirect(url_for('register'))
 
         if User.query.filter_by(username=username).first():
             flash(_('Το όνομα χρήστη υπάρχει ήδη.'), 'danger')
@@ -174,10 +200,7 @@ def guest():
     session['guest'] = True
     return redirect(url_for('home'))
 
-@app.route('/set_language/<lang>')
-def set_language(lang):
-    session['lang'] = lang
-    return redirect(request.referrer or url_for('home'))
+
 
 
 SUGGESTIONS = [{
