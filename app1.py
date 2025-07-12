@@ -40,6 +40,8 @@ app.jinja_env.filters['autotranslate'] = lambda text: translate(
     target_lang=request.cookies.get('language', 'el')
 )
 
+app.jinja_env.globals.update(_=_, get_locale=get_locale)
+
 @app.route('/set_language/<lang>')
 def set_language(lang):
     response = make_response(redirect(request.referrer or '/'))
