@@ -5,6 +5,10 @@ from flask import get_flashed_messages
 import os 
 import requests
 
+def _(text):
+    lang = request.cookies.get('language', 'el')
+    return translate(text, target_lang=lang)
+
 app = Flask(__name__)
 app.secret_key = 'my_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
