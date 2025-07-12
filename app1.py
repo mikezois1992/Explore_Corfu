@@ -9,6 +9,10 @@ def _(text):
     lang = request.cookies.get('language', 'el')
     return translate(text, target_lang=lang)
 
+# Provide access to the current language for templates
+def get_locale():
+    return request.cookies.get('language', 'el')
+
 app = Flask(__name__)
 app.secret_key = 'my_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
