@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask import get_flashed_messages
 import os 
-
+import requests
 
 app = Flask(__name__)
 app.secret_key = 'my_secret_key'
