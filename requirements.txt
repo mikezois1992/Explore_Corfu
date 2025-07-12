@@ -2,4 +2,4 @@ Flask
 Flask_SQLAlchemy
 Flask_Migrate
 SQLAlchemy
-Flask-Babel
+requests
