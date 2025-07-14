@@ -233,9 +233,15 @@ SUGGESTIONS = [{
     },
     {
         "title": "Arkoudilas",
-        "image": "/static/img/arkoudilas/arkoudilas/icon1.jpg",
+        "image": "/static/img/arkoudilas/arkoudilas/icon1.jpg.jpg",
         "description": "arkoudilas",
         "url": "/arkoudilas"
+    },
+    {
+        "title": "Erimitis",
+        "image": "/static/img/Erimitis/erimitis/Ερημίτης/1.jpg",
+        "description": "erimitis",
+        "url": "/erimitis"
     }]
 
 
@@ -299,6 +305,10 @@ def agGordios():
 @app.route("/arkoudilas/")
 def arkoudilas():
     return render_template("arkoudilas.html", title="arkoudilas")
+
+@app.route("/erimitis/")
+def erimitis():
+    return render_template("erimitis.html", title="erimitis")
 
 
 if __name__ == '__main__':

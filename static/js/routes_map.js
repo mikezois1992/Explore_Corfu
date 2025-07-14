@@ -34,6 +34,15 @@ const ROUTES = [
     terrain: 'Δασώδης λόφος με απότομες ακτές',
     description: 'Φυσική περιοχή με μοναστήρι και μονοπάτια.',
     image: '/static/img/arkoudilas/arkoudilas/icon1.jpg'
+  },
+  {
+    title: 'Erimitis',
+    url: '/erimitis',
+    position: { lat: 39.776846245788605, lng: 19.948111715082188 }, 
+    elevation: 'Ανέβασμα/κατέβασμα ~55 m, με ελάχιστο υψόμετρο ~ −1 m και μέγιστο ~ 52 m',
+    terrain: 'εύκολη διαδομή – κατάλληλη για όλους.',
+    description: 'πυκνή μεσογειακή βλάστηση, απόκρημνες ακτές, μικρούς όρμους, τρεις λίμνες',
+    image: '/static/img/Erimitis/erimitis/Ερημίτης/1.jpg'
   }
 ];
 
