@@ -242,6 +242,36 @@ SUGGESTIONS = [{
         "image": "/static/img/Erimitis/erimitis/Ερημίτης/1.jpg",
         "description": "erimitis",
         "url": "/erimitis"
+    },
+    {
+        "title": "Loggas",
+        "image": "/static/img/loggas peroulades-20250717T175654Z-1-001/loggas peroulades/1.jpg",
+        "description": "loggas",
+        "url": "/loggas"
+    },
+    {
+        "title": "Canal",
+        "image": "/static/img/canal/canal damour/1.jpg",
+        "description": "canal",
+        "url": "/canal"
+    },
+    {
+        "title": "Ermones",
+        "image": "/static/img/ermones/ermones ekklisaki/1.jpg",
+        "description": "ermomes",
+        "url": "/ermones"
+    },
+    {
+        "title": "Giannades",
+        "image": "/static/img/giannades/Προφήτης Ηλίας- Γιαννάδες/1.jpg",
+        "description": "giannades",
+        "url": "/giannades"
+    },
+    {
+        "title": "Makrades",
+        "image": "/static/img/makrades/makrades/1.jpg",
+        "description": "makrades",
+        "url": "/makrades"
     }]
 
 
@@ -310,6 +340,21 @@ def arkoudilas():
 def erimitis():
     return render_template("erimitis.html", title="erimitis")
 
+@app.route("/loggas/")
+def loggas():
+    return render_template("loggas.html", title="loggas")
+
+@app.route("/canal/")
+def canal():
+    return render_template("canal.html", title="canal")
+
+@app.route("/ermones/")
+def ermones():
+    return render_template("ermones.html", title="ermones")
+
+@app.route("/giannades/")
+def giannades():
+    return render_template("giannades.html", title="giannades")
 
 if __name__ == '__main__':
     import os
