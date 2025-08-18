@@ -1,0 +1,5 @@
+#!/home/anastasia/python-project/HelloWorld/.venv/bin/python3
+
+from argostranslate import argospm
+
+argospm.main()

@@ -4,14 +4,25 @@ from flask_migrate import Migrate
 from flask import get_flashed_messages
 import os 
 import requests
+from functools import lru_cache
+import re
+import json
+
+GREEK_REGEX = re.compile(r'[\u0370-\u03FF]')  # εύρεση ελληνικών χαρακτήρων
+LOCAL_ENDPOINT = 'http://127.0.0.1:5010/translate'
+PUBLIC_ENDPOINT = 'https://libretranslate.com/translate'
+
+
 
 def _(text):
-    lang = request.cookies.get('language', 'el')
-    return translate(text, target_lang=lang)
+    target = request.cookies.get('language', 'en')  # default στα αγγλικά
+    if target == 'el':
+        return text  # αν ζητάς ελληνικά, μην καλείς μεταφραστή
+    return translate(text, target_lang=target)
 
 # Provide access to the current language for templates
 def get_locale():
-    return request.cookies.get('language', 'el')
+    return request.cookies.get('language', 'en')  # ίδιο default
 
 app = Flask(__name__)
 app.secret_key = 'my_secret_key'
@@ -19,32 +30,83 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+@app.context_processor
+def inject_translator():
+    return dict(_=_, get_locale=get_locale)
+
+
+def _post_translate(url, text, source, target, timeout=5):
+    return requests.post(
+        url,
+        headers={'Content-Type': 'application/json'},
+        json={'q': text, 'source': source, 'target': target, 'format': 'text'},
+        timeout=timeout
+    )
+
+@lru_cache(maxsize=1024)
 def translate(text, target_lang='en'):
+    # Γρήγορο short-circuit
+    if not text or not isinstance(text, str):
+        return text
+
+    print(f"[DEBUG] Translating to: {target_lang} | Text: {text[:50]}...")
+
+    # 1) Αν φαίνεται ελληνικό, δοκίμασε πρώτα ρητά source='el' στο local.
+    source_guess = 'el' if GREEK_REGEX.search(text) else 'auto'
+
     try:
-        response = requests.post(
-            'https://libretranslate.com/translate',
-            headers={'Content-Type': 'application/json'},
-            json={
-                'q': text,
-                'source': 'el',  # πηγαία γλώσσα: ελληνικά
-                'target': target_lang,
-                'format': 'text'
-            }
-        )
-        if response.status_code == 200:
-            return response.json()['translatedText']
+        # --- ΠΡΩΤΗ ΠΡΟΣΠΑΘΕΙΑ: τοπικός translator ---
+        r = _post_translate(LOCAL_ENDPOINT, text, source_guess, target_lang)
+        print("[DEBUG][LOCAL] Status:", r.status_code)
+        print("[DEBUG][LOCAL] Response:", r.text)
+
+        if r.ok:
+            data = r.json()
+            out = data.get('translatedText', text)
+            detected = (data.get('detectedLanguage') or {}).get('language')
+
+            # Αν γύρισε αμετάφραστο ή ανίχνευσε 'en' με μηδενική βεβαιότητα, κάνε failover
+            same_text = out.strip() == text.strip()
+            low_conf_en = (detected == 'en' and (data.get('detectedLanguage') or {}).get('confidence', 1.0) == 0.0)
+
+            if not same_text and not low_conf_en:
+                return out
+            else:
+                print("[DEBUG] Local translator returned same text or low-confidence detection; trying public.")
+        else:
+            # 400 κλπ (π.χ. "el is not supported")
+            print("[DEBUG] Local translator error; trying public.")
     except Exception as e:
-        print(f"Translation error: {e}")
-    
-    return text  # Αν υπάρξει σφάλμα, επιστρέφει το αρχικό κείμενο
+        print(f"[ERROR] Local translate error: {e}. Trying public endpoint...")
+
+    # 2) FAILOVER: δημόσιο endpoint με καθαρό source
+    try:
+        fallback_source = 'el' if GREEK_REGEX.search(text) else 'auto'
+        r2 = _post_translate(PUBLIC_ENDPOINT, text, fallback_source, target_lang)
+        print("[DEBUG][PUBLIC] Status:", r2.status_code)
+        print("[DEBUG][PUBLIC] Response:", r2.text)
+
+        if r2.ok:
+            data2 = r2.json()
+            out2 = data2.get('translatedText', text)
+            return out2
+    except Exception as e2:
+        print(f"[ERROR] Public translate error: {e2}")
+
+    # 3) Τελικό fallback: επέστρεψε όπως είναι για να μην “χαλάσεις” UI
+    return text
 
 
-app.jinja_env.filters['autotranslate'] = lambda text: translate(
-    text,
-    target_lang=request.cookies.get('language', 'el')
-)
 
-app.jinja_env.globals.update(_=_, get_locale=get_locale)
+def autotranslate(text):
+    try:
+        target = request.cookies.get('language', 'en')
+    except RuntimeError:
+        target = 'en'
+    return text if target == 'el' else translate(text, target_lang=target)
+
+app.jinja_env.filters['autotranslate'] = autotranslate
+
 
 @app.route('/set_language/<lang>')
 def set_language(lang):
@@ -53,7 +115,9 @@ def set_language(lang):
     return response
 
 
-
+@app.route('/ping-translate')
+def ping_translate():
+    return translate('Καλημέρα', 'en')
 
 
 # Μοντέλα
@@ -272,7 +336,56 @@ SUGGESTIONS = [{
         "image": "/static/img/makrades/makrades/1.jpg",
         "description": "makrades",
         "url": "/makrades"
-    }]
+    },
+    {
+        "title": "Cape_Drastis",
+        "image": "/static/img/cape drastis/1.jpg",
+        "description": "cape drastis",
+        "url": "/Cape_Drastis"
+    },
+    {
+        "title": "MonRepos",
+        "image": "/static/img/mon repo/1.jpg",
+        "description": "MonRepos",
+        "url": "/MonRepos"
+    },
+    {
+        "title": "nimfes",
+        "image": "/static/img/Καταρράκτες Νυμφές/1.jpg",
+        "description": "nimfes",
+        "url": "/nimfes"
+    },
+    {
+        "title": "Old Fortress ",
+        "image": "/static/img/palaio frourio/6.jpg",
+        "description": "Old Fortress ",
+        "url": "/oldFort"
+    },
+    {
+        "title": "Porto Timoni ",
+        "image": "/static/img/Πόρτο Τιμόνι-αφιωνας/16.jpg",
+        "description": "Porto Timoni ",
+        "url": "/porto_timoni"
+    },
+    {
+        "title": "Perama ",
+        "image": "/static/img/dromos toy nerou perama/2.jpg",
+        "description": "Perama ",
+        "url": "/perama"
+    },
+    {
+        "title": "Gastouri ",
+        "image": "/static/img/agia kyriaki gastouri/1.jpg",
+        "description": "Gastouri ",
+        "url": "/Gastouri"
+    },
+    {
+        "title": "Stavros ",
+        "image": "static/img/stavros loop/1.jpg",
+        "description": "Stavros ",
+        "url": "/stavros"
+    }
+    ]
 
 
 # Καταχώρηση αναζήτησης
@@ -322,7 +435,8 @@ def routes():
 
 @app.route("/vlaxerena/")
 def vlaxerena():
-    return render_template("vlaxerena.html", title="vlaxerena")
+    lang = request.cookies.get('language', 'el')
+    return render_template("vlaxerena.html", title="vlaxerena", lang=get_locale())
 
 @app.route("/Nisaki/")
 def nisaki():
@@ -355,6 +469,42 @@ def ermones():
 @app.route("/giannades/")
 def giannades():
     return render_template("giannades.html", title="giannades")
+
+@app.route("/makrades/")
+def makrades():
+    return render_template("makrades.html", title="makrades")
+
+@app.route("/Cape_Drastis/")
+def cape():
+    return render_template("Cape_Drastis.html", title="cape_drastis")
+
+@app.route("/MonRepos/")
+def monRepo():
+    return render_template("MonRepos.html", title="MonRepos")
+
+@app.route("/nimfes/")
+def nimfes():
+    return render_template("nimfes.html", title="nimfes")
+
+@app.route("/oldFortress/")
+def oldFort():
+    return render_template("oldFort.html", title="oldFortress")
+
+@app.route("/Porto Timoni/")
+def porto():
+    return render_template("porto_timoni.html", title="Porto Timoni")
+
+@app.route("/Gastouri/")
+def gastouri():
+    return render_template("Gastori.html", title="Gastouri")
+
+@app.route("/perama/")
+def perama():
+    return render_template("perama.html", title="Perama")
+
+@app.route("/stavros/")
+def stavros():
+    return render_template("stavros.html", title="Stavros")
 
 if __name__ == '__main__':
     import os
