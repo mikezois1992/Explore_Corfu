@@ -1,2 +1,4 @@
 /home/anastasia/python-project/HelloWorld/.venv/lib/python3.12/site-packages/apscheduler/__init__.py:1: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
   from pkg_resources import get_distribution, DistributionNotFound
+WARNING:apscheduler.executors.default:Run time of job "remove_translated_files (trigger: interval[0:30:00], next run at: 2025-08-21 08:41:32 EEST)" was missed by 0:06:05.949433
+WARNING:apscheduler.executors.default:Run time of job "remove_translated_files (trigger: interval[0:30:00], next run at: 2025-08-21 18:41:32 EEST)" was missed by 0:02:58.695530
