@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <html>
 <head>
-    <title>About Us</title>
+    <title>Contact</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,14 +21,15 @@
 </head>
 <body>
     <section id="contact-us">
-      <h2>Επικοινωνήστε μαζί μας</h2>
+      <h2>{{'Επικοινωνήστε μαζί μας'|autotranslate}}</h2>
     
       <p>
-        Θα χαρούμε πολύ να ακούσουμε τα σχόλια, τις απορίες ή τις προτάσεις σας! Εάν χρειάζεστε περισσότερες πληροφορίες για κάποια διαδρομή ή θέλετε να μοιραστείτε μαζί μας τη δική σας εμπειρία περπατώντας στην Κέρκυρα, μη διστάσετε να επικοινωνήσετε.
+        {{'Θα χαρούμε πολύ να ακούσουμε τα σχόλια, τις απορίες ή τις προτάσεις σας!'|autotranslate}} 
+        {{'Εάν χρειάζεστε περισσότερες πληροφορίες για κάποια διαδρομή ή θέλετε να μοιραστείτε μαζί μας τη δική σας εμπειρία περπατώντας στην Κέρκυρα, μη διστάσετε να επικοινωνήσετε.'|autotranslate}}
       </p>
     
       <p>
-        Μπορείτε να μας στείλετε μήνυμα μέσω της φόρμας επικοινωνίας ή απευθείας στο email μας. Υποσχόμαστε να απαντήσουμε το συντομότερο δυνατόν.
+        {{'Μπορείτε να μας στείλετε μήνυμα μέσω της φόρμας επικοινωνίας ή απευθείας στο email μας. Υποσχόμαστε να απαντήσουμε το συντομότερο δυνατόν.'|autotranslate}}
       </p>
     
       <p style="text-align: center; margin-top: 30px;">
@@ -39,21 +40,21 @@
     
       <!-- Φόρμα Επικοινωνίας -->
       <form id="contact-form" onsubmit="showThankYouMessage(event)">
-        <label for="name">Όνομα:</label><br>
+        <label for="name">{{'Όνομα:'|autotranslate}}</label><br>
         <input type="text" id="name" name="name" required><br><br>
     
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email" required><br><br>
     
-        <label for="message">Μήνυμα:</label><br>
+        <label for="message">{{'Μήνυμα:'|autotranslate}}</label><br>
         <textarea id="message" name="message" rows="5" required></textarea><br><br>
     
-        <button type="submit">Αποστολή</button>
+        <button type="submit">{{'Αποστολή'|autotranslate}}</button>
       </form>
     
       <!-- Μήνυμα Ευχαριστίας -->
       <p id="thank-you-message" style="display: none; text-align: center; margin-top: 20px; font-weight: bold; color: green;">
-        Ευχαριστούμε για την επικοινωνία σας! Θα σας απαντήσουμε σύντομα.
+        {{'Ευχαριστούμε για την επικοινωνία σας! Θα σας απαντήσουμε σύντομα.'|autotranslate}}
       </p>
     </section>
     {% extends "template.html" %}
