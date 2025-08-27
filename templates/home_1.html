@@ -20,7 +20,7 @@
 <body >
   {% if session.get('username') %}
   <div class="container mt-4">
-    <h4 class="text-success">{{ ('Καλωσόρισες, ' ~ session['username'] ~ '!') | autotranslate }}</h4>
+    <h4 class="text-success">{{'Καλωσόρισες, ' ~ session['username'] ~ '!' | autotranslate }}</h4>
   </div>
 {% endif %}
 
