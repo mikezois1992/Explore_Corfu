@@ -259,6 +259,290 @@ python app1.py
 
 
 
+ΔΕΥΤΕΡΗ ΕΚΔΟΧΗ
+
+
+Τέλεια — έφτιαξα την ενότητα/έκθεση για το κύριο πρόγραμμα `app1.py` σε ύφος που ταιριάζει σε πτυχιακή. Μπορείς να την βάλεις αυτούσια στη δουλειά σου και/ή να τη δώσεις στο Codex ως «πηγή» όταν σου ζητά αναφορά για το main module.
+
+# Τεχνική περιγραφή κύριου προγράμματος `app1.py`
+
+## Σύνοψη & ρόλος αρχείου
+
+Το `app1.py` αποτελεί το κύριο εκτελέσιμο της εφαρμογής Flask: ορίζει και ρυθμίζει την εφαρμογή, συνδέει τη βάση (SQLAlchemy + Flask-Migrate), εκθέτει routes για authentication/ιστορικό/πλοήγηση και ολοκληρώνει υπηρεσία μηχανικής μετάφρασης (LibreTranslate) με τοπικό endpoint και ασφαλές failover σε δημόσιο endpoint. Παρέχει επίσης μεταφραστική διεπαφή προς τα templates μέσω context processor και Jinja φίλτρου.
+
+---
+
+## Εξαρτήσεις & γιατί χρησιμοποιούνται
+
+* **Flask**: web framework (routing, templating, sessions, flash messages).
+* **Jinja2** (μέσω Flask): rendering templates + custom φίλτρα (`autotranslate`) και context (`_`, `get_locale`).
+* **Flask-SQLAlchemy**: ORM, απλοποιεί ορισμό μοντέλων `User`, `Search`.
+* **Flask-Migrate**: migrations DB (Alembic)· επιτρέπει εξελικτικές αλλαγές σχήματος.
+* **requests**: HTTP client για κλήσεις στο LibreTranslate API (τοπικό & δημόσιο).
+* **functools.lru\_cache**: caching αποτελεσμάτων μετάφρασης για μείωση καθυστέρησης/φορτίου.
+* **re**: regex για ανίχνευση ελληνικών χαρακτήρων και επιλογή `source` γλώσσας.
+* **sqlite** (μέσω URI): ελαφριά, ενσωματωμένη βάση για χρήστες/αναζητήσεις.
+
+---
+
+## Αρχιτεκτονική (υψηλό επίπεδο)
+
+* **Παρουσίαση**: Templates Jinja2 (π.χ. `home_1.html`, `login.html`, κ.ά.) + στατικά assets.
+* **Επιχειρησιακή λογική**: Flask views (routes) για εγγραφή/είσοδο, ιστορικό, υποδείξεις (`/suggest`), σελίδες προορισμών.
+* **Δεδομένα**: Μοντέλα `User` (1-Ν) `Search` με αποθήκευση τελευταίων αναζητήσεων ανά χρήστη.
+* **Διεθνοποίηση (i18n)**: Cookie `language` ορίζει στόχο μετάφρασης· helper `_()` και φίλτρο `autotranslate` μεταφράζουν αλφαριθμητικά δυναμικά μέσω LibreTranslate. Caching με `@lru_cache`.
+
+---
+
+## Δεδομένα & μοντέλο
+
+### User
+
+* `id` (PK), `username` (unique, required), `email` (unique), `password` (plain string — βλ. ασφάλεια).
+* Σχέση: `User.searches` (1-Ν με `Search`).
+
+### Search
+
+* `id` (PK), `location` (required), `user_id` (FK -> `User.id`).
+
+---
+
+## Διεθνοποίηση & ενσωμάτωση LibreTranslate
+
+### Ροή & σχεδίαση
+
+* **Cookie** `language` (default: `'en'`) καθορίζει τη γλώσσα-στόχο.
+* **Βοηθητικό** `_()`:
+
+  * Αν ζητείται ελληνικά (`el`), επιστρέφει το κείμενο ως έχει (τεκμαίρεται ότι το πρωτότυπο είναι ελληνικό).
+  * Διαφορετικά καλεί `translate(text, target_lang=target)`.
+* **Jinja**:
+
+  * `@app.context_processor` εκθέτει `_` και `get_locale` στα templates.
+  * Φίλτρο `autotranslate` για δυναμική μετάφραση τιμών μέσα στα templates.
+* **Μετάφραση** `translate()`:
+
+  * **Heuristic** ανίχνευσης: `GREEK_REGEX` → `source='el'`, αλλιώς `source='auto'`.
+  * **Πρώτη προσπάθεια**: τοπικός server στο `LOCAL_ENDPOINT = 'http://127.0.0.1:5010/translate'`.
+  * **Failover**: δημόσιο endpoint `https://libretranslate.com/translate` εάν τοπικός αποτύχει/επιστρέψει αμετάφραστο.
+  * **Ανθεκτικότητα**: timeouts, logging/prints debug, και τελική υποχώρηση «επιστροφή αρχικού κειμένου» για να μη σπάει το UI.
+  * **Caching**: `@lru_cache(maxsize=1024)` μειώνει επαναλαμβανόμενες κλήσεις.
+
+### Endpoints υποστήριξης
+
+* `/set_language/<lang>`: ενημερώνει cookie για 30 ημέρες.
+* `/ping-translate`: health-check που μεταφράζει «Καλημέρα» σε EN (γρήγορος έλεγχος τοπικού translator).
+
+### Οδηγίες εγκατάστασης/εκτέλεσης LibreTranslate (ταιριασμένες στον κώδικά σου)
+
+**Τοπικός translator στη θύρα 5010 (EN/EL μόνο):**
+
+**Επιλογή Α — pip**
+
+```bash
+pip install libretranslate
+libretranslate --host 127.0.0.1 --port 5010 --load-only en,el --update-models
+```
+
+**Επιλογή Β — Docker**
+
+```bash
+docker run --name libretranslate -p 5010:5000 \
+  -e LT_LOAD_ONLY="en,el" -e LT_UPDATE_MODELS=true \
+  --restart unless-stopped libretranslate/libretranslate:latest
+```
+
+> **Σημαντικό:** Σε παραγωγή, για προστασία δεδομένων **απενεργοποίησε** το δημόσιο fallback ή ζήτα ρητή συγκατάθεση χρήστη· αλλιώς απόρρητο κείμενο μπορεί να εξέλθει του server σου. Πρότεινεται ρύθμιση μέσω μεταβλητής περιβάλλοντος (βλ. «Βελτιώσεις»).
+
+---
+
+## Routes (πίνακας)
+
+| Μέθοδος  | Διαδρομή                         | View             | Περιγραφή                                                                      |
+| -------- | -------------------------------- | ---------------- | ------------------------------------------------------------------------------ |
+| GET/POST | `/`                              | `home`           | Αρχική/αναζήτηση· αποθήκευση `Search` για συνδεδεμένους· flash αν guest.       |
+| GET/POST | `/login`                         | `login`          | Είσοδος χρήστη· set `session['user_id']`, `session['username']`.               |
+| GET/POST | `/register`                      | `register`       | Εγγραφή νέου χρήστη· μοναδικότητα username/email· auto-login μετά την εγγραφή. |
+| GET      | `/history`                       | `history`        | Ιστορικό αναζητήσεων τρέχοντος χρήστη, συγχώνευση διπλοεγγραφών ανά location.  |
+| POST     | `/delete_search/<int:search_id>` | `delete_search`  | Διαγράφει **όλες** τις εμφανίσεις της ίδιας τοποθεσίας του χρήστη.             |
+| POST     | `/logout`                        | `logout`         | Καθαρισμός session· flash.                                                     |
+| GET      | `/guest`                         | `guest`          | Ορίζει `session['guest']=True` και επιστρέφει στην αρχική.                     |
+| POST/GET | `/search`                        | `search`         | Υποβολή αναζήτησης (JSON ή form)· αποθήκευση για συνδεδεμένους· redirect home. |
+| GET      | `/suggest`                       | `suggest`        | Επιστρέφει JSON υποδείξεων από `SUGGESTIONS` που ξεκινούν με το query.         |
+| GET      | `/set_language/<lang>`           | `set_language`   | Θέτει cookie γλώσσας για 30 ημέρες.                                            |
+| GET      | `/ping-translate`                | `ping_translate` | Health-check μετάφρασης.                                                       |
+| GET      | `/about/`                        | `about`          | Σελίδα “About Us” με μεταφραζόμενο τίτλο.                                      |
+| GET      | `/contact/`                      | `contact`        | Σελίδα επικοινωνίας.                                                           |
+| GET      | `/routes/`                       | `routes`         | Σελίδα επισκόπησης διαδρομών.                                                  |
+| GET      | `/vlaxerena/`                    | `vlaxerena`      | Προορισμός Vlaxerena.                                                          |
+| GET      | `/Nisaki/`                       | `nisaki`         | Προορισμός Nisaki.                                                             |
+| GET      | `/agGordios/`                    | `agGordios`      | Προορισμός Αγ. Γόρδιος.                                                        |
+| GET      | `/arkoudilas/`                   | `arkoudilas`     | Προορισμός Αρκουδίλας.                                                         |
+| GET      | `/erimitis/`                     | `erimitis`       | Προορισμός Ερημίτης.                                                           |
+| GET      | `/loggas/`                       | `loggas`         | Προορισμός Λογκγάς.                                                            |
+| GET      | `/canal/`                        | `canal`          | Canal d’Amour.                                                                 |
+| GET      | `/ermones/`                      | `ermones`        | Ερμονές.                                                                       |
+| GET      | `/giannades/`                    | `giannades`      | Γιαννάδες.                                                                     |
+| GET      | `/makrades/`                     | `makrades`       | Μακράδες.                                                                      |
+| GET      | `/Cape_Drastis/`                 | `cape`           | Cape Drastis.                                                                  |
+| GET      | `/MonRepos/`                     | `monRepo`        | Μον Ρεπό.                                                                      |
+| GET      | `/nimfes/`                       | `nimfes`         | Νύμφες.                                                                        |
+| GET      | `/oldFortress/`                  | `oldFort`        | Παλαιό Φρούριο.                                                                |
+| GET      | `/Porto Timoni/`                 | `porto`          | Πόρτο Τιμόνι.                                                                  |
+| GET      | `/Gastouri/`                     | `gastouri`       | Γαστούρι.                                                                      |
+| GET      | `/perama/`                       | `perama`         | Πέραμα.                                                                        |
+| GET      | `/stavros/`                      | `stavros`        | Σταυρός.                                                                       |
+
+---
+
+## Ροές χρήστη (βασικές)
+
+1. **Anonymous → Αναζήτηση**: Αν επιχειρήσει POST στην αρχική χωρίς σύνδεση, κάνει flash μήνυμα και redirect σε login.
+2. **Register/Login**: Εγγραφή με μοναδικότητα· στο login συγκρίνεται plain password (βλ. ασφάλεια).
+3. **Ιστορικό**: Εμφανίζει μοναδικές τοποθεσίες (τελευταία εμφάνιση) και αντιστοίχιση με `SUGGESTIONS` URLs.
+4. **Αυτόματη μετάφραση UI**: Τα strings στα templates μπορούν να τυλίγονται με `_()` ή το φίλτρο `autotranslate`.
+
+---
+
+## Ποιότητα/ασφάλεια/λειτουργικότητα — παρατηρήσεις & βελτιώσεις
+
+### Ασφάλεια (υψηλής προτεραιότητας)
+
+* **Κωδικοί σε απλό κείμενο**: Χρησιμοποίησε `werkzeug.security` (`generate_password_hash`, `check_password_hash`).
+* **`SECRET_KEY`**: Μην είναι hard-coded· φόρτωσέ το από περιβάλλον (π.χ. `.env`) και άλλαξέ το ανά περιβάλλον.
+* **CSRF**: Οι φόρμες/POST routes δεν προστατεύονται. Πρόσθεσε `Flask-WTF` CSRF προστασία.
+* **Failover σε δημόσιο MT**: Σε παραγωγή, απενεργοποίησε ή κάνε opt-in. Εναλλακτικά, σήκωσε δεύτερο self-hosted instance ως εφεδρικό.
+* **Rate limiting**: Σκέψου `Flask-Limiter` για `/suggest`, `/search`, `/login`.
+
+### Συνέπεια & ορθότητα URLs
+
+* **Ασυμφωνία με `SUGGESTIONS`**:
+
+  * *Porto Timoni*: `SUGGESTIONS["/porto_timoni"]` **δεν** αντιστοιχεί σε route `/Porto Timoni/` (διαφέρει σε κεφαλαία/κενό/underscore) → οδηγεί σε 404.
+  * *Old Fortress*: `SUGGESTIONS["/oldFort"]` vs route `/oldFortress/`.
+  * *Gastouri*: route αποδίδει template `"Gastori.html"` (πιθανό typo) αντί `"Gastouri.html"`.
+  * *Stavros* image path χωρίς αρχικό `/`· *Arkoudilas* image με διπλό `.jpg.jpg`.
+* **Σύσταση**: Καθόρισε «κανόνα slugs» (χαμηλά, `-` αντί για κενά) και εναρμόνισε `SUGGESTIONS` + routes + template filenames. Πρόσθεσε tests για broken links.
+
+### Μετάφραση / caching
+
+* Το `@lru_cache` μειώνει δραστικά κλήσεις αλλά **μήνυμα debug** θα τυπώνεται μόνο στο πρώτο hit· οκ.
+* Η **ευρετική** `GREEK_REGEX` είναι πρακτική· εναλλακτικά χρησιμοποίησε `/detect` endpoint πριν από `/translate` αν χρειαστεί μεγαλύτερη ακρίβεια (trade-off ταχύτητας).
+
+### Βάση & migrations
+
+* Έχεις `Migrate(app, db)`· για να λειτουργούν CLI migrations, όρισε `FLASK_APP=app1.py` και εκτέλεσε:
+
+  ```bash
+  flask db init
+  flask db migrate -m "init"
+  flask db upgrade
+  ```
+
+---
+
+## Οδηγίες εκτέλεσης & deployment (app)
+
+### Τοπική ανάπτυξη
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+export FLASK_APP=app1.py
+export FLASK_ENV=development
+export SQLALCHEMY_DATABASE_URI="sqlite:///users.db"
+# LibreTranslate τοπικά (βλ. παραπάνω) στη θύρα 5010
+flask run --host 0.0.0.0 --port 5000
+```
+
+### Παραγωγή (WSGI + reverse proxy)
+
+1. **Gunicorn**
+
+```bash
+pip install gunicorn
+export PORT=8000
+gunicorn -w 4 -t 30 -b 0.0.0.0:$PORT app1:app
+```
+
+2. **Nginx (ενδεικτικά)**
+
+* Terminate TLS (Let's Encrypt), proxy στο `localhost:8000`, ενεργοποίησε gzip/HTTP→HTTPS, headers ασφαλείας.
+
+3. **Μεταβλητές περιβάλλοντος**
+
+* `SECRET_KEY`, `SQLALCHEMY_DATABASE_URI`, `LT_LOCAL_URL` (π.χ. `http://127.0.0.1:5010/translate`), `LT_PUBLIC_URL` (προαιρετικά σε παραγωγή).
+
+---
+
+## Υποψήφια «νεκρά»/περιττά σημεία (χωρίς αυτόματη αλλαγή)
+
+> **Συντηρητική λίστα** — χρειάζεται έλεγχος στο repo/templates πριν αφαιρεθούν.
+
+| Σύμβολο/κώδικας                                | Τοποθεσία      | Παρατήρηση                                                                                 | Ετικέτα                |
+| ---------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------ | ---------------------- |
+| `import json`                                  | κορυφή αρχείου | Δεν χρησιμοποιείται στο αρχείο.                                                            | ΑΣΦΑΛΕΣ ΓΙΑ ΑΦΑΙΡΕΣΗ\* |
+| `lang = request.cookies.get('language', 'el')` | `vlaxerena()`  | Η τοπική μεταβλητή `lang` δεν χρησιμοποιείται (το template παίρνει `lang=get_locale()`).   | ΑΣΦΑΛΕΣ ΓΙΑ ΑΦΑΙΡΕΣΗ\* |
+| `SUGGESTIONS` πεδία (π.χ. paths εικόνων)       | λίστα          | Ορισμένα μονοπάτια σφαλμένα (διπλό `.jpg`, έλλειψη `/`). Όχι «νεκρό», αλλά θέλει διόρθωση. | ΧΕΙΡΟΚΙΝΗΤΟΣ ΕΛΕΓΧΟΣ   |
+| Route `/Porto Timoni/`                         | `porto()`      | Μη συμβατικός slug· ασυμβατό με `SUGGESTIONS` → σπάει deep link.                           | ΧΕΙΡΟΚΙΝΗΤΟΣ ΕΛΕΓΧΟΣ   |
+| Template όνομα `"Gastori.html"`                | `gastouri()`   | Πιθανό typo· έλεγξε ύπαρξη αρχείου & σύνδεση από `SUGGESTIONS`.                            | ΧΕΙΡΟΚΙΝΗΤΟΣ ΕΛΕΓΧΟΣ   |
+
+\*Με την προϋπόθεση ότι δεν χρησιμοποιείται από άλλα modules—κάνε ένα γρήγορο `grep -RIn "json"`/έλεγχο πριν το αφαιρέσεις.
+
+**Συνιστώμενα βήματα επαλήθευσης πριν από διαγραφή/διόρθωση**
+
+```bash
+# στατικά
+pip install vulture
+vulture . --min-confidence 80
+
+# αναζητήσεις
+rg -n "json\b" .
+rg -n "Porto Timoni|porto_timoni|oldFortress|oldFort" .
+
+# τεστ smoke
+flask run & sleep 1; curl -I http://127.0.0.1:5000/ping-translate
+```
+
+---
+
+## Προτεινόμενες βελτιώσεις (ακίνδυνες για λειτουργία)
+
+* **Ρυθμίσεις μέσω env**: αντί για σταθερές, διάβαζε `LT_LOCAL_URL`/`LT_PUBLIC_URL`· επέτρεψε flag `DISABLE_PUBLIC_FALLBACK`.
+* **Τυποποίηση routes**: όλα σε `lowercase-dashed`, χωρίς κενά/κεφαλαία, και ευθυγράμμιση με `SUGGESTIONS`.
+* **Ασφάλεια login**: password hashing + CSRF tokens.
+* **Λογιστική καταγραφή**: αντικατάσταση `print` με `logging` και κατάλληλα levels + structured logs.
+* **Μικρά API helpers**: ενοποίησε `_post_translate` και πρόσθεσε retries/backoff.
+
+---
+
+## Μικρό απόσπασμα (προαιρετικό) – ανάγνωση endpoint από περιβάλλον
+
+```python
+LT_LOCAL_URL  = os.getenv("LT_LOCAL_URL", "http://127.0.0.1:5010/translate")
+LT_PUBLIC_URL = os.getenv("LT_PUBLIC_URL", "https://libretranslate.com/translate")
+DISABLE_PUBLIC_FALLBACK = os.getenv("DISABLE_PUBLIC_FALLBACK", "false").lower() == "true"
+
+def _post_translate(url, text, source, target, timeout=5):
+    ...
+
+def translate(text, target_lang='en'):
+    ...
+    try:
+        r = _post_translate(LT_LOCAL_URL, text, source_guess, target_lang)
+        ...
+        if r.ok and not same_text and not low_conf_en:
+            return out
+    except Exception:
+        pass
+    if DISABLE_PUBLIC_FALLBACK:
+        return text
+    ...
+```
+
+---
+
+Αν θέλεις, στο «νεκρό κώδικα» μπορώ να σου δώσω και **ενδεικτικό diff** (χωρίς εφαρμογή) για τα 2 ασφαλή σημεία που σημείωσα και checklist εκτέλεσης για να το περάσεις.
 
 
 
