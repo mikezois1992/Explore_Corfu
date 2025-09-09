@@ -1,4 +1,18 @@
-/home/anastasia/python-project/HelloWorld/.venv/lib/python3.12/site-packages/apscheduler/__init__.py:1: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-  from pkg_resources import get_distribution, DistributionNotFound
-WARNING:apscheduler.executors.default:Run time of job "remove_translated_files (trigger: interval[0:30:00], next run at: 2025-08-21 08:41:32 EEST)" was missed by 0:06:05.949433
-WARNING:apscheduler.executors.default:Run time of job "remove_translated_files (trigger: interval[0:30:00], next run at: 2025-08-21 18:41:32 EEST)" was missed by 0:02:58.695530
+Traceback (most recent call last):
+  File "/home/anastasia/python-project/HelloWorld/.venv/bin/libretranslate", line 5, in <module>
+    from libretranslate.main import main
+  File "/home/anastasia/python-project/HelloWorld/.venv/lib/python3.12/site-packages/libretranslate/__init__.py", line 2, in <module>
+    from .main import main
+  File "/home/anastasia/python-project/HelloWorld/.venv/lib/python3.12/site-packages/libretranslate/main.py", line 5, in <module>
+    from libretranslate.app import create_app
+  File "/home/anastasia/python-project/HelloWorld/.venv/lib/python3.12/site-packages/libretranslate/app.py", line 12, in <module>
+    import argostranslatefiles
+  File "/home/anastasia/python-project/HelloWorld/.venv/lib/python3.12/site-packages/argostranslatefiles/__init__.py", line 1, in <module>
+    from argostranslatefiles.argostranslatefiles import *
+  File "/home/anastasia/python-project/HelloWorld/.venv/lib/python3.12/site-packages/argostranslatefiles/argostranslatefiles.py", line 1, in <module>
+    from argostranslate.translate import ITranslation
+  File "/home/anastasia/python-project/HelloWorld/.venv/lib/python3.12/site-packages/argostranslate/translate.py", line 5, in <module>
+    import ctranslate2
+  File "/home/anastasia/python-project/HelloWorld/.venv/lib/python3.12/site-packages/ctranslate2/__init__.py", line 21, in <module>
+    from ctranslate2._ext import (
+ImportError: /home/anastasia/python-project/HelloWorld/.venv/lib/python3.12/site-packages/ctranslate2/_ext.cpython-312-x86_64-linux-gnu.so: invalid ELF header

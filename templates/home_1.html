@@ -38,19 +38,9 @@
 {% endwith %}
 <div class="top-left-buttons">
 
-  <!-- Κουμπί Ελληνικά -->
-  <form action="/set_language/el" method="GET" style="margin: 0;">
-    <button type="submit" class="btn btn-primary">
-      🇬🇷 Ελληνικά
-    </button>
-  </form>
-
-  <!-- Κουμπί Αγγλικά -->
-  <form action="/set_language/en" method="GET" style="margin: 0;">
-    <button type="submit" class="btn btn-secondary">
-      🇬🇧 English
-    </button>
-  </form>
+  
+<a href="{{ url_for('switch_lang', code='el') }}" class="btn btn-outline-primary">🇬🇷 Ελληνικά</a>
+<a href="{{ url_for('switch_lang', code='en') }}" class="btn btn-outline-secondary">🇬🇧 English</a>
 
   <!-- Κουμπί Αποσύνδεσης -->
   <form action="/logout" method="POST" style="margin: 0;">
@@ -107,7 +97,7 @@
     
   <section id="about-us">
      <h2>{{ 'Περπατώντας στην Κέρκυρα' | autotranslate }}</h2>
-    <p>{{ 'Η Κέρκυρα είναι ένας τόπος που αξίζει να τον ζήσεις με το ρυθμό του περπατήματος. Μέσα από το site μας, σας προσκαλούμε να γνωρίσετε το νησί με έναν πιο αυθεντικό και βιωματικό τρόπο: περπατώντας.' | autotranslate }}</p>
+    <p>{{ 'Η Κέρκυρα είναι ένας τόπος που αξίζει να τον ζήσεις με το ρυθμό του περπατήματος.'|autotranslate}} {{'Μέσα από το site μας, σας προσκαλούμε να γνωρίσετε το νησί με έναν πιο αυθεντικό και βιωματικό τρόπο: περπατώντας.' | autotranslate }}</p>
     <p>{{ 'Προτείνουμε διαδρομές που συνδυάζουν φυσικές ομορφιές, ιστορικά μνημεία και τοπικές παραδόσεις, δίνοντάς σας τη δυνατότητα να ανακαλύψετε την Κέρκυρα πέρα από τα συνηθισμένα.' | autotranslate }}</p>
     <p>{{ 'Εξερευνήστε, εμπνευστείτε και απολαύστε κάθε σας βήμα!' | autotranslate }}</p>
   </section>

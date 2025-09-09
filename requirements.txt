@@ -1,5 +1,0 @@
-Flask
-Flask_SQLAlchemy
-Flask_Migrate
-SQLAlchemy
-requests

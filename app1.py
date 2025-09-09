@@ -1,24 +1,85 @@
-from flask import Flask, render_template, make_response, jsonify, request, redirect, url_for, session, flash
+from flask import Flask, render_template, make_response, jsonify, request, redirect, url_for, flash, get_flashed_messages, g, session
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask import get_flashed_messages
 import os 
-import requests
 from functools import lru_cache
 import re
-import json
+from bs4 import BeautifulSoup, Comment
+import argostranslate.package as argos_pkg
+import argostranslate.translate as argos
 
 GREEK_REGEX = re.compile(r'[\u0370-\u03FF]')  # εύρεση ελληνικών χαρακτήρων
-LOCAL_ENDPOINT = 'http://127.0.0.1:5010/translate'
-PUBLIC_ENDPOINT = 'https://libretranslate.com/translate'
 
-
+@lru_cache(maxsize=1)
+def _installed_langs():
+    return argos.get_installed_languages()
 
 def _(text):
-    target = request.cookies.get('language', 'en')  # default στα αγγλικά
-    if target == 'el':
-        return text  # αν ζητάς ελληνικά, μην καλείς μεταφραστή
-    return translate(text, target_lang=target)
+    target = request.cookies.get('language', 'en')  # default EN
+    return translate_text(text, target_code=target)
+
+
+
+def _find_language(code: str):
+    for lang in _installed_langs():
+        if getattr(lang, "code", None) == code:
+            return lang
+    return None
+
+@lru_cache(maxsize=4)
+def _get_translator(src_code: str, tgt_code: str):
+    src = _find_language(src_code)
+    tgt = _find_language(tgt_code)
+    if not src or not tgt:
+        return None
+    try:
+        return src.get_translation(tgt)
+    except Exception:
+        return None
+
+def ensure_el_en_models(download_if_missing: bool = True):
+    have_el_en = bool(_get_translator("el", "en"))
+    have_en_el = bool(_get_translator("en", "el"))
+    if have_el_en and have_en_el:
+        return
+    if not download_if_missing:
+        return
+    try:
+        argos_pkg.update_package_index()
+        for p in argos_pkg.get_available_packages():
+            if {p.from_code, p.to_code} == {"el", "en"}:
+                argos_pkg.install_from_path(p.download())
+                _installed_langs.cache_clear()
+                _get_translator.cache_clear()
+    except Exception:
+        pass
+
+def _detect_lang(text: str) -> str:
+    return "el" if GREEK_REGEX.search(text or "") else "en"
+
+@lru_cache(maxsize=4096)
+def translate_text(text: str, target_code: str) -> str:
+    if not text:
+        return text
+    src = _detect_lang(text)
+    if src == target_code:
+        return text
+    tr = _get_translator(src, target_code)
+    if not tr:
+        return text
+    try:
+        return tr.translate(text)
+    except Exception:
+        return text
+
+
+# Κατέβασε μοντέλα (αν υπάρχει ίντερνετ). Αν όχι, δεν σπάει τίποτα.
+try:
+    ensure_el_en_models(download_if_missing=True)
+except Exception:
+    pass
 
 # Provide access to the current language for templates
 def get_locale():
@@ -30,94 +91,217 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+
+@app.get("/debug/argos")
+def debug_argos():
+    try:
+        langs = _installed_langs()
+        codes = [getattr(l, "code", "?") for l in langs]
+        tr_el_en = bool(_get_translator("el", "en"))
+        tr_en_el = bool(_get_translator("en", "el"))
+        return {
+            "cookie_language": request.cookies.get("language", "en"),
+            "installed_codes": codes,
+            "has_el_to_en": tr_el_en,
+            "has_en_to_el": tr_en_el,
+        }
+    except Exception as e:
+        return {"error": str(e)}, 500
+
+
+@app.before_request
+def _set_current_lang():
+    # Θέλεις default ΕΛΛΗΝΙΚΑ όταν δεν υπάρχει cookie:
+    g.current_lang = request.cookies.get("language", "el")
+
+@app.after_request
+def _translate_full_html_when_english(resp):
+    try:
+        p = request.path or ""
+        if p.startswith("/static/") or p.startswith("/api/") or p.startswith("/lang/") or p.startswith("/debug/"):
+            return resp
+
+        # Μόνο για κανονικές HTML αποκρίσεις (όχι 204/304/HEAD/streaming)
+        status = getattr(resp, "status_code", 200)
+        if status in (204, 304):
+            return resp
+        ct = (resp.headers.get("Content-Type") or "").lower()
+        if "text/html" not in ct:
+            return resp
+
+        # Για ασφάλεια σε streamed/redirect bodies:
+        try:
+            resp.direct_passthrough = False
+        except Exception:
+            pass
+
+        target = getattr(g, "current_lang", request.cookies.get("language", "el"))
+        # Πάντα no-cache για HTML (να μη «κολλάει» παλιό)
+        resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+        resp.headers["Pragma"] = "no-cache"
+
+        # ΜΟΝΟ όταν ζητάς Αγγλικά γίνεται καθολική μετάφραση
+        if target != "en":
+            return resp
+
+        html = resp.get_data(as_text=True) or ""
+        if not html.strip():
+            return resp
+
+        soup = BeautifulSoup(html, "html.parser")
+
+        # Μάζεψε ΜΟΝΟ πραγματικά ελληνικά text nodes (όχι scripts/styles/code/pre/noscript/comments/whitespace)
+        text_nodes = []
+        greek_texts = []
+        uniq_index = {}
+
+        for node in soup.find_all(string=True):
+            if isinstance(node, Comment):
+                continue
+            txt = str(node)
+            if not txt.strip():
+                continue
+            parent = (node.parent.name or "").lower() if node.parent else ""
+            if parent in ("script", "style", "code", "pre", "noscript"):
+                continue
+            # Κράτα ό,τι περιέχει ελληνικούς χαρακτήρες
+            if GREEK_REGEX.search(txt):
+                if txt not in uniq_index:
+                    uniq_index[txt] = len(greek_texts)
+                    greek_texts.append(txt)
+                text_nodes.append(node)
+
+        if not greek_texts:
+            return resp  # τίποτα για μετάφραση
+
+        # Μετάφραση όλων των μοναδικών ελληνικών φράσεων → Αγγλικά
+        translated = [translate_text(t, "en") for t in greek_texts]
+
+        # Αντικατάσταση στους κόμβους
+        for node in text_nodes:
+            idx = uniq_index[str(node)]
+            node.replace_with(translated[idx])
+
+        # Επιστροφή νέου HTML
+        new_html = str(soup)
+        resp.set_data(new_html)
+        # Μην πειράζεις το Content-Length — μερικοί servers το απαιτούν ακριβές
+        return resp
+
+    except Exception:
+        # Σε οποιοδήποτε σφάλμα, άφησε το αρχικό HTML (fail-safe)
+        return resp
+
+def _filter_autotranslate(s: str):
+    # αν για οποιονδήποτε λόγο δεν υπάρχει g.current_lang (π.χ. εκτός request), πέφτουμε στο cookie ή 'el'
+    target = getattr(g, "current_lang", request.cookies.get("language", "el"))
+    return translate_text(s, target)
+
+app.jinja_env.filters["autotranslate"] = _filter_autotranslate
+
+@app.context_processor
+def _inject_autotranslate():
+    def autotranslate(s: str):
+        return translate_text(s, g.current_lang)
+    return {"autotranslate": autotranslate, "current_lang": g.current_lang}
+
+app.jinja_env.filters["autotranslate"] = lambda s: translate_text(s, g.current_lang) #προαιρετικό  φίλτρο
+
+def _home_redirect():
+    # Προσπάθησε να επιστρέψεις εκεί που ήσουν
+    if request.referrer:
+        try:
+            return redirect(request.referrer)
+        except Exception:
+            pass
+    # Αλλιώς προσπάθησε γνωστά endpoints
+    for ep in ("home", "index"):
+        try:
+            return redirect(url_for(ep))
+        except Exception:
+            continue
+    # Τελευταίο fallback
+    return redirect("/")
+
+
+@app.get("/lang/<code>")
+def switch_lang(code):
+    code = (code or "").lower()
+    if code not in ("el", "en"):
+        code = "el"
+    resp = make_response(_home_redirect())
+    resp.set_cookie("language", code, max_age=60*60*24*90, path="/", samesite="Lax")
+    resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    resp.headers["Pragma"] = "no-cache"
+    return resp
+
+@app.get("/lang/reset")
+def lang_reset():
+    resp = make_response(_home_redirect())
+    resp.delete_cookie("language", path="/")
+    resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    resp.headers["Pragma"] = "no-cache"
+    return resp
+
+
+
+@app.post("/api/translate_bulk")
+def api_translate_bulk():
+    """
+    Δέχεται: {"items": ["κείμενο1", "κείμενο2", ...], "target": "en"|"el"}
+    Επιστρέφει: {"ok": true, "items": ["μετάφραση1", "μετάφραση2", ...]}
+    Η σειρά είναι 1:1 με την είσοδο.
+    """
+    data = request.get_json(force=True) or {}
+    items = data.get("items", [])
+    target = (data.get("target") or "en").strip().lower()
+    out = []
+    for s in items:
+        s = s or ""
+        out.append(translate_text(s, target))
+    resp = jsonify({"ok": True, "items": out})
+    resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    resp.headers["Pragma"] = "no-cache"
+    return resp
+
+
+# Συμβατότητα με παλιά κουμπιά/φόρμες:
+@app.get("/set_language/<lang>")
+def legacy_set_language(lang):
+    return switch_lang(lang)
+
+
+
+
+@lru_cache(maxsize=1)
+def _ready():
+    return True  # τα μοντέλα τα εγκαταστήσαμε ήδη
+
+def autodetect_and_translate(text: str, target_lang: str) -> str:
+    _ready()
+    has_greek = any('\u0370' <= ch <= '\u03FF' for ch in text)
+    source = "el" if has_greek else "en"
+    if source == target_lang:
+        return text
+    return argos_translate.translate(text, source, target_lang)
+
+@app.post("/api/translate")
+def api_translate():
+    data = request.get_json(force=True) or {}
+    text = data.get("q", "").strip()
+    target = data.get("target", "en").strip()
+    if not text:
+        return jsonify({"ok": False, "error": "empty text"}), 400
+    try:
+        out = translate_text(text, target)
+        return jsonify({"ok": True, "translatedText": out})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
 @app.context_processor
 def inject_translator():
     return dict(_=_, get_locale=get_locale)
-
-
-def _post_translate(url, text, source, target, timeout=5):
-    return requests.post(
-        url,
-        headers={'Content-Type': 'application/json'},
-        json={'q': text, 'source': source, 'target': target, 'format': 'text'},
-        timeout=timeout
-    )
-
-@lru_cache(maxsize=1024)
-def translate(text, target_lang='en'):
-    # Γρήγορο short-circuit
-    if not text or not isinstance(text, str):
-        return text
-
-    print(f"[DEBUG] Translating to: {target_lang} | Text: {text[:50]}...")
-
-    # 1) Αν φαίνεται ελληνικό, δοκίμασε πρώτα ρητά source='el' στο local.
-    source_guess = 'el' if GREEK_REGEX.search(text) else 'auto'
-
-    try:
-        # --- ΠΡΩΤΗ ΠΡΟΣΠΑΘΕΙΑ: τοπικός translator ---
-        r = _post_translate(LOCAL_ENDPOINT, text, source_guess, target_lang)
-        print("[DEBUG][LOCAL] Status:", r.status_code)
-        print("[DEBUG][LOCAL] Response:", r.text)
-
-        if r.ok:
-            data = r.json()
-            out = data.get('translatedText', text)
-            detected = (data.get('detectedLanguage') or {}).get('language')
-
-            # Αν γύρισε αμετάφραστο ή ανίχνευσε 'en' με μηδενική βεβαιότητα, κάνε failover
-            same_text = out.strip() == text.strip()
-            low_conf_en = (detected == 'en' and (data.get('detectedLanguage') or {}).get('confidence', 1.0) == 0.0)
-
-            if not same_text and not low_conf_en:
-                return out
-            else:
-                print("[DEBUG] Local translator returned same text or low-confidence detection; trying public.")
-        else:
-            # 400 κλπ (π.χ. "el is not supported")
-            print("[DEBUG] Local translator error; trying public.")
-    except Exception as e:
-        print(f"[ERROR] Local translate error: {e}. Trying public endpoint...")
-
-    # 2) FAILOVER: δημόσιο endpoint με καθαρό source
-    try:
-        fallback_source = 'el' if GREEK_REGEX.search(text) else 'auto'
-        r2 = _post_translate(PUBLIC_ENDPOINT, text, fallback_source, target_lang)
-        print("[DEBUG][PUBLIC] Status:", r2.status_code)
-        print("[DEBUG][PUBLIC] Response:", r2.text)
-
-        if r2.ok:
-            data2 = r2.json()
-            out2 = data2.get('translatedText', text)
-            return out2
-    except Exception as e2:
-        print(f"[ERROR] Public translate error: {e2}")
-
-    # 3) Τελικό fallback: επέστρεψε όπως είναι για να μην “χαλάσεις” UI
-    return text
-
-
-
-def autotranslate(text):
-    try:
-        target = request.cookies.get('language', 'en')
-    except RuntimeError:
-        target = 'en'
-    return text if target == 'el' else translate(text, target_lang=target)
-
-app.jinja_env.filters['autotranslate'] = autotranslate
-
-
-@app.route('/set_language/<lang>')
-def set_language(lang):
-    response = make_response(redirect(request.referrer or '/'))
-    response.set_cookie('language', lang, max_age=60*60*24*30)  # 30 ημέρες
-    return response
-
-
-@app.route('/ping-translate')
-def ping_translate():
-    return translate('Καλημέρα', 'en')
 
 
 # Μοντέλα
