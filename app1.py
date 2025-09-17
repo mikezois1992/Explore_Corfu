@@ -1,4 +1,4 @@
-from flask import Flask, render_template, make_response, jsonify, request, redirect, url_for, flash, get_flashed_messages, g, session
+from flask import Flask, render_template, make_response, jsonify, request, redirect, url_for, flash, g, session
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -73,17 +73,16 @@ def translate_text(text: str, target_code: str) -> str:
         return tr.translate(text)
     except Exception:
         return text
-
-
-# Κατέβασε μοντέλα (αν υπάρχει ίντερνετ). Αν όχι, δεν σπάει τίποτα.
 try:
     ensure_el_en_models(download_if_missing=True)
 except Exception:
     pass
 
 # Provide access to the current language for templates
+
+
 def get_locale():
-    return request.cookies.get('language', 'en')  # ίδιο default
+    return request.cookies.get('language', 'en')  
 
 app = Flask(__name__)
 app.secret_key = 'my_secret_key'
@@ -111,7 +110,7 @@ def debug_argos():
 
 @app.before_request
 def _set_current_lang():
-    # Θέλεις default ΕΛΛΗΝΙΚΑ όταν δεν υπάρχει cookie:
+    # default ΕΛΛΗΝΙΚΑ όταν δεν υπάρχει cookie:
     g.current_lang = request.cookies.get("language", "el")
 
 @app.after_request
@@ -120,41 +119,29 @@ def _translate_full_html_when_english(resp):
         p = request.path or ""
         if p.startswith("/static/") or p.startswith("/api/") or p.startswith("/lang/") or p.startswith("/debug/"):
             return resp
-
-        # Μόνο για κανονικές HTML αποκρίσεις (όχι 204/304/HEAD/streaming)
         status = getattr(resp, "status_code", 200)
         if status in (204, 304):
             return resp
         ct = (resp.headers.get("Content-Type") or "").lower()
         if "text/html" not in ct:
             return resp
-
-        # Για ασφάλεια σε streamed/redirect bodies:
         try:
             resp.direct_passthrough = False
         except Exception:
             pass
-
         target = getattr(g, "current_lang", request.cookies.get("language", "el"))
-        # Πάντα no-cache για HTML (να μη «κολλάει» παλιό)
         resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
         resp.headers["Pragma"] = "no-cache"
-
-        # ΜΟΝΟ όταν ζητάς Αγγλικά γίνεται καθολική μετάφραση
+    # ΜΟΝΟ όταν ζητάς Αγγλικά γίνεται καθολική μετάφραση
         if target != "en":
             return resp
-
         html = resp.get_data(as_text=True) or ""
         if not html.strip():
             return resp
-
         soup = BeautifulSoup(html, "html.parser")
-
-        # Μάζεψε ΜΟΝΟ πραγματικά ελληνικά text nodes (όχι scripts/styles/code/pre/noscript/comments/whitespace)
         text_nodes = []
         greek_texts = []
         uniq_index = {}
-
         for node in soup.find_all(string=True):
             if isinstance(node, Comment):
                 continue
@@ -170,26 +157,18 @@ def _translate_full_html_when_english(resp):
                     uniq_index[txt] = len(greek_texts)
                     greek_texts.append(txt)
                 text_nodes.append(node)
-
         if not greek_texts:
-            return resp  # τίποτα για μετάφραση
-
-        # Μετάφραση όλων των μοναδικών ελληνικών φράσεων → Αγγλικά
+            return resp  
         translated = [translate_text(t, "en") for t in greek_texts]
-
         # Αντικατάσταση στους κόμβους
         for node in text_nodes:
             idx = uniq_index[str(node)]
             node.replace_with(translated[idx])
-
         # Επιστροφή νέου HTML
         new_html = str(soup)
         resp.set_data(new_html)
-        # Μην πειράζεις το Content-Length — μερικοί servers το απαιτούν ακριβές
         return resp
-
     except Exception:
-        # Σε οποιοδήποτε σφάλμα, άφησε το αρχικό HTML (fail-safe)
         return resp
 
 def _filter_autotranslate(s: str):
@@ -244,7 +223,6 @@ def lang_reset():
     return resp
 
 
-
 @app.post("/api/translate_bulk")
 def api_translate_bulk():
     """
@@ -264,14 +242,10 @@ def api_translate_bulk():
     resp.headers["Pragma"] = "no-cache"
     return resp
 
-
 # Συμβατότητα με παλιά κουμπιά/φόρμες:
 @app.get("/set_language/<lang>")
 def legacy_set_language(lang):
     return switch_lang(lang)
-
-
-
 
 @lru_cache(maxsize=1)
 def _ready():
@@ -441,8 +415,6 @@ def delete_search(search_id):
     return redirect(url_for('history'))
 
 
-
-
 # Route για Logout
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -457,8 +429,6 @@ def logout():
 def guest():
     session['guest'] = True
     return redirect(url_for('home'))
-
-
 
 
 SUGGESTIONS = [{
