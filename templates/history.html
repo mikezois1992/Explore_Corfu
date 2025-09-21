@@ -1,33 +1,39 @@
 {% extends "template.html" %}
 {% block content %}
 
- <div class="history-container" style="max-width: 800px; margin: 0 auto; padding: 2rem;">
-        <h1 style="text-align: center; color: #333; margin-bottom: 1.5rem;">{{ 'Ιστορικό Αναζητήσεων' | autotranslate }}</h1>
+ <section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+        <h1 class="text-center text-dark mb-4">{{ 'Ιστορικό Αναζητήσεων' | autotranslate }}</h1>
 
-         {% if searches %}
-            <ol class="list-group list-group-numbered" style="padding: 0;">
-                {% for search in searches %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            {% if search.url %}
-                                <a href="{{ search.url }}" style="text-decoration: none; color: #1a73e8;">
-                                    {{ search.location }}
-                                </a>
-                            {% else %}
-                                {{ search.location }}
-                            {% endif %}
-                        </div>
-                        <form action="{{ url_for('delete_search', search_id=search.id) }}" method="post" style="margin:0;">
-                            <button type="submit" class="btn btn-sm btn-danger">{{ 'Διαγραφή' | autotranslate }}</button>
-                        </form>
-                    </li>
-                {% endfor %}
-            </ol>
+ {% if searches %}
+          <ol class="list-group list-group-numbered ps-0">
+            {% for search in searches %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  {% if search.url %}
+                    <a href="{{ search.url }}" class="text-decoration-none link-primary">
+                      {{ search.location }}
+                    </a>
+                  {% else %}
+                    {{ search.location }}
+                  {% endif %}
+                </div>
+                <form action="{{ url_for('delete_search', search_id=search.id) }}" method="post" class="mb-0">
+                  <button type="submit" class="btn btn-sm btn-danger">{{ 'Διαγραφή' | autotranslate }}</button>
+                </form>
+              </li>
+            {% endfor %}
+          </ol>
         {% else %}
-            <p style="text-align: center; color: #777;">{{ 'Δεν υπάρχουν αναζητήσεις ακόμα.' | autotranslate }}</p>
-     {% endif %}
-
+          <p class="text-center text-muted">{{ 'Δεν υπάρχουν αναζητήσεις ακόμα.' | autotranslate }}</p>
+        {% endif %}
+          <h1 class="text-center text-dark mt-4">{{ 'Ιστορικό Αναζητήσεων' | autotranslate }}</h1>
+      </div>
     </div>
+  </div>
+</section>
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       <div class="container mt-3">
