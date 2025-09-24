@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+    <title>Old Fortress</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+  .map-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    gap: 20px;
+  }
+  .map {
+      width: 60%;  
+      height: 400px; 
+    }
+
+    .emoji-step {
+      margin: 5px 0;
+    }
+
+  .text-wrapper {
+    width: 40%;   
+    padding: 10px;
+  }
+  .paragraph {
+      margin-bottom: 15px;
+    }
+
+  .info-section {
+  width: 35%;
+  padding: 10px 15px;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <h2>Old Fortress</h2>  
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"  aria-current="true" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3"  aria-current="true" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3"  aria-current="true" aria-label="Slide 4"></button>
+        
+        
+      </div>
+    
+      <!-- Inner -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{ url_for('static', filename='/img/palaio frourio/1.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/canal/palaio frourio/2.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/canal/palaio frourio/3.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/canal/palaio frourio/4.jpg') }}" class="d-block w-100" alt="CORFU4" style="width:100%;">
+        </div>
+         <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/canal/palaio frourio/5.jpg') }}" class="d-block w-100" alt="CORFU4" style="width:100%;">
+        </div>
+         <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/canal/palaio frourio/6.jpg') }}" class="d-block w-100" alt="CORFU4" style="width:100%;">
+        </div>
+         <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/canal/palaio frourio/7.jpg') }}" class="d-block w-100" alt="CORFU4" style="width:100%;">
+        </div>
+    </div>
+</div>
+    
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+</div>
+
+<br>
+
+<section id="">
+      <p>
+          {{'Το Παλαιό Φρούριο της Κέρκυρας είναι ένα από τα πιο εμβληματικά και ιστορικά σημεία του νησιού.'|autotranslate}} 
+          {{'Βρίσκεται σε πολύ κοντινή απόσταση από τη Σπιανάδα (Spianada), την κεντρική πλατεία της πόλης, και είναι επισκέψιμο με τα πόδια σε λίγα λεπτά.'|autotranslate}}
+          {{'Το Παλαιό Φρούριο (ή Φρούριο της Κέρκυρας) είναι βυζαντινής προέλευσης και οχυρώθηκε δυναμικά από τους Βενετούς από τον 15ο έως τον 18ο αιώνα. Αρχική κατασκευή τον 8ο–12ο αιώνα.'|autotranslate}} 
+          {{'Το αναδόμησαν οι Βενετοί (1402–1797), οι οποίοι το μετέτρεψαν σε αδιαπέραστο στρατιωτικό φρούριο.'|autotranslation}}
+          {{'Περιβάλλεται από τάφρο (η "Contrafossa"), που απομόνωνε το φρούριο από την πόλη, με πρόσβαση μέσω γέφυρας.'|autotranslation}} 
+          {{'Έπαιξε καθοριστικό ρόλο στην άμυνα της Κέρκυρας απέναντι σε Οθωμανούς και άλλες επιθέσεις.'|autotranslation}} 
+          {{'Σήμερα φιλοξενεί εκθέσεις, συναυλίες και τμήμα του Ιονίου Πανεπιστημίου.'|autotranslation}} 
+          {{'Βρίσκεται πάνω σε χερσόνησο, πλήρως οχυρωμένη, με πανοραμική θέα στο Ιόνιο και την Παλιά Πόλη.'|autotranslation}}
+          {{'Περιβάλλεται από θαλάσσια τάφρο και διαθέτει μικρό λιμανάκι (για στρατιωτική χρήση παλαιότερα).'|autotranslation}}
+          {{'Εσωτερικά υπάρχουν πλακόστρωτα, φυτά, πεύκα και κυπαρίσσια.'|autotranslation}} 
+          {{'Στο Παλαιό Φρούριο της Κέρκυρας αξίζει να επισκεφτείς τον εντυπωσιακό φάρο στην κορυφή, απ’ όπου μπορείς να απολαύσεις πανοραμική θέα στην πόλη και στο Ιόνιο Πέλαγος.'|autotranslation}} 
+          {{'Μην παραλείψεις τον ναό του Αγίου Γεωργίου, ο οποίος θυμίζει αρχαιοελληνικό ναό και αποτελεί μοναδικό δείγμα αρχιτεκτονικής μέσα στο φρούριο. Κατά τη διάρκεια της περιήγησής σου, θα δεις αναπαλαιωμένα βενετσιάνικα κτίρια, προμαχώνες, στρατιωτικές εγκαταστάσεις και χώρους που σήμερα φιλοξενούν περιοδικές εκθέσεις τέχνης, συναυλίες και πολιτιστικές δράσεις.'|autotranslation}} 
+          {{'Η διαδρομή μέσα στο φρούριο συνδυάζει ιστορία, αρχιτεκτονική και εντυπωσιακές εικόνες της Κέρκυρας από ψηλά.'|autotranslation}}
+
+
+      </p>
+</section>
+<br>
+<br>
+
+<div class="map-wrapper">
+  <div class="map">
+    <iframe
+     src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d12292.47566010205!2d19.906367394631644!3d39.624526272922644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x135b5dd25e8671f3%3A0x2f4ed249e224afb8!2zzpvOuc68zrXOvc6xz4HPh861zq_OvyDOms6tz4HOus-Fz4HOsc-CLCDOlc64zr3Ouc66zq7PgiDOkc69z4TOuc-Dz4TOrM-DzrXPic-CLCDOms6tz4HOus-Fz4HOsQ!3m2!1d39.6269585!2d19.905528999999998!4m5!1s0x135b5de7cb71c073%3A0x350d5393feb10484!2zzqDOsc67zrHOuc-MIM6mz4HOv8-Nz4HOuc6_LCDOms6tz4HOus-Fz4HOsQ!3m2!1d39.623479599999996!2d19.9274977!5e0!3m2!1sel!2sgr!4v1748196954158!5m2!1sel!2sgr"  
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+  <div class="info-section">
+   </p>🚶‍♂️ {{'Αφετηρία: Πλατεία Σπιανάδα (η μεγαλύτερη της Ελλάδας)'|autotranslation}}
+        {{'Από τη Σπιανάδα, περπάτησε ανατολικά (προς τη θάλασσα), με κατεύθυνση την είσοδο του φρουρίου.'|autotranslation}}
+        {{'Περνάς μπροστά από το Λιστόν και τα ανάκτορα των Αγίων Μιχαήλ και Γεωργίου. Σε 2–3 λεπτά, φτάνεις στην ξύλινη γέφυρα που οδηγεί στην είσοδο του φρουρίου.'|autotranslation}}</p>
+  </div>
+  
+  <p class="paragraph">
+   🕒 <strong>{{'Διάρκεια:</strong> ~5 λεπτά'|autotranslation}}
+   <br>
+   📏 <strong>{{'Απόσταση:</strong>  ~250–300 μέτρα'|autotranslation}}<br>
+   💡 <strong>{{'Συμβουλή:</strong> Φόρεσε άνετα παπούτσια, πάρε νερό μαζί σου και αν έχεις χρόνο, ανέβα μέχρι τον φάρο στην κορυφή — είναι το πιο εντυπωσιακό σημείο για φωτογραφία και θέα.'|autotranslation}}
+  </p>  
+</div>
+{% extends "template.html" %}
+    {% block content %}
+    {% endblock %}
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          initLiveSearch();
+      });
+  </script>
+
+  </body>
+
+</html>
+
+

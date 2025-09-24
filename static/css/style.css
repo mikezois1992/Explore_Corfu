@@ -1,0 +1,525 @@
+
+* {box-sizing: border-box;}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+
+}
+
+#navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.topnav input[type=text] {
+  float: right;
+  padding: 6px;
+  margin-top: 8px;
+  margin-right: 16px;
+  border: none;
+  font-size: 17px;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .topnav a, .topnav input[type=text] {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  
+  .topnav input[type=text] {
+    border: 1px solid #ccc;  
+  }
+
+}
+.carousel-item img {
+  min-height: 300px;
+  object-fit: cover;
+}
+
+.logout-container {
+  position: absolute;
+  top: 10px;        /* same vertical position as the right buttons */
+  left: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 50px;
+}
+  .icon-box {
+    text-align: center;
+    width: 150px;
+}
+.icon-box img {
+    width: 100px;
+    height: 100px;
+    transition: transform 0.3s;
+}
+.icon-box img:hover {
+    transform: scale(1.1);
+}
+a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    margin-top: 10px;
+}
+
+.search-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.user-actions a {
+  display: inline-block;
+  margin-top: 0;
+}
+
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  background: white;
+  border-radius: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 20px;
+}
+
+.search-container input {
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  width: 300px;
+  outline: none;
+}
+.search-container input:focus {
+  box-shadow: 0 0 5px #007bff;
+  transform: scale(1.02);
+}
+.search-container button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.search-container button:hover {
+  background-color: #0056b3;
+}
+
+.links-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.links-wrapper a {
+  margin: 5px 0;
+  text-align: center;
+}
+
+
+
+.suggestions-list {
+  display: block !important;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 300px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: absolute;
+  top: 100%;
+  left: 0; 
+  z-index: 1000;
+  border-radius: 0 0 10px 10px;
+}
+
+
+.suggestion-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.suggestion-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.suggestion-info p {
+  margin: 2px 0 0;
+  font-size: 0.85em;
+  color: #666;
+}
+.suggestion-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 10px;
+  width: 100%;
+}
+
+.suggestion-link:hover {
+  background-color: #f1f1f1;
+}
+
+.history-list {
+  list-style: none;
+  margin: 5px 0 0;
+  padding: 0;
+  width: 300px;
+  text-align: left;
+}
+
+.history-list li {
+  padding: 5px 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.history-list li:hover {
+  background-color: #f1f1f1;
+}
+
+#map-container {
+  display: none; /* κρυφό στην αρχή */
+  width: 50vw; /* μισό πλάτος οθόνης */
+  height: 80vh; /* μισό ύψος οθόνης */
+  margin-top: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+#routes-map {
+  width: 100%;
+  height: 500px;
+  margin: 20px 0;
+}
+
+/* Style images inside Leaflet popups to fully cover the popup area */
+.leaflet-popup-content img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  display: block;
+}
+
+
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+#show-map-btn {
+  cursor: pointer;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  transition: background 0.3s;
+}
+
+#show-map-btn:hover {
+  background: #0056b3;
+}
+#about-us {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: justify; /* πλήρης στοίχιση */
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+}
+
+#about-us h2 {
+  text-align: center; /* Τίτλος στο κέντρο */
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #007bff;
+}
+#philosophy, #vision, #meet-the-island {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: justify;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+}
+
+#philosophy h2, #vision h2, #meet-the-island h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #007bff;
+}
+#why-walk, #favorite-routes, #walking-tips {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: justify;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+}
+
+#why-walk h2, #favorite-routes h2, #walking-tips h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #007bff;
+}
+#contact-us {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: justify;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+}
+
+#contact-us h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #007bff;
+}
+#contact-form {
+  max-width: 600px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  opacity: 1; /* Αρχικά εμφανίζεται κανονικά */
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+#contact-form input, #contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#contact-form button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#contact-form.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+#contact-form button:hover {
+  background-color: #0056b3;
+}
+
+#thank-you-message {
+  display: none; /* Αρχικά δεν φαίνεται */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in, visibility 0.5s ease-in;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  color: green;
+}
+
+#thank-you-message.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+.button-container {
+   position: fixed;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Container for language and logout buttons */
+.top-left-buttons {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  z-index: 1000;
+}
+
+  
+footer {
+  width: 100vw;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  position: relative;
+  left: 0;
+  bottom: 0;
+  margin: 0;
+  border: none;
+}
+.footer-inner {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+
+.alert {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+.alert-info {
+  background-color: #d9edf7;
+  color: #31708f;
+}
+.alert-warning {
+  background-color: #fcf8e3;
+  color: #8a6d3b;
+}
+.alert-success {
+  background-color: #dff0d8;
+  color: #3c763d;
+}
+.alert-danger {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+/* Map container for routes page */
+#routes-map {
+  width: 100%;
+  height: 500px;
+  margin: 20px 0;
+}

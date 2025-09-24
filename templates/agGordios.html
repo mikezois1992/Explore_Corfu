@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+    <title>Ag. Gordios</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+  .map-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    gap: 20px;
+  }
+  .map {
+      width: 60%;  
+      height: 400px; 
+    }
+
+    .emoji-step {
+      margin: 5px 0;
+    }
+
+  .text-wrapper {
+    width: 40%;   
+    padding: 10px;
+  }
+  .paragraph {
+      margin-bottom: 15px;
+    }
+
+  .info-section {
+  width: 35%;
+  padding: 10px 15px;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Ag. Gordios</h2>  
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"  aria-current="true" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3"  aria-current="true" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4"  aria-current="true" aria-label="Slide 5"></button>
+      </div>
+    
+      <!-- Inner -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{ url_for('static', filename='/img/Ag.Gorgios/nayagio agios gordis-20250524T162344Z-1-001/nayagio agios gordis/icon1.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Ag.Gorgios/nayagio agios gordis-20250524T162344Z-1-001/nayagio agios gordis/icon2.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Ag.Gorgios/nayagio agios gordis-20250524T162344Z-1-001/nayagio agios gordis/icon3.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Ag.Gorgios/nayagio agios gordis-20250524T162344Z-1-001/nayagio agios gordis/icon4.jpg') }}" class="d-block w-100" alt="CORFU4" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Ag.Gorgios/nayagio agios gordis-20250524T162344Z-1-001/nayagio agios gordis/icon5.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+      </div>
+    </div>
+    
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+</div>
+
+<br>
+
+<section id="">
+      <p>
+        {{'Ο Άγιος Γόρδιος είναι ένας γραφικός παραθαλάσσιος οικισμός στη δυτική ακτή της Κέρκυρας, περίπου 20 χιλιόμετρα από την πόλη της Κέρκυρας.'|autotranslate}} 
+          {{'Ανήκει διοικητικά στην τοπική κοινότητα Κάτω Γαρούνας, της δημοτικής ενότητας Αχιλλείων, του Δήμου Κεντρικής Κέρκυρας και Διαποντίων Νήσων.'|autotranslate}} 
+        {{'Η παραλία του Αγίου Γορδίου είναι μια από τις πιο δημοφιλείς στην Κέρκυρα, με μήκος περίπου 2,5 χιλιομέτρων. Προσφέρει χρυσή άμμο, καθαρά νερά και είναι ιδανική για οικογένειες, καθώς ο βυθός είναι ρηχός.'|autotranslate}}
+          {{'Το τοπίο περιβάλλεται από καταπράσινους λόφους με ελαιώνες και κυπαρίσσια, ενώ ο χαρακτηριστικός βράχος "Ορθολίθι" αναδύεται από τη θάλασσα στο νότιο άκρο της παραλίας.​'|autotranslate}}
+        {{'Η παραλία είναι πλήρως οργανωμένη, προσφέροντας ξαπλώστρες, ομπρέλες και θαλάσσια σπορ.'|autotranslate}}
+          {{'Κατά μήκος της ακτής υπάρχουν ταβέρνες και καφέ, όπου μπορείτε να απολαύσετε τοπικές γεύσεις και ποτά.'|autotranslate}}
+        {{'Ο Άγιος Γόρδιος απέχει περίπου 20 χιλιόμετρα από την πόλη της Κέρκυρας. Η πρόσβαση είναι εύκολη με αυτοκίνητο ή ταξί, ενώ υπάρχει και τακτική συγκοινωνία με λεωφορεία.'|autotranslate}}
+        {{'Στην περιοχή υπάρχουν πολλές επιλογές διαμονής, από ξενοδοχεία και διαμερίσματα μέχρι ενοικιαζόμενα δωμάτια, καλύπτοντας διάφορες προτιμήσεις και προϋπολογισμούς.'|autotranslate}}
+        {{'Ο Άγιος Γόρδιος συνδυάζει φυσική ομορφιά, άνεση και παραδοσιακή φιλοξενία, καθιστώντας τον ιδανικό προορισμό για χαλαρωτικές διακοπές στην Κέρκυρα.'|autotranslate}} 
+          {{'Αν θέλετε να περπατήσετε και να εξερευνήσετε τον Άγιο Γόρδιο με τα πόδια, μπορείτε να απολαύσετε έναν χαλαρό περίπατο που συνδυάζει παραδοσιακό χωριό, παραλία, και φύση για έναν κυκλικό περίπατο διάρκειας περίπου 1,5–2 ωρών.'|autotranslate}}
+      </p>
+</section>
+<br>
+<br>
+
+<div class="map-wrapper">
+  <div class="map">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d12306.730298582648!2d19.83537469455423!3d39.5442142423328!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e2!4m5!1s0x135ca758b7dd2523%3A0x55e191b74262a51f!2zzqPPhM6sz4POtyDOpc-AzrXPgc6xz4PPhM65zrrOv8-NIM6azqTOlc6bLCDOkc6zLiDOk8-Mz4HOtM65zr_PgiA0OTAgODQ!3m2!1d39.547495399999995!2d19.854248899999998!4m3!3m2!1d39.5436!2d19.8371!5e0!3m2!1sel!2sgr!4v1748185743533!5m2!1sel!2sgr" 
+      height="400"  
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+  <div class="info-section">🚩<p>{{'Αφετηρία:Ξεκινήστε από τον κεντρικό δρόμο (εκεί που σταθμεύουν συνήθως τα λεωφορεία/ταξί).'|autotranslate}}
+      {{'Μπείτε μέσα στο χωριό — στενά, ήσυχα δρομάκια με παραδοσιακά σπίτια, αυλές, λουλούδια. Μπορείτε να περάσετε και από τον Ιερό Ναό του Αγίου Γορδίου.'|autotranslate}}</p>
+   </p>🚶‍♂️  {{'Από το χωριό, περπατήστε προς την παραλία. Υπάρχει πεζόδρομος με ήπια κατηφόρα. Στον δρόμο θα δείτε μικρά καταστήματα, ταβέρνες και τουριστικά μαγαζιά.'|autotranslate}}</p>
+   <p> ⬆️ {{'Φτάνετε στην παραλία του Αγίου Γόρδιου. Αν έχει άμπωτη, περπάτηστε ξυπόλητοι στην άμμο και απολαύστε τον βράχο Ορθολίθι στο νότιο άκρο — εξαιρετικό σημείο για φωτογραφία.'|autotranslate}}</p>
+   <p> 🌉 {{'Αν νιώθετε ενεργητικοί, υπάρχει μονοπάτι στο νότιο μέρος της παραλίας (κοντά στον Ορθολίθι) που ανεβαίνει λίγο — προσφέρει θέα σε όλον τον κόλπο.'|autotranslate}} 
+       {{'Δεν είναι επίσημο μονοπάτι αλλά περνιέται εύκολα με αθλητικά παπούτσια.Καλή πεζοπορία και απολαύστε τη διαδρομή!'|autotranslate}}</p>
+  </div>
+  
+ 
+   <p>🕒 <strong>{{'Διάρκεια:'|autotranslate}}</strong> {{'~1.5 - 2 ώρες'|autotranslate}}</p><br>
+   <p>📏 <strong>{{'Απόσταση:'|autotranslate}}</strong>{{' ~ 2.5 χιλιόμετρα η παραλία'|autotranslate}}</p><br>
+   <p>💡 <strong>{{'Συμβουλή:'|autotranslate}}</strong>{{' Αθλητικά ή πέδιλα. Ώρα: Ιδανικά πρωί ή αργά το απόγευμα (για αποφυγή ήλιου)'|autotranslate}}</p> 
+</div>
+{% extends "template.html" %}
+    {% block content %}
+    {% endblock %}
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          initLiveSearch();
+      });
+  </script>
+
+  </body>
+
+</html>

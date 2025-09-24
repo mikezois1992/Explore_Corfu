@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+    <title>Makrades</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+  .map-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    gap: 20px;
+  }
+  .map {
+      width: 60%;  
+      height: 400px; 
+    }
+
+    .emoji-step {
+      margin: 5px 0;
+    }
+
+  .text-wrapper {
+    width: 40%;   
+    padding: 10px;
+  }
+  .paragraph {
+      margin-bottom: 15px;
+    }
+
+  .info-section {
+  width: 35%;
+  padding: 10px 15px;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <h2>Giannades</h2>  
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"  aria-current="true" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3"  aria-current="true" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4"  aria-current="true" aria-label="Slide 5"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="5" aria-current="true" aria-label="Slide 6"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="6"  aria-current="true" aria-label="Slide 7"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="7"  aria-current="true" aria-label="Slide 8"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="8"  aria-current="true" aria-label="Slide 9"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="9"  aria-current="true" aria-label="Slide 10"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="10"  aria-current="true" aria-label="Slide 11"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="11"  aria-current="true" aria-label="Slide 12"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="12"  aria-current="true" aria-label="Slide 13"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="13"  aria-current="true" aria-label="Slide 14"></button>
+      </div>
+    
+      <!-- Inner -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{ url_for('static', filename='/img/makrades/makrades/1.jpg.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/makrades/makrades/2.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/makrades/makrades/3.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/makrades/makrades/4.jpg') }}" class="d-block w-100" alt="CORFU4" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/makrades/makrades/5.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/makrades/makrades/6.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/makrades/makrades/7.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/makrades/makrades/8.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/makrades/makrades/9.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/makrades/makrades/10.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/makrades/makrades/11.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/makrades/makrades/12.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/makrades/makrades/13.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/makrades/makrades/14.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+     </div>
+</div>
+    
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+</div>
+
+<br>
+
+<section id="">
+      <p>
+        {{'Οι Μακράδες είναι ένα γραφικό, παραδοσιακό χωριό στη βορειοδυτική Κέρκυρα, μέσα σε καταπράσινο αιωνόβιο ελαιώνα, σε υψόμετρο περίπου 295–318 μέτρα πάνω από τη στάθμη της θάλασσας και πληθυσμό περίπου 124 μόνιμοι κάτοικοι.'|autotranslate}}
+         {{'Ανήκει στον Δήμο Κεντρικής Κέρκυρας και Διαποντίων Νήσων. Βρίσκεται πάνω σε ένα λόφο με ελαιόδεντρα, κοντά στην Παλαιοκαστρίτσα και το Αγγελόκαστρο (~1 χλμ περίπου). '|autotranslate}}
+        {{'Το χωριό διατηρεί την αρχιτεκτονική διάρκειας αιώνων — παλιά σπίτια, στενά στρωμένα σοκάκια και πλατείες, στοιχεία που μοιάζουν σαν να έχουν μείνει παγωμένα στον 13ο–17ο αιώνα και ειναι χτισμένο μέσα σε αιωνόβια ελαιόδεντρα, προβάλλει μια αυθεντική εικόνα της αγροτικής Κέρκυρας.'|autotranslate}}
+        {{'Στο χωριό υπάρχει η εκκλησία Αγίας Παρασκευής (17ος αιώνας), καθώς και καφενεία και ταβέρνες όπου μπορείς να δοκιμάσεις παραδοσιακές γεύσεις. Κοντινός περίπατος στο Αγγελόκαστρο (~1 χλμ).'|autotranslate}}
+        
+        </p>  
+</section>
+<br>
+<br>
+
+<div class="map-wrapper">
+  <div class="map">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d49118.461769282825!2d19.673081707182966!3d39.69686551305639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x135b5012a990ba9f%3A0x4280f0285593214!2zzqTOoc6fzqXOnM6gzojOpM6RIM6kzrHOss6tz4HOvc6xIM6azrHPhs6tLCDOpM-Bzr_Phc68z4DOrc-EzrEsIM6kz4HOv8-FzrzPgM61z4TPhM6xz4I!3m2!1d39.7066132!2d19.7470841!4m5!1s0x135b516ac6fd4c59%3A0x60d93e76aedffe1!2zzpHOs86zzrXOu8-MzrrOsc-Dz4TPgc6_LCDOoM6xzrvOsc65zr_Ous6xz4PPhM-Bzq_PhM61z4I!3m2!1d39.6782141!2d19.6865652!5e0!3m2!1sel!2sgr!4v1748196257884!5m2!1sel!2sgr"
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+  <div class="info-section">🚩<p> {{'Απευθείας διαδρομή Μακράδες - Αγγελόκαστρο'|autotranslate}}  </p> <br>
+     
+                                 
+  </div>
+  
+  <p class="paragraph">
+      <strong>{{'Μακράδες - Αγγελόκαστρο:'|autotranslate}}</strong> <br>
+   🕒 <strong>{{'Διάρκεια:</strong>περίπου 1 ώρα κατά μέσο όρο για πήγαινε-έλα.'|autotranslate}}
+   <br>
+   📏 <strong>{{'Απόσταση:</strong> ~ περίπου 3 km (1,9 μίλια) μονόδρομα. H διαδρομή θεωρείται ευκολη-μέτρια, με λίγες ανηφοριές και ίσως σκαλοπάτια προς την κορυφή του κάστρου'|autotranslate}}<br>
+   💡 <strong>{{'Συμβουλή:</strong> Συνίσταται εξοπλισμός: πεζοπορικά παπούτσια ή παπούτσια νερού, καπέλο, αντηλιακό, νερό.'|autotranslate}}
+<br>
+<br>
+     <strong>{{'Κυκλική διαδρομή Μακράδες – Κρήνη – Αγγελόκαστρο – Μακράδες:'|autotranslate}}</strong><br>
+     🕒 <strong>{{'Διάρκεια:</strong>περίπου 1 ώρα 47 λεπτά'|autotranslate}}
+   <br>
+   📏 <strong>{{'Απόσταση:</strong> ~ Απόσταση περίπου 5,8–6 km, σε υψόμετρο περίπου 120–130 m ανόδου'|autotranslate}} <br>
+   💡 <strong>{{'Συμβουλή:</strong> Συνίσταται εξοπλισμός: πεζοπορικά παπούτσια ή παπούτσια νερού, καπέλο, αντηλιακό, νερό, μπαστούνι, σνακ, κινητό, και βασικά είδη πρώτων βοηθειών.'|autotranslate}}
+    {{'Μια όμορφη διαδρομή μέσα από ελαιώνες και παλιές πορτοκαλιές. Στάσεις στην Κρήνη και κατά την ανηφόρα προς το κάστρο σου χαρίζουν υπέροχη θέα προς τον Θερμαϊκό Κόλπο και τα βόρεια ακρωτήρια της Κέρκυρας.'|autotranslate}}
+      {{'Το ίδιο το Αγγελόκαστρο προσφέρει εξαιρετικό πανοραμικό σημείο πάνω από το Ιόνιο'|autotranslate}}
+      
+  </p>  
+</div>
+{% extends "template.html" %}
+    {% block content %}
+    {% endblock %}
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          initLiveSearch();
+      });
+  </script>
+
+  </body>
+
+</html>

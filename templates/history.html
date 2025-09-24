@@ -1,0 +1,55 @@
+{% extends "template.html" %}
+{% block pre_header %}
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+        <h1 class="text-center text-dark mb-4">{{ 'Ιστορικό Αναζητήσεων' | autotranslate }}</h1>
+
+
+        {% if searches %}
+          <ol class="list-group list-group-numbered ps-0">
+            {% for search in searches %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  {% if search.url %}
+                    <a href="{{ search.url }}" class="text-decoration-none link-primary">
+                      {{ search.location }}
+                    </a>
+                  {% else %}
+                    {{ search.location }}
+                  {% endif %}
+                </div>
+                <form action="{{ url_for('delete_search', search_id=search.id) }}" method="post" class="mb-0">
+                  <button type="submit" class="btn btn-sm btn-danger">{{ 'Διαγραφή' | autotranslate }}</button>
+                </form>
+              </li>
+            {% endfor %}
+          </ol>
+        {% else %}
+          <p class="text-center text-muted">{{ 'Δεν υπάρχουν αναζητήσεις ακόμα.' | autotranslate }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="container mt-3">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+
+
+{% endblock %}
+

@@ -1,0 +1,168 @@
+<html lang="en" dir="ltr">
+    <head>
+    <title>Nisaki</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+  .map-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    gap: 20px;
+  }
+  .map {
+      width: 60%;  
+      height: 400px; 
+    }
+
+    .emoji-step {
+      margin: 5px 0;
+    }
+
+  .text-wrapper {
+    width: 40%;   
+    padding: 10px;
+  }
+  .paragraph {
+      margin-bottom: 15px;
+    }
+
+  .info-section {
+  width: 35%;
+  padding: 10px 15px;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Nisaki</h2>  
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"  aria-current="true" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3"  aria-current="true" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4"  aria-current="true" aria-label="Slide 5"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="5" aria-current="true" aria-label="Slide 6"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="6"  aria-current="true" aria-label="Slide 7"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="7"  aria-current="true" aria-label="Slide 8"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="8"  aria-current="true" aria-label="Slide 9"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="9"  aria-current="true" aria-label="Slide 10"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="10"  aria-current="true" aria-label="Slide 11"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="11"  aria-current="true" aria-label="Slide 12"></button>
+      </div>
+    
+      <!-- Inner -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{ url_for('static', filename='/img/Nisaki/nisaki pezoporia/icon1.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Nisaki/nisaki pezoporia/icon2.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Nisaki/nisaki pezoporia/icon3.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Nisaki/nisaki pezoporia/icon4.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Nisaki/nisaki pezoporia/icon5.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Nisaki/nisaki pezoporia/icon6.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Nisaki/nisaki pezoporia/icon7.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Nisaki/nisaki pezoporia/icon8.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Nisaki/nisaki pezoporia/icon9.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Nisaki/nisaki pezoporia/icon10.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Nisaki/nisaki pezoporia/icon11.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Nisaki/nisaki pezoporia/icon12.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+      </div>
+    </div>
+    
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+</div>
+
+<br>
+
+<section id="">
+      <p>
+      {{'Το Νησάκι είναι ένας παραθαλάσσιος οικισμός στη βορειοανατολική ακτή της Κέρκυρας, περίπου 25 χιλιόμετρα από την πόλη της Κέρκυρας.'|autotranslate}} {{'Το όνομά του σημαίνει "μικρό νησί", καθώς παλαιότερα ήταν ένας βραχώδης σχηματισμός που ενώθηκε με την ξηρά μέσω μπάζων από ένα παλιό λατομείο.'|autotranslate}}​
+      {{'Στην περιοχή προσφέρονται δραστηριότητες όπως ενοικίαση σκαφών, ημερήσιες κρουαζιέρες και καταδύσεις.'|autotranslate}} {{'Η παραλία είναι κατάλληλη για snorkeling, με βραχώδη βυθό και πλούσια θαλάσσια ζωή.'|autotranslate}} {{'Επιπλέον, υπάρχουν μονοπάτια που οδηγούν σε παραδοσιακά χωριά και παλιές εκκλησίες, όπως η εκκλησία των Αγίων Πάντων, όπου στις 14 Ιουνίου διοργανώνεται παραδοσιακό πανηγύρι με φαγητό και μουσική.'|autotranslate}}
+     {{'Το Νησάκι απέχει περίπου 25 χιλιόμετρα από την πόλη της Κέρκυρας και το αεροδρόμιο. Η πρόσβαση είναι εύκολη μέσω της κύριας παραλιακής οδού που συνδέει την πόλη με την Κασσιόπη.'|autotranslate}} 
+      {{'Υπάρχει τακτική συγκοινωνία με λεωφορεία του ΚΤΕΛ, ενώ το καλοκαίρι λειτουργεί και θαλάσσια συγκοινωνία.'|autotranslate}} {{'Στην περιοχή υπάρχουν διάφορες επιλογές διαμονής, από ενοικιαζόμενα δωμάτια και διαμερίσματα μέχρι ξενοδοχεία καθώς και ταβέρνες που προσφέρουν παραδοσιακή ελληνική κουζίνα και θαλασσινά.'|autotranslate}} {{'Η πεζοπορική διαδρομή από τον Ύψο προς το Νησάκι στην Κέρκυρα είναι μια όμορφη εμπειρία που συνδυάζει παραθαλάσσια τοπία και παραδοσιακά χωριά. Η απόσταση είναι περίπου 8 χιλιόμετρα και ο εκτιμώμενος χρόνος πεζοπορίας είναι 1 ώρα και 30 λεπτά, ανάλογα με τον ρυθμό σας και τις στάσεις που θα κάνετε.'|autotranslate}}
+      </p>
+</section>
+<br>
+<br>
+
+<div class="map-wrapper">
+  <div class="map">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m32!1m12!1m3!1d24554.592396131346!2d19.84198619413788!3d39.70989964469676!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m17!3e2!4m5!1s0x135b5b41118f5e5f%3A0x77e4bfea674df96b!2zzo7PiM6_z4I!3m2!1d39.6949845!2d19.8323289!4m3!3m2!1d39.724825599999996!2d19.8928428!4m5!1s0x135b43a9f680df65%3A0x500bd2ce2ba7510!2zzp3Ot8-DzqzOus65LCA0OTAgODM!3m2!1d39.7247942!2d19.8911762!5e0!3m2!1sel!2sgr!4v1748456585780!5m2!1sel!2sgr"
+      height="400"  
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+  <div class="info-section"> <p>🚩{{'Αφετηρία: Ύψος (Ipsos). Ξεκινήστε από τον παραλιακό δρόμο του Ύψου, κατευθυνόμενοι βόρεια προς το Μπαρμπάτι.'|autotranslate}}</p>
+    <p>🚶‍♂️ {{'Μετά από περίπου 20 λεπτά, θα φτάσετε στο Μπαρμπάτι, ένα γραφικό χωριό με όμορφη παραλία.'|autotranslate}} {{'Σημειώστε ότι δεν υπάρχει πεζοδρόμιο κατά μήκος του δρόμου, οπότε χρειάζεται προσοχή.'|autotranslate}}</p>
+    <p>⬆️ {{'Συνεχίστε στον ίδιο δρόμο για περίπου 40-50 λεπτά, περνώντας από μικρούς οικισμούς και απολαμβάνοντας τη θέα στη θάλασσα.'|autotranslate}} {{'Η διαδρομή είναι κυρίως επίπεδη, αλλά υπάρχουν κάποια σημεία με ανηφόρες.'|autotranslate}}</p>
+    <p>🌉 {{'Εφτασες!! Καλή πεζοπορία και απολαύστε τη διαδρομή!'|autotranslate}}</p>
+  </div>
+  
+  <p class="paragraph">
+    🕒 <strong>Διάρκεια:</strong> ~90 λεπτά<br>
+    📏 <strong>Απόσταση:</strong> ~ χιλιόμετρα<br>
+    💡 <strong>Συμβουλή:</strong> Προσοχή στην κυκλοφορία: Ο δρόμος είναι στενός και δεν διαθέτει πεζοδρόμιο. Περπατήστε στην αριστερή πλευρά του δρόμου, αντιμετωπίζοντας την κυκλοφορία. Άνετα παπούτσια και νερό ειδικά αν πας μεσημέρι.
+  </p> 
+</div>
+{% extends "template.html" %}
+    {% block content %}
+    {% endblock %}
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          initLiveSearch();
+      });
+  </script>
+
+  </body>
+
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}" dir="ltr">
+    <head>
+    <title>Vlaxerna</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+  .map-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    gap: 20px;
+  }
+  .map {
+      width: 60%;  
+      height: 400px; 
+    }
+
+    .emoji-step {
+      margin: 5px 0;
+    }
+
+  .text-wrapper {
+    width: 40%;   
+    padding: 10px;
+  }
+  .paragraph {
+      margin-bottom: 15px;
+    }
+
+  .info-section {
+  width: 35%;
+  padding: 10px 15px;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Vlaxerna</h2>  
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"  aria-current="true" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3"  aria-current="true" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4"  aria-current="true" aria-label="Slide 5"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="5" aria-current="true" aria-label="Slide 6"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="6"  aria-current="true" aria-label="Slide 7"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="7"  aria-current="true" aria-label="Slide 8"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="8"  aria-current="true" aria-label="Slide 9"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="9"  aria-current="true" aria-label="Slide 10"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="10"  aria-current="true" aria-label="Slide 11"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="11"  aria-current="true" aria-label="Slide 12"></button>
+      </div>
+    
+      <!-- Inner -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon1.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon2.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon3.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon4.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon5.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon6.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon7.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon8.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon9.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon10.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon11.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon12.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Vlaxerena/vlaxerna/icon13.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+      </div>
+    </div>
+    
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+</div>
+
+<br>
+
+<section id="">
+      <p>
+    {{'Η Βλαχέρνα, γνωστή και ως Παναγία των Βλαχερνών, είναι ένα από τα πιο εμβληματικά και γραφικά σημεία της Κέρκυρας.'|autotranslate}}
+    {{' Πρόκειται για μια μικρή νησίδα που φιλοξενεί την ομώνυμη μονή και βρίσκεται στη λιμνοθάλασσα Χαλικιόπουλου, ακριβώς απέναντι από το Ποντικονήσι και μπροστά από την περιοχή Κανόνι, νότια της πόλης της Κέρκυρας.'| autotranslate}}
+    {{'Η νησίδα απέχει περίπου 300 μέτρα από την ακτή και συνδέεται με αυτή μέσω μιας στενής πεζογέφυρας, καθιστώντας την εύκολα προσβάσιμη για τους επισκέπτες.'|autotranslate}} 
+          {{'Από τη Βλαχέρνα, μπορεί κανείς να νοικιάσει καραβάκι για να επισκεφθεί το κοντινό Ποντικονήσι.'| autotranslate}}
+    {{'Η μονή χτίστηκε κατά τον 17ο αιώνα, πιθανότατα κατά την περίοδο της Βενετοκρατίας.'|autotranslate}} 
+          {{'Αποτελούσε γυναικείο μοναστήρι μέχρι τη δεκαετία του 1980. Ο ναός διαθέτει ξυλόγλυπτο τέμπλο και φιλοξενεί την προσκυνηματική εικόνα της «Κυρίας της Βλαχέρνας».'| autotranslate}}
+    {{'Η μονή εορτάζει στις 2 Ιουλίου, ημέρα αφιερωμένη στην Παναγία των Βλαχερνών.'|autotranslate}} 
+          {{'Η λατρεία της Παναγίας Βλαχέραινας είναι ιδιαίτερα γνωστή στην Κέρκυρα, γεγονός που αποδεικνύεται από την ύπαρξη πολλών ναών αφιερωμένων σε αυτήν.'|autotranslate}}
+    {{'Η Βλαχέρνα, μαζί με το Ποντικονήσι, αποτελεί ένα από τα πιο φωτογραφημένα και αναγνωρίσιμα τοπία της Κέρκυρας.'|autotranslate}} 
+          {{'Η μοναδική της θέση, η αρχιτεκτονική του ναού και η θέα προς το Ποντικονήσι την καθιστούν αγαπημένο προορισμό για επισκέπτες και φωτογράφους.'|autotranslate}}
+    {{'Αν σχεδιάζετε να επισκεφθείτε τη Βλαχέρνα, προτείνεται να το κάνετε κατά τις απογευματινές ώρες για να απολαύσετε το ηλιοβασίλεμα και την ηρεμία του τοπίου.​ '|autotranslate}}
+    {{'Η απόσταση από το κέντρο της πόλης της Κέρκυρας έως τη Μονή Παναγίας των Βλαχερνών είναι περίπου 4,5 χιλιόμετρα.'|autotranslate}} 
+          {{'Η διαδρομή είναι σχετικά εύκολη και μπορεί να καλυφθεί με τα πόδια σε περίπου 1 ώρα, ανάλογα με τον ρυθμό περπατήματος.'|autotranslate}} 
+          {{'Η διαδρομή περνάει από γραφικές περιοχές όπως η Γαρίτσα και το Μον Ρεπό, προσφέροντας όμορφη θέα και ευχάριστο περίπατο.'|autotranslate}}
+    {{'Οδηγίες πρόσβασης για να πας με τα πόδια από το κέντρο της πόλης της Κέρκυρας (π.χ. από τη Σπιανάδα) στη Μονή Παναγίας των Βλαχερνών στην περιοχή Κανόνι:'|autotranslate}}
+      </p>
+</section>
+<br>
+<br>
+
+<div class="map-wrapper">
+  <div class="map">
+    <iframe
+    src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d24591.330440683716!2d19.89981239373672!3d39.60656779533143!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x135b5ddd6d3df05d%3A0x9a1a345ef7696c0b!2zzqDOu86xz4TOtc6vzrEgzqPPgM65zrHOvc6szrTOsSwgzpLOr866z4TPic-Bzr_PgiDOlM6_z43Pg868zrHOvc63IDcwLCDOms6tz4HOus-Fz4HOsSA0OTEgMDA!3m2!1d39.623081299999996!2d19.9245342!4m5!1s0x135b5e4458b12439%3A0xeb3b07963ab676c!2zzpnOtc-BzqwgzpzOv869zq4gzqDOsc69zrHOs86vzrHPgiDOks67zrHPh861z4HOvc-Ozr0sIM6gzrHOu86xzrnPjM-Azr_Ou863z4IsIM6azq3Pgc66z4XPgc6x!3m2!1d39.5899918!2d19.917144399999998!5e0!3m2!1sel!2sgr!4v1748456758964!5m2!1sel!2sgr" 
+      height="400"  
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+  <div class="info-section"> <p>🚩 {{'Αφετηρία: Πλατεία Σπιανάδα (Κέντρο Κέρκυρας)'|autotranslate}}</p>
+    <p>🚶‍♂️ {{'Κατευθύνσου νότια προς την παραλιακή λεωφόρο Γαρίτσας.'|autotranslate}}</p>
+    <p>🌳 {{'Πέρασε από το πάρκο και το Ανάκτορο Μον Ρεπό.'|autotranslate}}</p>
+    <p>⬆️ {{'Ανάβαση προς το Κανόνι μέσω της οδού Νικ. Ζερβού.'|autotranslate}}</p>
+    <p>🌉 {{'Φτάνεις στην πλατεία με την πεζογέφυρα για Βλαχέρνα.'|autotranslate}}</p>
+  </div>
+  
+  <p class="paragraph">
+    🕒 <strong>{{'Διάρκεια:</strong> ~50-60 λεπτά'|autotranslate}}<br>
+    📏 <strong>{{'Απόσταση:</strong> ~4,5 χιλιόμετρα'|autotranslate}}<br>
+    💡 <strong>{{'Συμβουλή:</strong> Άνετα παπούτσια και νερό ειδικά αν πας μεσημέρι.'|autotranslate}}
+  </p> 
+</div>
+{% extends "template.html" %}
+    {% block content %}
+    {% endblock %}
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          initLiveSearch();
+      });
+  </script>
+
+  </body>
+
+</html>

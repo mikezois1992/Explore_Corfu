@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <title>EXPLORE CORFU</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    footer {
+      width: 100% !important;
+    }
+  </style>
+</head>
+<body >
+  {% if session.get('username') %}
+  <div class="container mt-4">
+    <h4 class="text-success">{{'Καλωσόρισες, ' ~ session['username'] | autotranslate }}</h4>
+  </div>
+{% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="container mt-3">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+<div class="top-left-buttons">
+
+  
+<a href="{{ url_for('switch_lang', code='el') }}" class="btn btn-outline-primary">🇬🇷 Ελληνικά</a>
+<a href="{{ url_for('switch_lang', code='en') }}" class="btn btn-outline-secondary">🇬🇧 English</a>
+
+  <!-- Κουμπί Αποσύνδεσης -->
+  <form action="/logout" method="POST" style="margin: 0;">
+    <button type="submit" class="btn btn-danger">
+      {{ 'Αποσύνδεση' | autotranslate }}
+    </button>
+  </form>
+
+</div>
+
+
+  <div class="button-container">
+    <form action="/login" method="get" class="d-inline">
+        <button type="submit" class="btn btn-primary btn-lg">{{ 'Σύνδεση με Account' | autotranslate }}</button>
+    </form>
+    <form action="/guest" method="get" class="d-inline">
+        <button type="submit" class="btn btn-secondary btn-lg">{{ 'Συνέχεια ως Επισκέπτης' | autotranslate }}</button>
+    </form>
+  </div>
+
+<div class="container">
+    <h1>EXPLORE CORFU</h1>  
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+    
+      <!-- Inner -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{ url_for('static', filename='img/img1.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='img/img2.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='img/img3.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+      </div>
+    
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    
+  <section id="about-us">
+     <h2>{{ 'Περπατώντας στην Κέρκυρα' | autotranslate }}</h2>
+    <p>{{ 'Η Κέρκυρα είναι ένας τόπος που αξίζει να τον ζήσεις με το ρυθμό του περπατήματος.'|autotranslate}} {{'Μέσα από το site μας, σας προσκαλούμε να γνωρίσετε το νησί με έναν πιο αυθεντικό και βιωματικό τρόπο: περπατώντας.' | autotranslate }}</p>
+    <p>{{ 'Προτείνουμε διαδρομές που συνδυάζουν φυσικές ομορφιές, ιστορικά μνημεία και τοπικές παραδόσεις, δίνοντάς σας τη δυνατότητα να ανακαλύψετε την Κέρκυρα πέρα από τα συνηθισμένα.' | autotranslate }}</p>
+    <p>{{ 'Εξερευνήστε, εμπνευστείτε και απολαύστε κάθε σας βήμα!' | autotranslate }}</p>
+  </section>
+<div class="search-wrapper">
+  <form action="/search" method="POST" class="search-container">
+     <input type="text" id="search-input" name="location" placeholder="{{ 'Search...' | autotranslate }}" autocomplete="off">
+
+    <button type="submit">
+        🔍
+    </button>
+  </form>
+  <ul id="suggestions" class="suggestions-list"></ul>
+</div>
+</br>
+<div class="container">
+  <div class="icon-box">
+      <a href="/about">
+          <img src="{{ url_for('static', filename='img/info.png') }}" alt="About">
+          <span>{{ 'About Us' | autotranslate }}</span>
+      </a>
+  </div>
+  <div class="icon-box">
+      <a href="/routes">
+          <img src="{{ url_for('static', filename='img/routes.png') }}" alt="Routes">
+          <span>{{ 'Routes' | autotranslate }}</span>
+      </a>
+  </div>
+  <div class="icon-box">
+      <a href="/contact">
+          <img src="{{ url_for('static', filename='img/contact.png') }}" alt="Contact">
+          <span>{{ 'Contact' | autotranslate }}</span>
+      </a>
+  </div>
+</div>
+</div>
+<footer style="position: relative; left: 0; width: 100%; background-color: #333; color: white; text-align: center; padding: 20px 0; margin: 0; border: none;">
+  <div style="max-width: 100%; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; align-items: center;">
+    <p style="margin-bottom: 10px;">&copy; 2025 MyWebsite. {{ 'Όλα τα δικαιώματα κατοχυρωμένα.' | autotranslate }}</p>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+      <a href="/terms" style="color: white; text-decoration: none;">{{ 'Όροι Χρήσης' | autotranslate }}</a>
+      <span>|</span>
+      <a href="/privacy" style="color: white; text-decoration: none;">{{ 'Πολιτική Απορρήτου' | autotranslate }}</a>
+      <span>|</span>
+      <a href="/" style="color: white; text-decoration: none;">{{ 'Αρχική' | autotranslate }}</a>
+    </div>
+  </div>
+</footer>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      initLiveSearch();
+  });
+</script>
+</body>
+</html>

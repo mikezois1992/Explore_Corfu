@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+    <title>Nimfes</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+  .map-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    gap: 20px;
+  }
+  .map {
+      width: 60%;  
+      height: 400px; 
+    }
+
+    .emoji-step {
+      margin: 5px 0;
+    }
+
+  .text-wrapper {
+    width: 40%;   
+    padding: 10px;
+  }
+  .paragraph {
+      margin-bottom: 15px;
+    }
+
+  .info-section {
+  width: 35%;
+  padding: 10px 15px;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <h2>Nimfes</h2>  
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"  aria-current="true" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3"  aria-current="true" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4"  aria-current="true" aria-label="Slide 5"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="5" aria-current="true" aria-label="Slide 6"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="6"  aria-current="true" aria-label="Slide 7"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="7"  aria-current="true" aria-label="Slide 8"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="8"  aria-current="true" aria-label="Slide 9"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="9"  aria-current="true" aria-label="Slide 10"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="10"  aria-current="true" aria-label="Slide 10"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="11"  aria-current="true" aria-label="Slide 10"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="12"  aria-current="true" aria-label="Slide 10"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="13"  aria-current="true" aria-label="Slide 10"></button>
+      </div>
+    
+      <!-- Inner -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/1.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/2.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/3.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/4.jpg') }}" class="d-block w-100" alt="CORFU4" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/5.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/6.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/7.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/8.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/9.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/10.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/11.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/12.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/13.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Καταρράκτες Νυμφές/14.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+    </div>
+</div>
+    
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+</div>
+
+<br>
+
+<section id="">
+      <p>
+          {{'Βρίσκεται στην βόρεια Κέρκυρα, στο ορεινό τμήμα του όρους Παντοκράτορα, σε υψόμετρο περίπου 148 μ.'|autotranslate}}
+          {{'Είναι χτισμένο μέσα σε καταπράσινη κοιλάδα, περίπου 19 χλμ βόρεια της πόλης της Κέρκυρας.'|autotranslate}} 
+          {{'Περιβάλλεται από πεύκα, βελανιδιές, πλατύφυλλα δέντρα και ποταμάκια.'|autotranslate}} {{'Πρόκειται για γραφικό χωριό με παραδοσιακή πλατεία, πλούσια βλάστηση και άφθονες πηγές.'|autotranslate}}
+          {{'Ο κύριος καταρράκτης έχει ύψος περίπου 10–15 μέτρα, με ξέσπασμα νερού σε μια καταπράσινη χαράδρα.'|autotranslate}} 
+          {{'Υπάρχουν κι άλλοι μικρότεροι νότια, εφοδιασμένοι από χειμάρρους που καταβρέχουν το φαράγγι.'|autotranslate}} 
+          {{'Το όνομα "Νύμφες" προέρχεται από τις νύμφες, μυθικά όντα που λέγεται ότι λούζονταν στις πηγές και τους καταρράκτες της περιοχής.'|autotranslate}} 
+          {{'Επιπλέον σημεία ενδιαφέροντος: Ασκηταριό / τάφος Άρτεμιου Παίσιου: Μικρό εκκλησάκι – μονή που συναντάται κατά μήκος της διαδρομής.'|autotranslate}}
+          {{'Αγροτικό τοπίο με μελίσσια, ποτάμια και παραδοσιακές δομές — δίπλα στη μικρή τοπική αλληλεπίδραση.'|autotranslate}} 
+          {{'Ιδανικός προορισμός αν θες μικρή πεζοπορία μέσα στη φύση, πρόσβαση σε νερό, διάσπαρτα μονοπάτια και μυστική ατμόσφαιρα.'|autotranslate}} 
+      </p>
+</section>
+<br>
+<br>
+
+<div class="map-wrapper">
+  <div class="map">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d12269.527425919861!2d19.783818044756686!3d39.75353409168356!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x135b450b23625d21%3A0xad55b5c333b5ac95!2zzp3Pjc68z4bOtc-CLCA0OTAgODE!3m2!1d39.7558694!2d19.7827883!4m5!1s0x135b45018bcb44a3%3A0xde6b78246643cfb0!2zzprOsc-EzrHPgc-BzqzOus-EzrXPgiDOnc-FzrzPhs-Ozr0sIM6YzrnOvc6szrvOuQ!3m2!1d39.7509066!2d19.8051511!5e0!3m2!1sel!2sgr!4v1748196114212!5m2!1sel!2sgr"    
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+  <div class="info-section">🚩<p>{{'Αφετηρία:Πλατεία χωριού Νυμφών'|autotranslate}}</p>
+   </p>🚶‍♂️{{'Περνάς μπροστά από το γήπεδο ποδοσφαίρου.'|autotranslate}} </p>
+   <p> ⬆️ {{'Ακολουθείς χωματόδρομο/μονοπάτι για περίπου 1,5–2 χλμ'|autotranslate}}</p>
+   <p> 🌉 {{'Μπλε/κόκκινες πινακίδες κατά μήκος της διαδρομής, με κατευθύνσεις για μονοπάτια και σημεία ενδιαφέροντος όπως ασκηταριό ή αρχαίες πηγές'|autotranslate}}</p>
+  </div>
+  
+  <p class="paragraph">
+   🕒 <strong>{{'Διάρκεια:</strong> Περίπου 30–45 λεπτά ανά κατεύθυνση'|autotranslate}} 
+   <br>
+   📏 <strong>{{'Απόσταση:</strong> περίπου 1,5–2 χλμ'|autotranslate}}<br>
+   💡 <strong>{{'Συμβουλή:</strong> Φορέστε αθλητικό παπούτσι. Χωματόδρομος με ίσως ανηφορικά/κατηφορικά σημεία, αλλά γενικά εύκολη προς μέτρια διαδρομή, χωρίς τεχνικές δυσκολίες.'|autotranslate}}  
+  </p>  
+</div>
+{% extends "template.html" %}
+    {% block content %}
+    {% endblock %}
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          initLiveSearch();
+      });
+  </script>
+
+  </body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+

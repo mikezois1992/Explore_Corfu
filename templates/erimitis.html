@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+    <title>erimitis</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+  .map-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    gap: 20px;
+  }
+  .map {
+      width: 60%;  
+      height: 400px; 
+    }
+
+    .emoji-step {
+      margin: 5px 0;
+    }
+
+  .text-wrapper {
+    width: 40%;   
+    padding: 10px;
+  }
+  .paragraph {
+      margin-bottom: 15px;
+    }
+
+  .info-section {
+  width: 35%;
+  padding: 10px 15px;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <h2>Erimitis</h2>  
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"  aria-current="true" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3"  aria-current="true" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4"  aria-current="true" aria-label="Slide 5"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="5" aria-current="true" aria-label="Slide 6"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="6"  aria-current="true" aria-label="Slide 7"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="7"  aria-current="true" aria-label="Slide 8"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="8"  aria-current="true" aria-label="Slide 9"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="9"  aria-current="true" aria-label="Slide 10"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="10"  aria-current="true" aria-label="Slide 11"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="11"  aria-current="true" aria-label="Slide 12"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="12"  aria-current="true" aria-label="Slide 13"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="13"  aria-current="true" aria-label="Slide 14"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="14"  aria-current="true" aria-label="Slide 15"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="15"  aria-current="true" aria-label="Slide 16"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="16"  aria-current="true" aria-label="Slide 17"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="17"  aria-current="true" aria-label="Slide 18"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="18"  aria-current="true" aria-label="Slide 19"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="19"  aria-current="true" aria-label="Slide 20"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="20"  aria-current="true" aria-label="Slide 21"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="21"  aria-current="true" aria-label="Slide 22"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="22"  aria-current="true" aria-label="Slide 23"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="23"  aria-current="true" aria-label="Slide 24"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="24"  aria-current="true" aria-label="Slide 25"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="25"  aria-current="true" aria-label="Slide 26"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="26"  aria-current="true" aria-label="Slide 27"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="27"  aria-current="true" aria-label="Slide 28"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="28"  aria-current="true" aria-label="Slide 29"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="29"  aria-current="true" aria-label="Slide 30"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="30"  aria-current="true" aria-label="Slide 31"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="31"  aria-current="true" aria-label="Slide 32"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="32"  aria-current="true" aria-label="Slide 33"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="33"  aria-current="true" aria-label="Slide 34"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="34"  aria-current="true" aria-label="Slide 35"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="35"  aria-current="true" aria-label="Slide 36"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="36"  aria-current="true" aria-label="Slide 37"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="37"  aria-current="true" aria-label="Slide 38"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="38"  aria-current="true" aria-label="Slide 39"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="39"  aria-current="true" aria-label="Slide 40"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="40"  aria-current="true" aria-label="Slide 41"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="41"  aria-current="true" aria-label="Slide 42"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="42"  aria-current="true" aria-label="Slide 43"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="43"  aria-current="true" aria-label="Slide 44"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="44"  aria-current="true" aria-label="Slide 45"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="45"  aria-current="true" aria-label="Slide 46"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="46"  aria-current="true" aria-label="Slide 47"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="47"  aria-current="true" aria-label="Slide 48"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="48"  aria-current="true" aria-label="Slide 49"></button>
+      </div>
+    
+      <!-- Inner -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{ url_for('static', filename='/img//home/Erimitis/erimitis/Ερημίτης/1.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/2.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/3.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/4.jpg') }}" class="d-block w-100" alt="CORFU4" style="width:100%;">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/5.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/6.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/7.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/8.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/9.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/10.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/11.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/12.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/13.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/14.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/15.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/16.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/17.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/18.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/19.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/20.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/21.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/22.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/23.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/24.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/25.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/26.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/27.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/28.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/29.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/30.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/31.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/32.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/33.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/34.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/35.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/36.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/37.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/38.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/39.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/40.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/41.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/42.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/43.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/44.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/45.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/46.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/47.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/48.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+                </div>
+                <div class="carousel-item">
+            <img src="{{ url_for('static', filename='/img/Erimitis/erimitis/Ερημίτης/49.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+        </div>
+    </div>
+</div>
+    
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+</div>
+
+<br>
+
+<section id="">
+      <p>
+            {{'Η περιοχή Ερημίτης, στην βορειοανατολική Κέρκυρα μεταξύ Αγίου Στεφάνου Σινιών και Κασσιόπης, είναι ένα παρθένο φυσικό οικοσύστημα 2.000 περίπου στρεμμάτων.'|autotranslate}} 
+            {{'Η θέση της, ακριβώς απέναντι από τις Αλβανικές ακτές, έχει βοηθήσει στο να μείνει σχεδόν ανέγγιχτη από τον τουριστικό μαζικό σχεδιασμό.'|autotranslate}}
+            {{'Περιλαμβάνει πυκνή μεσογειακή βλάστηση, απόκρημνες ακτές, μικρούς όρμους, τρεις λίμνες (Άκολη, Βρωμολίμνη, Σαβούρα) που είναι προστατευόμενοι υγρότοποι.'|autotranslate}}
+            {{'Υπάρχουν αξιόλογα οικοσυστήματα ξηράς, γλυκού και θαλάσσιου περιβάλλοντος. Η παρουσία λιβαδιών Ποσειδωνίας έχει επιβεβαιωθεί από επιστημονικές μετρήσεις με πολύ καλή κατάσταση διατήρησης.'|autotranslate}}
+            {{'Στηρίζουν απειλούμενα είδη όπως μεσογειακή φώκια, ρινοδέλφινο και ενδημικά είδη πουλιών και θηλαστικών.'|autotranslate}}
+            {{'Η ακτογραμμή είναι πολυδαίδαλη, με μικρές απομονωμένες παραλίες όπως Αυλάκι, Βουβαλομάντρια, Βρωμολίμνη, Αριά, Ακώλη κ.ά. – οι περισσότερες προσβάσιμες μόνο με βάρκα ή από πεζοπορικά μονοπάτια.'|autotranslate}}
+            {{'Κατά την περίοδο της Ενετοκρατίας στρατιωτική χρήση για άμυνα· το 19ο αιώνα, επί Αγγλοκρατίας, χτίστηκε ο φάρος 9 μ. στο Κπαραρέλι για την ασφάλεια στη διέλευση των πλοίων.'|autotranslate}}
+            {{'Το 2013, 438 στρέμματα παραχωρήθηκαν από το ΤΑΙΠΕΔ στην εταιρεία NCH Capital για τουριστική επένδυση (ξενοδοχεία, μαρίνα, επαύλεις), με ισχυρή αντίδραση από κινήσεις πολιτών υπέρ της προστασίας.'|autotranslate}} 
+            {{'Τοπικές οργανώσεις και το WWF περιέλαβαν τις λίμνες στον κατάλογο προστατευόμενων μικρών νησιωτικών υγροτόπων.'|autotranslate}} 
+            {{'Το κίνημα Save Erimitis / Erimitis Plous δρα ενεργά από το 2012 με καμπάνιες, ενημερωτικά υλικά και υποστήριξη από φορείς όπως iSea, WWF Hellas, Ionian Environment Foundation.'|autotranslate}}
+            {{'Ο Ερημίτης είναι ξεχωριστή περιοχή πολύ μεγάλης οικολογικής, αισθητικής και πολιτιστικής αξίας.'|autotranslate}} 
+            {{'Πλάι στη φυσική ομορφιά, αποτελεί πεδίο έντονων αντιπαραθέσεων σχετικά με το μέλλον της – ανάμεσα σε προσπάθειες τουριστικής εκμετάλλευσης και σε δυνατή τοπική κινητοποίηση υπέρ της αυθεντικότητάς του.'|autotranslate}}
+            {{'Το μονοπάτι Ερημίτη ξεκινά από τον Άγιο Στέφανο Σινιών, διασχίζει ακρωτήρια, όρμους και λίμνες, διαρκεί περίπου 1–1,5 ώρα και είναι από τα τελευταία ανέγγιχτα πεζοπορικά μονοπάτια της Κέρκυρας.'|autotranslate}} 
+            {{'Το μονοπάτι είναι γραμμικό, ξεκινά από τον Άγιο Στέφανο Σινιών και φτάνει μέχρι την παραλία Αυλάκι (~4 km) με εναλλακτική επιστροφή ή τερματισμό εκεί.'|autotranslate}} 
+            {{'Ορισμένες εκδόσεις αναφέρουν 2.1 km για μικρό κύκλο (loop) ξεκινώντας από το Αυλάκι αντί για τον Άγιο Στέφανο.'|autotranslate}} 
+      
+        </p>  
+</section>
+<br>
+<br>
+
+<div class="map-wrapper">
+  <div class="map">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d12264.361514899621!2d19.923996544784956!3d39.78252708465266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x135b418b15690459%3A0x500bd2ce2bb1770!2zzprOsc-Dz4POuc-Mz4DOtw!3m2!1d39.7890307!2d19.9219513!4m5!1s0x135b6a00f6288065%3A0xf083e95ca2569eec!2zzpXPgc63zrzOr8-EzrfPgiwgzprOrc-BzrrPhc-BzrE!3m2!1d39.775991399999995!2d19.9478866!5e0!3m2!1sel!2sgr!4v1748196012681!5m2!1sel!2sgr" 
+      height="400"  
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+  <div class="info-section">🚩<p>{{'Αφετηρία: Απο τον Άγιο Στέφανων Σινιών 1 – 1½ ώρα για τη βασική διαδρομή (~4 km).Ο κύκλος των 2 km διαρκεί περίπου 55 λεπτά.Εύκολη διαδρομή, χαμηλή τεχνική δυσκολία και αντοχής.'|autotranslate}}</p>
+   </p>🚶‍♂️ {{'Κατά μήκος του μονοπατιού θα περάσετε από: Ακρωτήρια και απόκρημνες γωνιές (π.χ. Ξυλοκερατιά – παλιό λατομείο), Παραλίες: Ξυλοκερατιά, Ασπάλαθρα, Κορφοβουνιά, Αριά, Βουβαλομάντρια, Αυλάκι.'|autotranslate}}
+            {{'Τρεις λιμνούλες: Βρωμολίμνη, Άκολη, Σαβούρα. Θα συναντήσετε μια πλούσια μεσογειακή βλάστηση, ελαιώνες, πυκνά φρύγανα, καθώς και θαλάσσιες χελώνες, μεσογειακή φώκια, βίδρα και σπάνια πουλιά'|autotranslate}}</p>
+   <p> 🌉 {{'Το μονοπάτι είναι καλά σηματοδοτημένο με πινακίδες. Συνίσταται εξοπλισμός: πεζοπορικά παπούτσια ή παπούτσια νερού, καπέλο, αντηλιακό, νερό, μπαστούνι, σνακ, κινητό, και βασικά είδη πρώτων βοηθειών.'|autotranslate}}</p>
+  </div>
+  
+  <p class="paragraph">
+   🕒 <strong>{{'Διάρκεια:</strong> 1 – 1½ ώρα (σημαντική διαδρομή), ~55 λεπτά (loop).'|autotranslate}}
+   <br>
+   📏 <strong>{{'Απόσταση:</strong> ~ Περίπου 2,7 χλμ.'|autotranslate}}<br>
+   💡 <strong>{{'Συμβουλή:</strong> Συνίσταται εξοπλισμός: πεζοπορικά παπούτσια ή παπούτσια νερού, καπέλο, αντηλιακό, νερό, μπαστούνι, σνακ, κινητό, και βασικά είδη πρώτων βοηθειών.'|autotranslate}}
+  </p>  
+</div>
+{% extends "template.html" %}
+    {% block content %}
+    {% endblock %}
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          initLiveSearch();
+      });
+  </script>
+
+  </body>
+
+</html>
+
+
+
+
+
+
+
+
+

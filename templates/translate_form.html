@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8">
+  <title>Μετάφραση</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; max-width: 720px; margin: 2rem auto; }
+    textarea, select, button { font-size: 1rem; }
+    textarea { width: 100%; }
+    .row { margin: 0.5rem 0; }
+    .result { background: #f6f6f6; padding: 1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Μετάφραση</h1>
+  <form method="post">
+    <div class="row">
+      <label for="q">Κείμενο</label><br>
+      <textarea id="q" name="q" rows="4" placeholder="Γράψε εδώ..."></textarea>
+    </div>
+
+    <div class="row">
+      <label for="target">Γλώσσα προορισμού</label><br>
+      <select id="target" name="target">
+        <option value="el">Ελληνικά</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <button type="submit">Μετάφραση</button>
+    </div>
+  </form>
+
+  {% if result is not none %}
+    <h2>Αποτέλεσμα</h2>
+    <div class="result">{{ result }}</div>
+  {% endif %}
+</body>
+</html>

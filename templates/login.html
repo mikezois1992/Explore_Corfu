@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ 'Σύνδεση Χρήστη' | autotranslate }}</title>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .login-container h1 {
+            margin-bottom: 24px;
+            color: #333;
+            font-size: 26px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #74ebd5;
+            outline: none;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-container button:hover {
+            background: #43a047;
+        }
+
+        .register-link {
+            margin-top: 16px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .register-link a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .register-link a:hover {
+            color: #388e3c;
+        }
+    </style>
+
+    <!-- FontAwesome για icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+    <div class="login-container">
+        <h1>{{ 'Σύνδεση' | autotranslate }}</h1>
+        <form method="POST">
+            <div class="input-wrapper">
+                <i class="fas fa-user"></i>
+                <input type="text" name="username" placeholder="{{ 'Όνομα Χρήστη' | autotranslate }}" required>
+            </div>
+            <div class="input-wrapper">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="{{ 'Κωδικός' | autotranslate }}" required>
+            </div>
+            <button type="submit">{{ 'Σύνδεση' | autotranslate }}</button>
+        </form>
+    
+        <div class="register-link">
+            {{ 'Δεν έχεις λογαριασμό;' | autotranslate }} <a href="/register">{{ 'Εγγράψου εδώ' | autotranslate }}</a>
+        </div>
+    </div>
+    
+</body>
+</html>
+
