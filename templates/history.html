@@ -1,13 +1,13 @@
 {% extends "template.html" %}
-{% block content %}
-
- <section class="py-5">
+{% block pre_header %}
+<section class="py-5">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-lg-8">
         <h1 class="text-center text-dark mb-4">{{ 'Ιστορικό Αναζητήσεων' | autotranslate }}</h1>
 
- {% if searches %}
+
+        {% if searches %}
           <ol class="list-group list-group-numbered ps-0">
             {% for search in searches %}
               <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -29,11 +29,13 @@
         {% else %}
           <p class="text-center text-muted">{{ 'Δεν υπάρχουν αναζητήσεις ακόμα.' | autotranslate }}</p>
         {% endif %}
-          <h1 class="text-center text-dark mt-4">{{ 'Ιστορικό Αναζητήσεων' | autotranslate }}</h1>
       </div>
     </div>
   </div>
 </section>
+{% endblock %}
+
+{% block content %}
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       <div class="container mt-3">
