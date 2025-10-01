@@ -36,29 +36,33 @@
     </div>
   {% endif %}
 {% endwith %}
-<div class="top-left-buttons">
+<div class="w-100 text-center">
+  <div class="top-left-buttons">
 
-  
-<a href="{{ url_for('switch_lang', code='el') }}" class="btn btn-outline-primary">🇬🇷 Ελληνικά</a>
-<a href="{{ url_for('switch_lang', code='en') }}" class="btn btn-outline-secondary">🇬🇧 English</a>
+  <a href="{{ url_for('switch_lang', code='el') }}" class="btn btn-outline-primary">🇬🇷 Ελληνικά</a>
+  <a href="{{ url_for('switch_lang', code='en') }}" class="btn btn-outline-secondary">🇬🇧 English</a>
 
-  <!-- Κουμπί Αποσύνδεσης -->
-  <form action="/logout" method="POST" style="margin: 0;">
-    <button type="submit" class="btn btn-danger">
-      {{ 'Αποσύνδεση' | autotranslate }}
-    </button>
-  </form>
+    <!-- Κουμπί Αποσύνδεσης -->
+    <form action="/logout" method="POST" style="margin: 0;">
+      <button type="submit" class="btn btn-danger">
+        {{ 'Αποσύνδεση' | autotranslate }}
+      </button>
+    </form>
+
+  </div>
 
 </div>
 
 
-  <div class="button-container">
-    <form action="/login" method="get" class="d-inline">
-        <button type="submit" class="btn btn-primary btn-lg">{{ 'Σύνδεση με Account' | autotranslate }}</button>
-    </form>
-    <form action="/guest" method="get" class="d-inline">
-        <button type="submit" class="btn btn-secondary btn-lg">{{ 'Συνέχεια ως Επισκέπτης' | autotranslate }}</button>
-    </form>
+  <div class="w-100 text-center">
+    <div class="button-container">
+      <form action="/login" method="get" class="d-inline">
+          <button type="submit" class="btn btn-primary btn-lg">{{ 'Σύνδεση με Account' | autotranslate }}</button>
+      </form>
+      <form action="/guest" method="get" class="d-inline">
+          <button type="submit" class="btn btn-secondary btn-lg">{{ 'Συνέχεια ως Επισκέπτης' | autotranslate }}</button>
+      </form>
+    </div>
   </div>
 
 <div class="container">
