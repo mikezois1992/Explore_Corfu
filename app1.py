@@ -451,7 +451,7 @@ SUGGESTIONS = [{
     },
     {
         "title": "Arkoudilas",
-        "image": "/static/img/arkoudilas/arkoudilas/icon1.jpg.jpg",
+        "image": "/static/img/arkoudilas/arkoudilas/icon1.jpg",
         "description": "arkoudilas",
         "url": "/arkoudilas"
     },
@@ -501,7 +501,7 @@ SUGGESTIONS = [{
         "title": "MonRepos",
         "image": "/static/img/mon repo/1.jpg",
         "description": "MonRepos",
-        "url": "/MonRepos"
+        "url": "/monRepos"
     },
     {
         "title": "nimfes",
@@ -517,7 +517,7 @@ SUGGESTIONS = [{
     },
     {
         "title": "Porto Timoni ",
-        "image": "/static/img/Πόρτο Τιμόνι-αφιωνας/16.jpg",
+        "image": "/static/img/porto/1.jpg",
         "description": "Porto Timoni ",
         "url": "/porto_timoni"
     },
@@ -575,7 +575,7 @@ def suggest():
 
 @app.route("/about/")
 def about():
-    title = _('About Us')
+    title = ('About Us')
     return render_template("about.html", title=title)
 
 
@@ -589,8 +589,7 @@ def routes():
 
 @app.route("/vlaxerena/")
 def vlaxerena():
-    lang = request.cookies.get('language', 'el')
-    return render_template("vlaxerena.html", title="vlaxerena", lang=get_locale())
+    return render_template("vlaxerena.html", title="vlaxerena")
 
 @app.route("/Nisaki/")
 def nisaki():
@@ -632,9 +631,9 @@ def makrades():
 def cape():
     return render_template("Cape_Drastis.html", title="cape_drastis")
 
-@app.route("/MonRepos/")
+@app.route("/monRepos/")
 def monRepo():
-    return render_template("MonRepos.html", title="MonRepos")
+    return render_template("monRepos.html", title="MonRepos")
 
 @app.route("/nimfes/")
 def nimfes():
@@ -644,13 +643,13 @@ def nimfes():
 def oldFort():
     return render_template("oldFort.html", title="oldFortress")
 
-@app.route("/Porto Timoni/")
+@app.route("/porto_timoni/")
 def porto():
     return render_template("porto_timoni.html", title="Porto Timoni")
 
 @app.route("/Gastouri/")
 def gastouri():
-    return render_template("Gastori.html", title="Gastouri")
+    return render_template("Gastouri.html", title="Gastouri")
 
 @app.route("/perama/")
 def perama():
