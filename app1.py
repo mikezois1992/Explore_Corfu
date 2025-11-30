@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup, Comment
 import argostranslate.package as argos_pkg
 import argostranslate.translate as argos
 
+
 GREEK_REGEX = re.compile(r'[\u0370-\u03FF]')  # εύρεση ελληνικών χαρακτήρων
 
 @lru_cache(maxsize=1)
@@ -78,7 +79,7 @@ try:
 except Exception:
     pass
 
-# Provide access to the current language for templates
+
 
 
 def get_locale():
@@ -247,17 +248,6 @@ def api_translate_bulk():
 def legacy_set_language(lang):
     return switch_lang(lang)
 
-@lru_cache(maxsize=1)
-def _ready():
-    return True  # τα μοντέλα τα εγκαταστήσαμε ήδη
-
-def autodetect_and_translate(text: str, target_lang: str) -> str:
-    _ready()
-    has_greek = any('\u0370' <= ch <= '\u03FF' for ch in text)
-    source = "el" if has_greek else "en"
-    if source == target_lang:
-        return text
-    return argos_translate.translate(text, source, target_lang)
 
 @app.post("/api/translate")
 def api_translate():
@@ -540,7 +530,133 @@ SUGGESTIONS = [{
         "url": "/stavros"
     }
     ]
+# Προορισμοί για το /directions/<place>/
+# Τα κλειδιά είναι slugs που ταιριάζουν με τα URL του ROUTES (χωρίς /).
+DESTINATIONS = {
+    "vlaxerena": {
+        "slug": "vlaxerena",
+        "name": "Vlaxerena",
+        "lat": 39.60656779533143,
+        "lon": 19.89981239373672,
+    },
+    "Nisaki": {
+        "slug": "Nisaki",
+        "name": "Nisaki",
+        "lat": 39.70989964469676,
+        "lon": 19.84198619413788,
+    },
+    "agGordios": {
+        "slug": "agGordios",
+        "name": "Ag. Gordios",
+        "lat": 39.5442142423328,
+        "lon": 19.83537469455423,
+    },
+    "arkoudilas": {
+        "slug": "arkoudilas",
+        "name": "Arkoudilas",
+        "lat": 39.37473498319727,
+        "lon": 20.097719694390793,
+    },
+    "erimitis": {
+        "slug": "erimitis",
+        "name": "Erimitis",
+        "lat": 39.776846245788605,
+        "lon": 19.948111715082188,
+    },
+    "loggas": {
+        "slug": "loggas",
+        "name": "Loggas",
+        "lat": 39.788372986651034,
+        "lon": 19.66685356579295,
+    },
+    "canal": {
+        "slug": "canal",
+        "name": "Canal d’Amour",
+        "lat": 39.797028111633345,
+        "lon": 19.69802862278645,
+    },
+    "ermones": {
+        "slug": "ermones",
+        "name": "Ermones",
+        "lat": 39.610643947573266,
+        "lon": 19.77796491380511,
+    },
+    "giannades": {
+        "slug": "giannades",
+        "name": "Giannades",
+        "lat": 39.630422238067766,
+        "lon": 19.76331610069776,
+    },
+    "makrades": {
+        "slug": "makrades",
+        "name": "Makrades",
+        "lat": 39.688473001900796,
+        "lon": 19.68884659534223,
+    },
+    "Cape_Drastis": {
+        "slug": "Cape_Drastis",
+        "name": "Cape Drastis",
+        "lat": 39.79872004396612,
+        "lon": 19.67381089553243,
+    },
+    "MonRepos": {
+        "slug": "MonRepos",
+        "name": "Mon Repos",
+        "lat": 39.61013563708864,
+        "lon": 19.92732330901196,
+    },
+    "nimfes": {
+        "slug": "nimfes",
+        "name": "Nimfes Waterfalls",
+        "lat": 39.75091482023042,
+        "lon": 19.805129637856776,
+    },
+    "oldFort": {
+        "slug": "oldFort",
+        "name": "Old Fortress",
+        "lat": 39.624064992943545,
+        "lon": 19.92785386853177,
+    },
+    "porto_timoni": {
+        "slug": "porto_timoni",
+        "name": "Porto Timoni",
+        "lat": 39.71551228857589,
+        "lon": 19.65793458157802,
+    },
+    "perama": {
+        "slug": "perama",
+        "name": "Perama",
+        "lat": 39.58287914400098,
+        "lon": 19.913985372773638,
+    },
+    "Gastouri": {
+        "slug": "Gastouri",
+        "name": "Gastouri",
+        "lat": 39.56081200833922,
+        "lon": 19.901700340886574,
+    },
+    "stavros": {
+        "slug": "stavros",
+        "name": "Stavros",
+        "lat": 39.53192490198832,
+        "lon": 19.906588303186936,
+    },
+}
 
+def _slugify(s: str) -> str:
+    return (s or "").strip().lower()
+
+def get_destination(place: str):
+    s = _slugify(place)
+    for k, v in DESTINATIONS.items():
+        if _slugify(k) == s or _slugify(v.get("slug")) == s or _slugify(v.get("name")) == s:
+            return v
+    return None
+
+@app.context_processor
+def inject_route_destinations():
+    # Θα χρησιμοποιείται από τα templates για τη λίστα προορισμών
+    return {"ROUTE_DESTINATIONS": DESTINATIONS}
 
 # Καταχώρηση αναζήτησης
 @app.route('/search', methods=['POST'])
@@ -658,6 +774,30 @@ def perama():
 @app.route("/stavros/")
 def stavros():
     return render_template("stavros.html", title="Stavros")
+
+@app.get("/go")
+def go():
+    place_raw = (request.args.get("place") or "").strip()
+    if not place_raw:
+        flash(_('Δεν δόθηκε προορισμός.'), 'warning')
+        return redirect(url_for('routes')) if 'routes' in app.view_functions else redirect(url_for('home'))
+
+    dest = get_destination(place_raw)
+    if not dest:
+        flash(_('Ο προορισμός δεν βρέθηκε.'), 'danger')
+        return redirect(url_for('routes')) if 'routes' in app.view_functions else redirect(url_for('home'))
+
+    return redirect(url_for('directions', place=dest["slug"]))
+
+@app.get("/directions/<place>/")
+def directions(place):
+    dest = get_destination(place)
+    if not dest:
+        flash(_('Ο προορισμός δεν βρέθηκε.'), 'danger')
+        return redirect(url_for('routes')) if 'routes' in app.view_functions else redirect(url_for('home'))
+
+    from_query = (request.args.get("from") or "").strip()
+    return render_template("directions.html", dest=dest, from_query=from_query)
 
 if __name__ == '__main__':
     import os

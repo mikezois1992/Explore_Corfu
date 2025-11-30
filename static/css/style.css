@@ -625,3 +625,7 @@ footer {
   height: 500px;
   margin: 20px 0;
 }
+
+#map, .map-pane, .leaflet-container { width:100%; }
+#map { min-height: 420px; height: 60vh; }
+#map { height: 80vh !important; }

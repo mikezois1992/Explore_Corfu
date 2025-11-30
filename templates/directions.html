@@ -1,0 +1,142 @@
+{% extends "template.html" %}
+{% block title %}{{ _('Οδηγίες προς') }} {{ dest.name }}{% endblock %}
+
+{% block head_extra %}
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+<style>
+  #map { width:100%; height:70vh; border-radius:12px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="directions-page container py-3" style="max-width: 980px;">
+  <h1 class="mb-3">{{ _('Οδηγίες προς') }} {{ dest.name }}</h1>
+
+  <div class="route-panel row g-2 align-items-end">
+    <div class="col-12 col-md-6">
+      <label for="from-input" class="form-label">{{ _('Αφετηρία (γράψε μια τοποθεσία)') }}</label>
+      <input id="from-input" type="text" class="form-control"
+             placeholder="{{ _('π.χ. Spianada, Corfu') }}"
+             value="{{ from_query or '' }}">
+      <div class="form-text">{{ _('Αν το αφήσεις κενό, θα προσπαθήσουμε να χρησιμοποιήσουμε την τρέχουσα τοποθεσία σου.') }}</div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <label for="to-input" class="form-label">{{ _('Προορισμός') }}</label>
+      <input id="to-input" type="text" class="form-control" value="{{ dest.name }}" list="to-places">
+      <datalist id="to-places">
+        {% for k, v in ROUTE_DESTINATIONS.items() %}
+          <option value="{{ v.name }}">{{ v.slug }}</option>
+        {% endfor %}
+      </datalist>
+    </div>
+
+    <div class="col-12 col-md-2 d-flex gap-2">
+      <button id="btn-mypos" type="button" class="btn btn-secondary w-100">
+        {{ _('Χρήση τρέχουσας τοποθεσίας') }}
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <div id="map"></div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block scripts_extra %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // --- guard για πολλαπλά inits (π.χ. διπλό include template)
+  if (window.__leafletMapInit) return;
+  window.__leafletMapInit = true;
+
+  if (!document.getElementById('map')) { console.error('Missing #map'); return; }
+  if (typeof L === 'undefined') { alert('Leaflet not loaded'); return; }
+
+  // --- HTTPS/localhost μόνο για geolocation
+  const isLocalhost = ['localhost','127.0.0.1','::1'].includes(location.hostname);
+  const secureOk = location.protocol === 'https:' || isLocalhost;
+
+  // --- Προορισμός από Flask
+  const dest = { lat: {{ dest.lat }}, lon: {{ dest.lon }}, name: {{ dest.name|tojson }} };
+
+  // --- Χάρτης
+  const map = L.map('map', { scrollWheelZoom:true });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const destLatLng = L.latLng(dest.lat, dest.lon);
+  L.marker(destLatLng).addTo(map).bindPopup(dest.name);
+  map.setView(destLatLng, 14);
+
+  // fix render (L-shape) αν ο container πήρε ύψος μετά το init
+  const fixSize = () => map.invalidateSize();
+  requestAnimationFrame(fixSize);
+  window.addEventListener('resize', fixSize);
+
+  // --- Κουμπί «Use current location»
+  const btn = document.getElementById('btn-mypos');
+  if (!btn) { console.warn('Missing #btn-mypos'); return; }
+
+  async function locateWithTimeout(ms=12000) {
+    return new Promise((resolve, reject) => {
+      let done=false;
+      const t=setTimeout(()=>{ if(!done) reject(new Error('timeout')); }, ms);
+      if (!('geolocation' in navigator)) { clearTimeout(t); return reject(new Error('Geolocation not supported')); }
+      navigator.geolocation.getCurrentPosition(
+        pos => { done=true; clearTimeout(t); resolve(pos); },
+        err => { done=true; clearTimeout(t); reject(err); },
+        { enableHighAccuracy:true, timeout: ms, maximumAge:0 }
+      );
+    });
+  }
+
+  btn.addEventListener('click', async () => {
+    if (!secureOk) {
+      alert('Η τοποθεσία δουλεύει μόνο σε HTTPS ή σε localhost. Άνοιξε τη σελίδα σε https:// ή http://localhost:5000');
+      return;
+    }
+
+    // προέλεγχος permission (αν υποστηρίζεται)
+    try {
+      if (navigator.permissions?.query) {
+        const st = await navigator.permissions.query({ name: 'geolocation' });
+        if (st.state === 'denied') {
+          alert('Η τοποθεσία είναι μπλοκαρισμένη για αυτόν τον ιστότοπο.\nΛουκέτο στη γραμμή διεύθυνσης → Τοποθεσία → «Να ρωτάει κάθε φορά».');
+          return;
+        }
+      }
+    } catch(_) {}
+
+    const locating = L.popup({ closeOnClick:false, closeButton:false })
+      .setLatLng(destLatLng)
+      .setContent('📍 Εντοπισμός θέσης…')
+      .openOn(map);
+
+    try {
+      const pos = await locateWithTimeout();
+      map.closePopup(locating);
+
+      const user = L.latLng(pos.coords.latitude, pos.coords.longitude);
+      L.marker(user).addTo(map).bindPopup('Η θέση μου').openPopup();
+      L.polyline([user, destLatLng], { weight:4, opacity:0.85 }).addTo(map);
+      map.fitBounds(L.latLngBounds([user, destLatLng]).pad(0.25));
+    } catch (err) {
+      map.closePopup(locating);
+      const msgs = { 1:'Άρνηση πρόσβασης στην τοποθεσία.',
+                     2:'Αδυναμία προσδιορισμού τοποθεσίας.',
+                     3:'Λήξη χρόνου εντοπισμού.' };
+      alert(msgs[err?.code] || (err?.message === 'timeout' ? 'Έληξε ο χρόνος εντοπισμού.' : (err?.message || 'Σφάλμα εντοπισμού.')));
+      console.error(err);
+    }
+  });
+});
+</script>
+{% endblock %}
