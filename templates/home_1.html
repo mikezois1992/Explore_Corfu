@@ -15,6 +15,114 @@
     footer {
       width: 100% !important;
     }
+    /* ===== HERO OVERLAY πάνω στο carousel ===== */
+  /* Κάνει το carousel container "anchor" για absolute overlay */
+  #myCarousel { position: relative; }
+
+  .hero-overlay{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+    padding:5vw;
+    color:#fff;
+    background:linear-gradient(
+      90deg,
+      rgba(0,0,0,0.55) 0%,
+      rgba(0,0,0,0.25) 42%,
+      rgba(0,0,0,0.0) 75%
+    );
+    z-index:5;              /* πάνω από εικόνα */
+    pointer-events:none;    /* δεν “κλέβει” clicks από το carousel */
+  }
+
+  .hero-overlay h1{
+    font-size:clamp(2rem, 4vw, 3.5rem);
+    font-weight:800;
+    margin:0 0 .5rem 0;
+    letter-spacing:.5px;
+    text-transform:uppercase;
+  }
+
+  .hero-overlay p{
+    font-size:clamp(1rem, 1.6vw, 1.3rem);
+    max-width:560px;
+    margin:0 0 1.25rem 0;
+    opacity:0.95;
+  }
+
+  .hero-actions{
+    display:flex;
+    gap:1rem;
+    flex-wrap:wrap;
+    pointer-events:auto;   /* τα κουμπιά να πατιούνται */
+  }
+
+  /* Στο mobile γίνεται πιο “κάθετο” και με gradient από πάνω προς τα κάτω */
+  @media (max-width: 768px){
+    .hero-overlay{
+      align-items:center;
+      text-align:center;
+      background:linear-gradient(
+        180deg,
+        rgba(0,0,0,0.55) 0%,
+        rgba(0,0,0,0.35) 55%,
+        rgba(0,0,0,0.0) 85%
+      );
+    }
+  }
+  /* ===== FIX: Home top buttons layout (no overlap) ===== */
+  .home-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:10px 14px;
+    flex-wrap:wrap;          /* ΚΡΙΣΙΜΟ: να μη πέφτουν το ένα πάνω στο άλλο */
+    position:relative;
+    z-index:10;              /* πάνω από carousel */
+    background:#fff;         /* για να μην “χάνεται” πάνω στην εικόνα */
+  }
+
+  .home-topbar-left,
+  .home-topbar-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;          /* ΚΡΙΣΙΜΟ */
+    min-width:0;
+  }
+
+  /* ακύρωση παλιών/absolute rules αν υπάρχουν στο style.css */
+  .top-left-buttons{
+    position:static !important;
+    display:flex !important;
+    gap:10px !important;
+    flex-wrap:wrap !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    margin:0 !important;
+  }
+
+  .button-container{
+    position:static !important;
+    display:flex !important;
+    gap:10px !important;
+    flex-wrap:wrap !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    margin:0 !important;
+  }
+
+  /* σε πολύ μικρές οθόνες, τα δεξιά κουμπιά να πάνε κάτω */
+  @media (max-width: 520px){
+    .home-topbar-right{
+      width:100%;
+      justify-content:flex-end;
+    }
+  }#search-input { scroll-margin-top: 90px; }
   </style>
 </head>
 <body >
@@ -36,34 +144,37 @@
     </div>
   {% endif %}
 {% endwith %}
-<div class="w-100 text-center">
-  <div class="top-left-buttons">
+<div class="home-topbar">
+  <!-- Αριστερά: γλώσσες + αποσύνδεση -->
+  <div class="home-topbar-left top-left-buttons">
+    <a href="{{ url_for('switch_lang', code='el') }}" class="btn btn-outline-primary">🇬🇷 Ελληνικά</a>
+    <a href="{{ url_for('switch_lang', code='en') }}" class="btn btn-outline-secondary">🇬🇧 English</a>
 
-  <a href="{{ url_for('switch_lang', code='el') }}" class="btn btn-outline-primary">🇬🇷 Ελληνικά</a>
-  <a href="{{ url_for('switch_lang', code='en') }}" class="btn btn-outline-secondary">🇬🇧 English</a>
-
-    <!-- Κουμπί Αποσύνδεσης -->
-    <form action="/logout" method="POST" style="margin: 0;">
+    <!-- Αποσύνδεση μόνο αν υπάρχει user -->
+    {% if session.get('username') %}
+    <form action="/logout" method="POST" style="margin:0;">
       <button type="submit" class="btn btn-danger">
         {{ 'Αποσύνδεση' | autotranslate }}
       </button>
     </form>
-
+    {% endif %}
   </div>
 
+  <!-- Δεξιά: σύνδεση / επισκέπτης -->
+  <div class="home-topbar-right button-container">
+    <form action="/login" method="get" style="margin:0;">
+      <button type="submit" class="btn btn-primary btn-lg">
+        {{ 'Σύνδεση με Account' | autotranslate }}
+      </button>
+    </form>
+
+    <form action="/guest" method="get" style="margin:0;">
+      <button type="submit" class="btn btn-secondary btn-lg">
+        {{ 'Συνέχεια ως Επισκέπτης' | autotranslate }}
+      </button>
+    </form>
+  </div>
 </div>
-
-
-  <div class="w-100 text-center">
-    <div class="button-container">
-      <form action="/login" method="get" class="d-inline">
-          <button type="submit" class="btn btn-primary btn-lg">{{ 'Σύνδεση με Account' | autotranslate }}</button>
-      </form>
-      <form action="/guest" method="get" class="d-inline">
-          <button type="submit" class="btn btn-secondary btn-lg">{{ 'Συνέχεια ως Επισκέπτης' | autotranslate }}</button>
-      </form>
-    </div>
-  </div>
 
 <div class="container-fluid">
     <h1>EXPLORE CORFU</h1>  
@@ -87,7 +198,15 @@
           <img src="{{ url_for('static', filename='img/img3.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
         </div>
       </div>
-    
+      <div class="hero-overlay">
+  <h1>Explore Corfu</h1>
+  <p>Walk the island. Discover the unseen.</p>
+
+  <div class="hero-actions">
+    <a href="/routes" class="btn btn-primary btn-lg">🗺️ Explore Routes</a>
+    <a href="{{ url_for('go') }}" class="btn btn-outline-light btn-lg">📍 Where to go</a>
+  </div>
+</div>
       <!-- Controls -->
       <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -8,12 +8,13 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-    <!-- Custom styles -->
+  <!-- Custom styles -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/template.css') }}">
-  
+
   <!-- Bootstrap 5 JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<style>
+
+  <style>
     .go-box {
       margin-top: 0.5rem;
       padding: 0.75rem 1rem;
@@ -39,103 +40,104 @@
       color: #555;
     }
   </style>
+
   <!-- Search script -->
   <script src="{{ url_for('static', filename='js/search.js') }}"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-        initLiveSearch();
+      initLiveSearch();
     });
   </script>
+
   {% block head_extra %}{% endblock %}
 </head>
+
 <body>
-{% block pre_header %}{% endblock %}
+  {% block pre_header %}{% endblock %}
 
-{% block header %}
+  {% block header %}
+  <header class="py-3 border-bottom">
+    <div class="container header-container">
 
-<header class="py-3 border-bottom">
-   <div class="container header-container">
-
-    <!-- Search bar -->
-   <section class="search-area">
       <!-- Search bar -->
-      <div class="search-wrapper mb-3">
-         <form action="/search" method="POST" class="search-container d-flex gap-2">
-         <input type="text" id="search-input" name="location" class="form-control" placeholder="{{ 'Search...' | autotranslate }}" autocomplete="off" required>
-          <button type="submit" class="btn btn-outline-primary">🔍</button>
-        </form>
-        <ul id="suggestions" class="suggestions-list"></ul>
+      <section class="search-area">
+        <div class="search-wrapper mb-3">
+          <form action="/search" method="POST" class="search-container d-flex gap-2">
+            <input type="text" id="search-input" name="location" class="form-control"
+                   placeholder="{{ 'Search...' | autotranslate }}" autocomplete="off" required>
+            <button type="submit" class="btn btn-outline-primary">🔍</button>
+          </form>
+          <ul id="suggestions" class="suggestions-list"></ul>
+        </div>
+
+        <!-- Links -->
+        <div class="mb-3">
+          <a href="/history">{{ 'Ιστορικό Αναζητήσεων' | autotranslate }}</a>
+          <a href="/login">{{ 'Αλλαγή χρήστη' | autotranslate }}</a>
+        </div>
+      </section>
+
+      <!-- Icon boxes -->
+      <div class="d-flex flex-wrap justify-content-center gap-4">
+        <div class="icon-box text-center">
+          <a href="/about">
+            <img src="{{ url_for('static', filename='img/info.png') }}" alt="About">
+            <span>{{ 'About Us' | autotranslate }}</span>
+          </a>
+        </div>
+        <div class="icon-box text-center">
+          <a href="/routes">
+            <img src="{{ url_for('static', filename='img/routes.png') }}" alt="Routes">
+            <span>{{ 'Routes' | autotranslate }}</span>
+          </a>
+        </div>
+        <div class="icon-box text-center">
+          <a href="/contact">
+            <img src="{{ url_for('static', filename='img/contact.png') }}" alt="Contact">
+            <span>{{ 'Contact' | autotranslate }}</span>
+          </a>
+        </div>
+        <div class="icon-box text-center">
+          <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='img/home.png') }}" alt="Home">
+            <span>{{ 'Home' | autotranslate }}</span>
+          </a>
+        </div>
       </div>
 
-    <!-- Links -->
-      <div class="mb-3">
-        <a href="/history">{{ 'Ιστορικό Αναζητήσεων' | autotranslate }}</a>
-        <a href="/login">{{ 'Αλλαγή χρήστη' | autotranslate }}</a>
-      </div>
-    </section>
-    
-    <!-- Icon boxes -->
-    <div class="d-flex flex-wrap justify-content-center gap-4">
-      <div class="icon-box text-center">
-        <a href="/about">
-          <img src="{{ url_for('static', filename='img/info.png') }}" alt="About">
-          <span>{{ 'About Us' | autotranslate }}</span>
-        </a>
-      </div>
-      <div class="icon-box text-center">
-        <a href="/routes">
-          <img src="{{ url_for('static', filename='img/routes.png') }}" alt="Routes">
-            <span>{{ 'Routes' | autotranslate }}</span>
-        </a>
-      </div>
-      <div class="icon-box text-center">
-        <a href="/contact">
-          <img src="{{ url_for('static', filename='img/contact.png') }}" alt="Contact">
-          <span>{{ 'Contact' | autotranslate }}</span>
-        </a>
-      </div>
-      <div class="icon-box text-center">
-        <a href="{{ url_for('home') }}">
-          <img src="{{ url_for('static', filename='img/home.png') }}" alt="Home">
-           <span>{{ 'Home' | autotranslate }}</span>
-        </a>
-      </div>
     </div>
 
-  </div>
-  <!-- ========== GO: Απλή φόρμα προορισμού (εμφανίζεται σε όλες τις σελίδες) ========== -->
-<div class="go-box mt-3">
-  <div class="go-row">
-    <form action="{{ url_for('go') }}" method="get" class="d-flex flex-wrap gap-2">
-      <div class="w-100">
-        <label class="go-label" for="go-place">{{ 'Πού θέλεις να πας;' | autotranslate }}</label>
+    <!-- ========== GO: Απλή φόρμα προορισμού (εμφανίζεται σε όλες τις σελίδες) ========== -->
+    <div class="go-box mt-3">
+      <div class="go-row">
+        <form action="{{ url_for('go') }}" method="get" class="d-flex flex-wrap gap-2">
+          <div class="w-100">
+            <label class="go-label" for="go-place">{{ 'Πού θέλεις να πας;' | autotranslate }}</label>
+          </div>
+          <input id="go-place"
+                 name="place"
+                 list="go-places"
+                 class="form-control"
+                 style="max-width:320px"
+                 placeholder="{{ 'π.χ. vlaxerena, nisaki...' | autotranslate }}">
+          <datalist id="go-places">
+            {% for k, v in ROUTE_DESTINATIONS.items() %}
+              <option value="{{ v.slug }}">{{ v.name }}</option>
+            {% endfor %}
+          </datalist>
+          <button type="submit" class="btn btn-primary">{{ 'Πήγαινε' | autotranslate }}</button>
+        </form>
       </div>
-      <input id="go-place"
-             name="place"
-             list="go-places"
-             class="form-control"
-             style="max-width:320px"
-             placeholder="{{ 'π.χ. vlaxerena, nisaki...' | autotranslate }}">
-      <datalist id="go-places">
-        {% for k, v in ROUTE_DESTINATIONS.items() %}
-          <option value="{{ v.slug }}">{{ v.name }}</option>
-        {% endfor %}
-      </datalist>
-      <button type="submit" class="btn btn-primary">{{ 'Πήγαινε' | autotranslate }}</button>
-    </form>
-  </div>
-  <div class="go-hint">{{ 'Διάλεξε από τη λίστα ή γράψε το slug.' | autotranslate }}</div>
-</div>
-<!-- ============================================================================== -->
+      <div class="go-hint">{{ 'Διάλεξε από τη λίστα ή γράψε το slug.' | autotranslate }}</div>
+    </div>
+    <!-- ============================================================================== -->
 
-</header>
-{% endblock %}
-<!-- Main content block -->
-{% block content %}
-{% endblock %}
+  </header>
+  {% endblock %}
 
-<!-- Footer -->
-<footer class="footer">
+  {% block content %}{% endblock %}
+
+  <footer class="footer">
     <div class="footer-container">
       <p>&copy; 2025 MyWebsite. {{ 'Όλα τα δικαιώματα κατοχυρωμένα.' | autotranslate }}</p>
       <div class="footer-links">
@@ -147,7 +149,7 @@
       </div>
     </div>
   </footer>
-  
- {% block scripts_extra %}{% endblock %}
+
+  {% block scripts_extra %}{% endblock %}
 </body>
 </html>
