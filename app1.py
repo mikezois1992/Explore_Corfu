@@ -525,7 +525,7 @@ SUGGESTIONS = [{
     },
     {
         "title": "Stavros ",
-        "image": "static/img/stavros loop/1.jpg",
+        "image": "/static/img/stavros loop/1.jpg",
         "description": "Stavros ",
         "url": "/stavros"
     }
@@ -612,7 +612,7 @@ DESTINATIONS = {
         "lon": 19.805129637856776,
     },
     "oldFort": {
-        "slug": "oldFort",
+        "slug": "oldFortress",
         "name": "Old Fortress",
         "lat": 39.624064992943545,
         "lon": 19.92785386853177,
@@ -796,8 +796,16 @@ def directions(place):
         flash(_('Ο προορισμός δεν βρέθηκε.'), 'danger')
         return redirect(url_for('routes')) if 'routes' in app.view_functions else redirect(url_for('home'))
 
+    # --- ΣΗΜΑΝΤΙΚΟ: Μετατρέπουμε lon -> lng και ρητά σε float
+    map_dest = {
+        "slug": dest.get("slug"),
+        "name": dest.get("name"),
+        "lat": float(dest.get("lat")),
+        "lng": float(dest.get("lon")),   # <-- εδώ κάνουμε τον μετασχηματισμό
+    }
+
     from_query = (request.args.get("from") or "").strip()
-    return render_template("directions.html", dest=dest, from_query=from_query)
+    return render_template("directions.html", dest=map_dest, from_query=from_query)
 
 if __name__ == '__main__':
     import os

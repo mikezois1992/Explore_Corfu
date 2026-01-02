@@ -106,12 +106,12 @@ html, body {
   left: 20px;
 }
 
-.container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 40px;
-    margin-top: 50px;
+.home-icon-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-top: 50px;
 }
   .icon-box {
     text-align: center;
@@ -553,7 +553,7 @@ iframe {
 }
 
 @media (max-width: 576px) {
-  .container {
+  .home-icon-container {
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
@@ -569,6 +569,20 @@ iframe {
   }
 }
   
+
+/* --- Leaflet map: σταθερό ύψος + προστασία πλακιδίων --- */
+#map {
+  width: 100%;
+  height: 70vh;
+  min-height: 360px;
+}
+
+/* Πολύ σημαντικό: μην εφαρμόζεται responsive scaling στα tile <img> */
+.leaflet-container img {
+  max-width: none !important;
+}
+
+
 footer {
   width: 100vw;
   background-color: #333;
@@ -619,13 +633,4 @@ footer {
   color: #a94442;
 }
 
-/* Map container for routes page */
-#routes-map {
-  width: 100%;
-  height: 500px;
-  margin: 20px 0;
-}
 
-#map, .map-pane, .leaflet-container { width:100%; }
-#map { min-height: 420px; height: 60vh; }
-#map { height: 80vh !important; }
