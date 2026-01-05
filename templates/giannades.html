@@ -6,61 +6,36 @@
 <div class="container-lg py-3">
   <h2>Giannades</h2>
 
+  {# --- Images (1..12) --- #}
+  {% set images = [] %}
+  {% for i in range(1, 13) %}
+    {% set _ = images.append('img/giannades/Προφήτης Ηλίας- Γιαννάδες/' ~ i ~ '.jpg') %}
+  {% endfor %}
+
   <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+
     <!-- Indicators -->
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="6" aria-label="Slide 7"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="7" aria-label="Slide 8"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="8" aria-label="Slide 9"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="9" aria-label="Slide 10"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="10" aria-label="Slide 11"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="11" aria-label="Slide 12"></button>
+      {% for img in images %}
+        <button type="button"
+                data-bs-target="#myCarousel"
+                data-bs-slide-to="{{ loop.index0 }}"
+                class="{% if loop.first %}active{% endif %}"
+                aria-current="{% if loop.first %}true{% endif %}"
+                aria-label="Slide {{ loop.index }}">
+        </button>
+      {% endfor %}
     </div>
 
     <!-- Inner -->
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="{{ url_for('static', filename='img/giannades/Προφήτης Ηλίας- Γιαννάδες/1.jpg') }}" class="d-block w-100" alt="Giannades 1">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/giannades/Προφήτης Ηλίας- Γιαννάδες/2.jpg') }}" class="d-block w-100" alt="Giannades 2">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/giannades/Προφήτης Ηλίας- Γιαννάδες/3.jpg') }}" class="d-block w-100" alt="Giannades 3">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/giannades/Προφήτης Ηλίας- Γιαννάδες/4.jpg') }}" class="d-block w-100" alt="Giannades 4">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/giannades/Προφήτης Ηλίας- Γιαννάδες/5.jpg') }}" class="d-block w-100" alt="Giannades 5">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/giannades/Προφήτης Ηλίας- Γιαννάδες/6.jpg') }}" class="d-block w-100" alt="Giannades 6">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/giannades/Προφήτης Ηλίας- Γιαννάδες/7.jpg') }}" class="d-block w-100" alt="Giannades 7">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/giannades/Προφήτης Ηλίας- Γιαννάδες/8.jpg') }}" class="d-block w-100" alt="Giannades 8">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/giannades/Προφήτης Ηλίας- Γιαννάδες/9.jpg') }}" class="d-block w-100" alt="Giannades 9">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/giannades/Προφήτης Ηλίας- Γιαννάδες/10.jpg') }}" class="d-block w-100" alt="Giannades 10">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/giannades/Προφήτης Ηλίας- Γιαννάδες/11.jpg') }}" class="d-block w-100" alt="Giannades 11">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/giannades/Προφήτης Ηλίας- Γιαννάδες/12.jpg') }}" class="d-block w-100" alt="Giannades 12">
-      </div>
+      {% for img in images %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+          <img src="{{ url_for('static', filename=img) }}"
+               class="d-block w-100"
+               alt="Giannades {{ loop.index }}">
+        </div>
+      {% endfor %}
     </div>
 
     <!-- Controls -->

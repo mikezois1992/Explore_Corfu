@@ -12,21 +12,26 @@
     {% set _ = images.append('img/mon repo/' ~ i ~ '.jpg') %}
   {% endfor %}
 
-  {# ΣΗΜΕΙΩΣΗ: στο αρχικό σου HTML η 8η εικόνα είναι "img/mon repo8.jpg" (χωρίς φάκελο).
-     Αν αυτή είναι η πραγματική διαδρομή στο static, βάλε την γραμμή από κάτω και βγάλε την 8η από το loop.
-     {% set images = images[:7] + ['img/mon repo8.jpg'] + images[8:] %}
+  {# 
+    ΣΗΜΕΙΩΣΗ:
+    Αν η 8η εικόνα ΔΕΝ είναι μέσα στον φάκελο "img/mon repo/8.jpg" αλλά είναι "img/mon repo8.jpg",
+    τότε ξεσχόλιασε την επόμενη γραμμή:
+    {% set images = images[:7] + ['img/mon repo8.jpg'] + images[8:] %}
   #}
 
-  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+  {% set carousel_id = "carouselMonRepos" %}
+
+  <div id="{{ carousel_id }}" class="carousel slide" data-bs-ride="carousel">
+
     <!-- Indicators -->
     <div class="carousel-indicators">
-      {% for i in range(0, images|length) %}
+      {% for img in images %}
         <button type="button"
-                data-bs-target="#myCarousel"
-                data-bs-slide-to="{{ i }}"
-                class="{% if i == 0 %}active{% endif %}"
-                {% if i == 0 %}aria-current="true"{% endif %}
-                aria-label="Slide {{ i + 1 }}">
+                data-bs-target="#{{ carousel_id }}"
+                data-bs-slide-to="{{ loop.index0 }}"
+                class="{% if loop.first %}active{% endif %}"
+                aria-current="{% if loop.first %}true{% endif %}"
+                aria-label="Slide {{ loop.index }}">
         </button>
       {% endfor %}
     </div>
@@ -43,11 +48,11 @@
     </div>
 
     <!-- Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+    <button class="carousel-control-prev" type="button" data-bs-target="#{{ carousel_id }}" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#{{ carousel_id }}" data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
@@ -107,7 +112,3 @@
   });
 </script>
 {% endblock %}
-
-
-
-

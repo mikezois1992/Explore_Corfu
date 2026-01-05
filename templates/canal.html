@@ -4,29 +4,36 @@
 <div class="container-lg py-4" style="max-width: 980px;">
   <h2 class="mb-3">Canal d' amour</h2>
 
+  {# --- Images (1..4) --- #}
+  {% set images = [] %}
+  {% for i in range(1, 5) %}
+    {% set _ = images.append('img/canal/canal damour/' ~ i ~ '.jpg') %}
+  {% endfor %}
+
   <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+
     <!-- Indicators -->
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+      {% for img in images %}
+        <button type="button"
+                data-bs-target="#myCarousel"
+                data-bs-slide-to="{{ loop.index0 }}"
+                class="{% if loop.first %}active{% endif %}"
+                aria-current="{% if loop.first %}true{% endif %}"
+                aria-label="Slide {{ loop.index }}">
+        </button>
+      {% endfor %}
     </div>
 
     <!-- Inner -->
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="{{ url_for('static', filename='img/canal/canal damour/1.jpg') }}" class="d-block w-100" alt="Canal d'Amour 1">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/canal/canal damour/2.jpg') }}" class="d-block w-100" alt="Canal d'Amour 2">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/canal/canal damour/3.jpg') }}" class="d-block w-100" alt="Canal d'Amour 3">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/canal/canal damour/4.jpg') }}" class="d-block w-100" alt="Canal d'Amour 4">
-      </div>
+      {% for img in images %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+          <img src="{{ url_for('static', filename=img) }}"
+               class="d-block w-100"
+               alt="Canal d'Amour {{ loop.index }}">
+        </div>
+      {% endfor %}
     </div>
 
     <!-- Controls -->
@@ -38,6 +45,7 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
+
   </div>
 
   <br>

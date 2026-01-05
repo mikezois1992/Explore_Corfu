@@ -4,77 +4,36 @@
 <div class="container-lg py-4" style="max-width: 980px;">
   <h2 class="mb-3">Arkoudilas</h2>
 
+  {# --- Images (icon1..icon16) --- #}
+  {% set images = [] %}
+  {% for i in range(1, 17) %}
+    {% set _ = images.append('img/arkoudilas/arkoudilas/icon' ~ i ~ '.jpg') %}
+  {% endfor %}
+
   <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+
     <!-- Indicators -->
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="6" aria-label="Slide 7"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="7" aria-label="Slide 8"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="8" aria-label="Slide 9"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="9" aria-label="Slide 10"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="10" aria-label="Slide 11"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="11" aria-label="Slide 12"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="12" aria-label="Slide 13"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="13" aria-label="Slide 14"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="14" aria-label="Slide 15"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="15" aria-label="Slide 16"></button>
+      {% for img in images %}
+        <button type="button"
+                data-bs-target="#myCarousel"
+                data-bs-slide-to="{{ loop.index0 }}"
+                class="{% if loop.first %}active{% endif %}"
+                aria-current="{% if loop.first %}true{% endif %}"
+                aria-label="Slide {{ loop.index }}">
+        </button>
+      {% endfor %}
     </div>
 
     <!-- Inner -->
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon1.jpg') }}" class="d-block w-100" alt="Arkoudilas 1">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon2.jpg') }}" class="d-block w-100" alt="Arkoudilas 2">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon3.jpg') }}" class="d-block w-100" alt="Arkoudilas 3">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon4.jpg') }}" class="d-block w-100" alt="Arkoudilas 4">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon5.jpg') }}" class="d-block w-100" alt="Arkoudilas 5">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon6.jpg') }}" class="d-block w-100" alt="Arkoudilas 6">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon7.jpg') }}" class="d-block w-100" alt="Arkoudilas 7">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon8.jpg') }}" class="d-block w-100" alt="Arkoudilas 8">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon9.jpg') }}" class="d-block w-100" alt="Arkoudilas 9">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon10.jpg') }}" class="d-block w-100" alt="Arkoudilas 10">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon11.jpg') }}" class="d-block w-100" alt="Arkoudilas 11">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon12.jpg') }}" class="d-block w-100" alt="Arkoudilas 12">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon13.jpg') }}" class="d-block w-100" alt="Arkoudilas 13">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon14.jpg') }}" class="d-block w-100" alt="Arkoudilas 14">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon15.jpg') }}" class="d-block w-100" alt="Arkoudilas 15">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/arkoudilas/arkoudilas/icon16.jpg') }}" class="d-block w-100" alt="Arkoudilas 16">
-      </div>
+      {% for img in images %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+          <img src="{{ url_for('static', filename=img) }}"
+               class="d-block w-100"
+               alt="Arkoudilas {{ loop.index }}">
+        </div>
+      {% endfor %}
     </div>
 
     <!-- Controls -->
@@ -86,6 +45,7 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
+
   </div>
 
   <br>
@@ -146,8 +106,3 @@
 
 </div>
 {% endblock %}
-
-
-
-
-

@@ -638,10 +638,9 @@ def arkoudilas():
 def erimitis():
     return render_template("erimitis.html", title="erimitis")
 
-@app.route("/loggas/")
+@app.route("/loggas")
 def loggas():
     return render_template("loggas.html", title="loggas")
-
 @app.route("/canal/")
 def canal():
     return render_template("canal.html", title="canal")
@@ -650,7 +649,7 @@ def canal():
 def ermones():
     return render_template("ermones.html", title="ermones")
 
-@app.route("/giannades/")
+@app.route("/giannades")
 def giannades():
     return render_template("giannades.html", title="giannades")
 

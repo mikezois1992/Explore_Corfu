@@ -6,7 +6,7 @@
 <div class="container-lg py-3" style="max-width: 980px;">
   <h2>Stavros</h2>
 
-  {# --- Carousel images (compact with loop) --- #}
+  {# --- Carousel images --- #}
   {% set images = [
     'img/stavros loop/1.jpg',
     'img/stavros loop/2.jpg',
@@ -16,16 +16,18 @@
     'img/stavros loop/6.jpg'
   ] %}
 
-  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+  {% set carousel_id = "carouselStavros" %}
+
+  <div id="{{ carousel_id }}" class="carousel slide" data-bs-ride="carousel">
 
     <!-- Indicators -->
     <div class="carousel-indicators">
-      {% for _ in images %}
+      {% for img in images %}
         <button type="button"
-                data-bs-target="#myCarousel"
+                data-bs-target="#{{ carousel_id }}"
                 data-bs-slide-to="{{ loop.index0 }}"
                 class="{% if loop.first %}active{% endif %}"
-                {% if loop.first %}aria-current="true"{% endif %}
+                aria-current="{% if loop.first %}true{% endif %}"
                 aria-label="Slide {{ loop.index }}">
         </button>
       {% endfor %}
@@ -37,18 +39,17 @@
         <div class="carousel-item {% if loop.first %}active{% endif %}">
           <img src="{{ url_for('static', filename=img) }}"
                class="d-block w-100"
-               alt="Stavros {{ loop.index }}"
-               style="width:100%;">
+               alt="Stavros {{ loop.index }}">
         </div>
       {% endfor %}
     </div>
 
     <!-- Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+    <button class="carousel-control-prev" type="button" data-bs-target="#{{ carousel_id }}" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#{{ carousel_id }}" data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
@@ -94,15 +95,9 @@
 {% endblock %}
 
 {% block scripts_extra %}
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      if (typeof initLiveSearch === "function") initLiveSearch();
-    });
-  </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof initLiveSearch === "function") initLiveSearch();
+  });
+</script>
 {% endblock %}
-
-
-
-
-
-
