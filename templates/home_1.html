@@ -1,23 +1,16 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-    <title>EXPLORE CORFU</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/search.js') }}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <style>
-    footer {
-      width: 100% !important;
-    }
-    /* ===== HERO OVERLAY πάνω στο carousel ===== */
-  /* Κάνει το carousel container "anchor" για absolute overlay */
+{% extends "template.html" %}
+
+{% block title %}EXPLORE CORFU{% endblock %}
+
+{% block head_extra %}
+<style>
+  /* ===== HERO OVERLAY πάνω στο carousel ===== */
   #myCarousel { position: relative; }
+
+  /* Home: carousel να ακουμπάει άκρη-άκρη */
+  .home-fluid { padding-left: 0 !important; padding-right: 0 !important; }
+  #myCarousel { width: 100%; }
+  #myCarousel .carousel-item img { width: 100% !important; display: block; }
 
   .hero-overlay{
     position:absolute;
@@ -34,8 +27,8 @@
       rgba(0,0,0,0.25) 42%,
       rgba(0,0,0,0.0) 75%
     );
-    z-index:5;              /* πάνω από εικόνα */
-    pointer-events:none;    /* δεν “κλέβει” clicks από το carousel */
+    z-index:5;
+    pointer-events:none;
   }
 
   .hero-overlay h1{
@@ -57,10 +50,9 @@
     display:flex;
     gap:1rem;
     flex-wrap:wrap;
-    pointer-events:auto;   /* τα κουμπιά να πατιούνται */
+    pointer-events:auto;
   }
 
-  /* Στο mobile γίνεται πιο “κάθετο” και με gradient από πάνω προς τα κάτω */
   @media (max-width: 768px){
     .hero-overlay{
       align-items:center;
@@ -73,29 +65,37 @@
       );
     }
   }
-  /* ===== FIX: Home top buttons layout (no overlap) ===== */
+
+  /* ===== Home top buttons layout ===== */
   .home-topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    padding:10px 14px;
-    flex-wrap:wrap;          /* ΚΡΙΣΙΜΟ: να μη πέφτουν το ένα πάνω στο άλλο */
-    position:relative;
-    z-index:10;              /* πάνω από carousel */
-    background:#fff;         /* για να μην “χάνεται” πάνω στην εικόνα */
-  }
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:10px 14px;
+  flex-wrap:wrap;
+
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:20;
+
+  background:transparent;
+}
+#myCarousel{
+  margin-top:70px;
+}
 
   .home-topbar-left,
   .home-topbar-right{
     display:flex;
     align-items:center;
     gap:10px;
-    flex-wrap:wrap;          /* ΚΡΙΣΙΜΟ */
+    flex-wrap:wrap;
     min-width:0;
   }
 
-  /* ακύρωση παλιών/absolute rules αν υπάρχουν στο style.css */
   .top-left-buttons{
     position:static !important;
     display:flex !important;
@@ -116,25 +116,44 @@
     margin:0 !important;
   }
 
-  /* σε πολύ μικρές οθόνες, τα δεξιά κουμπιά να πάνε κάτω */
+  .home-topbar .btn{
+    border-radius: 999px !important;
+    padding: .55rem .95rem !important;
+    font-weight: 600 !important;
+    letter-spacing: .2px;
+    box-shadow: 0 1px 0 rgba(0,0,0,.04);
+  }
+
+  .home-topbar .btn.btn-lg{
+    padding: .6rem 1rem !important;
+    font-size: 1rem !important;
+  }
+
+  .home-topbar .btn.btn-outline-primary,
+  .home-topbar .btn.btn-outline-secondary{
+    background: #fff;
+  }
+
   @media (max-width: 520px){
     .home-topbar-right{
       width:100%;
       justify-content:flex-end;
     }
-  }#search-input { scroll-margin-top: 90px; }
-  </style>
-</head>
-<body >
-  {% if session.get('username') %}
-  <div class="container mt-4">
-    <h4 class="text-success">{{'Καλωσόρισες, ' ~ session['username'] | autotranslate }}</h4>
-  </div>
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if session.get('username') %}
+<div class="container mt-4" style="max-width: 980px;">
+  <h4 class="text-success">{{ ('Καλωσόρισες, ' ~ session['username']) | autotranslate }}</h4>
+</div>
 {% endif %}
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
-    <div class="container mt-3">
+    <div class="container mt-3" style="max-width: 980px;">
       {% for category, message in messages %}
         <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
           {{ message }}
@@ -144,13 +163,12 @@
     </div>
   {% endif %}
 {% endwith %}
+
 <div class="home-topbar">
-  <!-- Αριστερά: γλώσσες + αποσύνδεση -->
   <div class="home-topbar-left top-left-buttons">
     <a href="{{ url_for('switch_lang', code='el') }}" class="btn btn-outline-primary">🇬🇷 Ελληνικά</a>
     <a href="{{ url_for('switch_lang', code='en') }}" class="btn btn-outline-secondary">🇬🇧 English</a>
 
-    <!-- Αποσύνδεση μόνο αν υπάρχει user -->
     {% if session.get('username') %}
     <form action="/logout" method="POST" style="margin:0;">
       <button type="submit" class="btn btn-danger">
@@ -160,7 +178,6 @@
     {% endif %}
   </div>
 
-  <!-- Δεξιά: σύνδεση / επισκέπτης -->
   <div class="home-topbar-right button-container">
     <form action="/login" method="get" style="margin:0;">
       <button type="submit" class="btn btn-primary btn-lg">
@@ -176,102 +193,68 @@
   </div>
 </div>
 
-<div class="container-fluid">
-    <h1>EXPLORE CORFU</h1>  
-    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-      <!-- Indicators -->
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      </div>
-    
-      <!-- Inner -->
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="{{ url_for('static', filename='img/img1.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
-        </div>
-        <div class="carousel-item">
-          <img src="{{ url_for('static', filename='img/img2.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
-        </div>
-        <div class="carousel-item">
-          <img src="{{ url_for('static', filename='img/img3.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
-        </div>
-      </div>
-      <div class="hero-overlay">
-  <h1>Explore Corfu</h1>
-  <p>Walk the island. Discover the unseen.</p>
+<div class="container-fluid home-fluid">
+  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
 
-  <div class="hero-actions">
-    <a href="/routes" class="btn btn-primary btn-lg">🗺️ Explore Routes</a>
-    <a href="{{ url_for('go') }}" class="btn btn-outline-light btn-lg">📍 Where to go</a>
-  </div>
-</div>
-      <!-- Controls -->
-      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"
+              aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
-    
-  <section id="about-us">
-     <h2>{{ 'Περπατώντας στην Κέρκυρα' | autotranslate }}</h2>
-    <p>{{ 'Η Κέρκυρα είναι ένας τόπος που αξίζει να τον ζήσεις με το ρυθμό του περπατήματος.'|autotranslate}} {{'Μέσα από το site μας, σας προσκαλούμε να γνωρίσετε το νησί με έναν πιο αυθεντικό και βιωματικό τρόπο: περπατώντας.' | autotranslate }}</p>
+
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{{ url_for('static', filename='img/img1.jpg') }}" class="d-block w-100" alt="CORFU1" style="width:100%;">
+      </div>
+      <div class="carousel-item">
+        <img src="{{ url_for('static', filename='img/img2.jpg') }}" class="d-block w-100" alt="CORFU2" style="width:100%;">
+      </div>
+      <div class="carousel-item">
+        <img src="{{ url_for('static', filename='img/img3.jpg') }}" class="d-block w-100" alt="CORFU3" style="width:100%;">
+      </div>
+    </div>
+
+    <div class="hero-overlay">
+      <h1>Explore Corfu</h1>
+      <p>Walk the island. Discover the unseen.</p>
+
+      <div class="hero-actions">
+        <a href="/routes" class="btn btn-primary btn-lg">🗺️ Explore Routes</a>
+        <a href="{{ url_for('go') }}" class="btn btn-outline-light btn-lg">📍 Where to go</a>
+      </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+
+  </div>
+
+  <section id="about-us" class="py-4" style="max-width: 980px; margin: 0 auto;">
+    <h2>{{ 'Περπατώντας στην Κέρκυρα' | autotranslate }}</h2>
+    <p>
+      {{ 'Η Κέρκυρα είναι ένας τόπος που αξίζει να τον ζήσεις με το ρυθμό του περπατήματος.'|autotranslate}}
+      {{ 'Μέσα από το site μας, σας προσκαλούμε να γνωρίσετε το νησί με έναν πιο αυθεντικό και βιωματικό τρόπο: περπατώντας.' | autotranslate }}
+    </p>
     <p>{{ 'Προτείνουμε διαδρομές που συνδυάζουν φυσικές ομορφιές, ιστορικά μνημεία και τοπικές παραδόσεις, δίνοντάς σας τη δυνατότητα να ανακαλύψετε την Κέρκυρα πέρα από τα συνηθισμένα.' | autotranslate }}</p>
     <p>{{ 'Εξερευνήστε, εμπνευστείτε και απολαύστε κάθε σας βήμα!' | autotranslate }}</p>
   </section>
-<div class="search-wrapper">
-  <form action="/search" method="POST" class="search-container">
-     <input type="text" id="search-input" name="location" placeholder="{{ 'Search...' | autotranslate }}" autocomplete="off">
 
-    <button type="submit">
-        🔍
-    </button>
-  </form>
-  <ul id="suggestions" class="suggestions-list"></ul>
+  {# Δεν βάζουμε εδώ search/icons/footer — τα έχει ήδη το template.html #}
+
 </div>
-</br>
-<div class="home-icon-container">
-  <div class="icon-box">
-      <a href="/about">
-          <img src="{{ url_for('static', filename='img/info.png') }}" alt="About">
-          <span>{{ 'About Us' | autotranslate }}</span>
-      </a>
-  </div>
-  <div class="icon-box">
-      <a href="/routes">
-          <img src="{{ url_for('static', filename='img/routes.png') }}" alt="Routes">
-          <span>{{ 'Routes' | autotranslate }}</span>
-      </a>
-  </div>
-  <div class="icon-box">
-      <a href="/contact">
-          <img src="{{ url_for('static', filename='img/contact.png') }}" alt="Contact">
-          <span>{{ 'Contact' | autotranslate }}</span>
-      </a>
-  </div>
-</div>
-</div>
-<footer style="position: relative; left: 0; width: 100%; background-color: #333; color: white; text-align: center; padding: 20px 0; margin: 0; border: none;">
-  <div style="max-width: 100%; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; align-items: center;">
-    <p style="margin-bottom: 10px;">&copy; 2025 MyWebsite. {{ 'Όλα τα δικαιώματα κατοχυρωμένα.' | autotranslate }}</p>
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-      <a href="/terms" style="color: white; text-decoration: none;">{{ 'Όροι Χρήσης' | autotranslate }}</a>
-      <span>|</span>
-      <a href="/privacy" style="color: white; text-decoration: none;">{{ 'Πολιτική Απορρήτου' | autotranslate }}</a>
-      <span>|</span>
-      <a href="/" style="color: white; text-decoration: none;">{{ 'Αρχική' | autotranslate }}</a>
-    </div>
-  </div>
-</footer>
+{% endblock %}
+
+{% block scripts_extra %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-      initLiveSearch();
+    initLiveSearch();
   });
 </script>
-</body>
-</html>
+{% endblock %}

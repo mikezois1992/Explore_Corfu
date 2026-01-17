@@ -55,6 +55,18 @@
 <body>
   {% block pre_header %}{% endblock %}
 
+  {# =======================
+     1) ΚΥΡΙΟ ΠΕΡΙΕΧΟΜΕΝΟ (ΠΑΝΩ)
+     ======================= #}
+  {% block content %}{% endblock %}
+
+  {# =======================
+     2) ΔΕΥΤΕΡΕΥΟΥΣΕΣ ΛΕΙΤΟΥΡΓΙΕΣ (ΚΑΤΩ)
+     - Search
+     - Links
+     - Icons
+     - Go box
+     ======================= #}
   {% block header %}
   <header class="py-3 border-bottom">
     <div class="container header-container">
@@ -134,8 +146,6 @@
 
   </header>
   {% endblock %}
-
-  {% block content %}{% endblock %}
 
   <footer class="footer">
     <div class="footer-container">
