@@ -633,4 +633,25 @@ footer {
   color: #a94442;
 }
 
+#thank-you-message{
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in, visibility 0.5s ease-in;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  color: green;
+}
 
+#thank-you-message.show{
+  display: block !important;
+  opacity: 1;
+  visibility: visible;
+}
+
+#contact-form.hidden{
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}

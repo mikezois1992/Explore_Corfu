@@ -133,7 +133,7 @@ def _translate_full_html_when_english(resp):
         target = getattr(g, "current_lang", request.cookies.get("language", "el"))
         resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
         resp.headers["Pragma"] = "no-cache"
-    # ΜΟΝΟ όταν ζητάς Αγγλικά γίνεται καθολική μετάφραση
+    # ΜΟΝΟ όταν θελω Αγγλικά γίνεται παντου μετάφραση
         if target != "en":
             return resp
         html = resp.get_data(as_text=True) or ""
