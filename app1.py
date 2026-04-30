@@ -538,108 +538,126 @@ DESTINATIONS = {
         "name": "Vlaxerena",
         "lat": 39.60656779533143,
         "lon": 19.89981239373672,
+        "image": "/static/img/Vlaxerena/vlaxerna/icon1.jpg",
     },
     "Nisaki": {
         "slug": "Nisaki",
         "name": "Nisaki",
         "lat": 39.70989964469676,
         "lon": 19.84198619413788,
+        "image": "/static/img/Nisaki/nisaki pezoporia/icon1.jpg",
     },
     "agGordios": {
         "slug": "agGordios",
         "name": "Ag. Gordios",
         "lat": 39.5442142423328,
         "lon": 19.83537469455423,
+        "image": "/static/img/Ag.Gorgios/nayagio agios gordis-20250524T162344Z-1-001/nayagio agios gordis/icon1.jpg",
     },
     "arkoudilas": {
         "slug": "arkoudilas",
         "name": "Arkoudilas",
         "lat": 39.37473498319727,
         "lon": 20.097719694390793,
+        "image": "/static/img/arkoudilas/arkoudilas/icon1.jpg",
     },
     "erimitis": {
         "slug": "erimitis",
         "name": "Erimitis",
         "lat": 39.776846245788605,
         "lon": 19.948111715082188,
+        "image": "/static/img/Erimitis/erimitis/Ερημίτης/1.jpg",
     },
     "loggas": {
         "slug": "loggas",
         "name": "Loggas",
         "lat": 39.788372986651034,
         "lon": 19.66685356579295,
+        "image": "/static/img/loggas peroulades-20250717T175654Z-1-001/loggas peroulades/1.jpg",
     },
     "canal": {
         "slug": "canal",
         "name": "Canal d’Amour",
         "lat": 39.797028111633345,
         "lon": 19.69802862278645,
+        "image": "/static/img/canal/canal damour/1.jpg",
     },
     "ermones": {
         "slug": "ermones",
         "name": "Ermones",
         "lat": 39.610643947573266,
         "lon": 19.77796491380511,
+        "image": "/static/img/ermones/ermones ekklisaki/1.jpg",
     },
     "giannades": {
         "slug": "giannades",
         "name": "Giannades",
         "lat": 39.630422238067766,
         "lon": 19.76331610069776,
+        "image": "/static/img/giannades/Προφήτης Ηλίας- Γιαννάδες/1.jpg",
     },
     "makrades": {
         "slug": "makrades",
         "name": "Makrades",
         "lat": 39.688473001900796,
         "lon": 19.68884659534223,
+        "image": "/static/img/makrades/makrades/1.jpg",
     },
     "Cape_Drastis": {
         "slug": "Cape_Drastis",
         "name": "Cape Drastis",
         "lat": 39.79872004396612,
         "lon": 19.67381089553243,
+        "image": "/static/img/cape drastis/1.jpg",
     },
     "MonRepos": {
         "slug": "MonRepos",
         "name": "Mon Repos",
         "lat": 39.61013563708864,
         "lon": 19.92732330901196,
+        "image": "/static/img/mon repo/1.jpg",
     },
     "nimfes": {
         "slug": "nimfes",
         "name": "Nimfes Waterfalls",
         "lat": 39.75091482023042,
         "lon": 19.805129637856776,
+        "image": "/static/img/Καταρράκτες Νυμφές/1.jpg",
     },
     "oldFort": {
         "slug": "oldFortress",
         "name": "Old Fortress",
         "lat": 39.624064992943545,
         "lon": 19.92785386853177,
+        "image": "/static/img/palaio frourio/6.jpg",
     },
     "porto_timoni": {
         "slug": "porto_timoni",
         "name": "Porto Timoni",
         "lat": 39.71551228857589,
         "lon": 19.65793458157802,
+        "image": "/static/img/porto/1.jpg",
     },
     "perama": {
         "slug": "perama",
         "name": "Perama",
         "lat": 39.58287914400098,
         "lon": 19.913985372773638,
+        "image": "/static/img/dromos toy nerou perama/2.jpg",
     },
     "Gastouri": {
         "slug": "Gastouri",
         "name": "Gastouri",
         "lat": 39.56081200833922,
         "lon": 19.901700340886574,
+        "image": "/static/img/agia kyriaki gastouri/1.jpg",
     },
     "stavros": {
         "slug": "stavros",
         "name": "Stavros",
         "lat": 39.53192490198832,
         "lon": 19.906588303186936,
+        "image": "/static/img/stavros loop/1.jpg",
     },
 }
 
@@ -774,6 +792,13 @@ def perama():
 @app.route("/stavros/")
 def stavros():
     return render_template("stavros.html", title="Stavros")
+
+@app.route("/where-to-go")
+def where_to_go():
+    return render_template(
+        "whereToGo.html",
+        destinations=DESTINATIONS
+    )
 
 @app.get("/go")
 def go():
