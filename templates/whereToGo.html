@@ -26,14 +26,135 @@
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.55)),
+    linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.25)),
     var(--where-bg, url("{{ url_for('static', filename='img/img1.jpg') }}"));
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  filter: blur(4px);
+  filter: blur(3px);
   transform: scale(1.04);
   z-index: -2;
+}
+
+.where-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.where-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 18px;
+}
+
+.where-card {
+  width: min(760px, 100%);
+  padding: 42px 36px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+  text-align: center;
+}
+
+.where-card h1 {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #2f241d;
+}
+
+.where-subtitle {
+  font-size: 1.08rem;
+  color: #5d5148;
+  margin-bottom: 26px;
+}
+
+.go-form {
+  text-align: left;
+}
+
+.where-search-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.where-search-input {
+  min-height: 52px;
+  border-radius: 16px;
+  border: 1px solid rgba(80, 60, 40, 0.25);
+  padding: 0 18px;
+  font-size: 1rem;
+}
+
+.where-search-btn {
+  min-height: 52px;
+  border-radius: 16px;
+  padding: 0 24px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.where-form-hint {
+  margin-top: 10px;
+  color: #6b625b;
+  font-size: 0.92rem;
+}
+
+.where-icons {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.where-icon-box a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 14px 10px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.68);
+  text-decoration: none;
+  color: #3b2d24;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.where-icon-box a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
+}
+
+.where-icon-box img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+@media (max-width: 680px) {
+  .where-card {
+    padding: 32px 22px;
+    border-radius: 22px;
+  }
+
+  .where-search-row {
+    flex-direction: column;
+  }
+
+  .where-search-btn {
+    width: 100%;
+  }
+
+  .where-icons {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .where-page::after {
@@ -45,12 +166,14 @@
 }
 
   .where-main {
-    min-height: calc(100vh - 120px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 1.5rem;
-  }
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 48px 18px;
+}
 
   .where-card {
     width: 100%;
@@ -134,15 +257,14 @@
 
     <main class="where-main">
       <section class="where-card">
-        <h1>Where to go</h1>
+        <h1>Where to go in Corfu?</h1>
 
-        <p class="text-muted">
-          {{ 'Πληκτρολόγησε τον προορισμό που θέλεις να επισκεφθείς.' | autotranslate }}
+        <p class="where-subtitle">
+          {{ 'Πληκτρολόγησε έναν προορισμό και δες τη διαδρομή στον χάρτη.' | autotranslate }}
         </p>
-
         <form action="{{ url_for('go') }}" method="get" class="go-form">
   <label for="go-place" class="form-label">
-    {{ 'Πού θέλεις να πας;' | autotranslate }}
+    {{ 'Εμφάνιση διαδρομής' | autotranslate }}
   </label>
 
   <div class="where-search-row">
@@ -155,7 +277,7 @@
            required>
 
     <button type="submit" class="btn btn-primary where-search-btn">
-      {{ 'Πήγαινε' | autotranslate }}
+      {{ 'Πάμε' | autotranslate }}
     </button>
   </div>
 
@@ -169,9 +291,8 @@
     {{ 'Διάλεξε από τη λίστα ή γράψε το slug.' | autotranslate }}
   </div>
 </form>
-        </form>
-
-         <!-- Icon boxes -->
+      </section>
+       <!-- Icon boxes -->
       <div class="where-icons">
         <div class="where-icon-box text-center">
           <a href="/about">
@@ -198,7 +319,6 @@
           </a>
         </div>
       </div>
-      </section>
     </main>
 
     <footer class="footer">

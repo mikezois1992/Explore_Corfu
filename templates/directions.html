@@ -28,45 +28,83 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container-lg py-3" style="max-width: 980px;">
-    <h1 class="mb-3">{{ _('Οδηγίες προς') }} {{ dest.name }}</h1>
+<div class="container-lg py-3" style="max-width: 980px;">
+  <h1 class="mb-3">{{ _('Οδηγίες προς') }} {{ dest.name }}</h1>
 
-    <div class="route-panel row g-2 align-items-end">
-      <div class="col-12 col-md-6">
-        <label for="from-input" class="form-label">{{ _('Αφετηρία (γράψε μια τοποθεσία)') }}</label>
-        <input id="from-input" type="text" class="form-control"
-               placeholder="{{ _('π.χ. Spianada, Corfu') }}"
-               value="{{ from_query or '' }}" />
-        <div class="form-text">
-          {{ _('Αν το αφήσεις κενό, θα προσπαθήσουμε να χρησιμοποιήσουμε την τρέχουσα τοποθεσία σου.') }}
-        </div>
-      </div>
+  <div class="route-panel row g-2 align-items-end">
 
-      <div class="col-12 col-md-4">
-        <label for="to-input" class="form-label">{{ _('Προορισμός') }}</label>
-        <input id="to-input" type="text" class="form-control" value="{{ dest.name }}" list="to-places" />
-        <datalist id="to-places">
-          {% for k, v in ROUTE_DESTINATIONS.items() %}
-            <option value="{{ v.name }}">{{ v.slug }}</option>
-          {% endfor %}
-        </datalist>
-      </div>
+    <div class="col-12 col-md-5">
+      <label for="from-input" class="form-label">
+        {{ _('Αφετηρία (γράψε μια τοποθεσία)') }}
+      </label>
 
-      <div class="col-12 col-md-2 d-flex gap-2">
-        <button id="btn-mypos" type="button" class="btn btn-secondary w-100">
-          {{ _('Χρήση τρέχουσας τοποθεσίας') }}
-        </button>
+      <input id="from-input"
+             type="text"
+             class="form-control"
+             placeholder="{{ _('π.χ. Spianada, Corfu') }}"
+             value="{{ from_query or '' }}" />
+
+      <div class="form-text">
+        {{ _('Αν το αφήσεις κενό, θα προσπαθήσουμε να χρησιμοποιήσουμε την τρέχουσα τοποθεσία σου.') }}
       </div>
     </div>
 
-    <div class="mt-2">
-      <span id="geo-status" aria-live="polite" class="text-muted small"></span>
+    <div class="col-12 col-md-4">
+      <label for="to-input" class="form-label">
+        {{ _('Προορισμός') }}
+      </label>
+
+      <input id="to-input"
+             type="text"
+             class="form-control"
+             value="{{ dest.name }}"
+             list="to-places" />
+
+      <datalist id="to-places">
+        {% for k, v in ROUTE_DESTINATIONS.items() %}
+          <option value="{{ v.name }}">{{ v.slug }}</option>
+        {% endfor %}
+      </datalist>
     </div>
 
-    <div class="mt-3">
-      <div id="map"></div>
+    <div class="col-12 col-md-3">
+      <label for="travel-mode" class="form-label">
+        {{ _('Τρόπος μετάβασης') }}
+      </label>
+
+      <select id="travel-mode" class="form-select">
+        <option value="walking" selected>{{ _('Περπάτημα') }}</option>
+        <option value="driving">{{ _('Αυτοκίνητο') }}</option>
+      </select>
     </div>
+
+    <div class="col-12">
+      <button id="btn-mypos"
+              type="button"
+              class="btn btn-secondary w-100 mt-2">
+        {{ _('Χρήση τρέχουσας τοποθεσίας') }}
+      </button>
+    </div>
+
+    <div class="col-12">
+      <p id="geo-status"
+         class="text-muted small mt-2 mb-1"
+         aria-live="polite"></p>
+
+      <div id="gps-smart-info"
+           class="mt-2 small bg-light p-2 rounded">
+        <div id="distance-info"></div>
+        <div id="movement-info"></div>
+        <div id="gps-debug-info" class="text-muted mt-1"></div>
+      </div>
+    </div>
+
   </div>
+
+  <div class="mt-3">
+    <div id="map"></div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts_extra %}
@@ -79,29 +117,24 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!mapEl) { console.error('[EC] #map missing'); return; }
   if (typeof L === 'undefined') { console.error('[EC] Leaflet not loaded'); return; }
 
-  // Fix default marker icons
   L.Icon.Default.mergeOptions({
     iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-    iconUrl:       'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-    shadowUrl:     'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
   });
 
-  // Secure context check (geolocation needs https or localhost)
-  const isLocalhost = ['localhost','127.0.0.1','::1'].includes(location.hostname);
+  const isLocalhost = ['localhost', '127.0.0.1', '::1'].includes(location.hostname);
   const secureOk = location.protocol === 'https:' || isLocalhost;
-  console.log('[EC] secureOk =', secureOk, 'hostname=', location.hostname, 'protocol=', location.protocol);
 
-  // Destination from Flask
   const dest = {
     lat: {{ dest.lat|tojson }},
     lng: {{ dest.get("lng", dest.get("lon"))|tojson }},
     name: {{ dest.name|tojson }}
   };
-  const destLatLng = L.latLng(dest.lat, dest.lng);
-  console.log('[EC] dest =', dest);
 
-  // Map
+  const destLatLng = L.latLng(dest.lat, dest.lng);
   const map = L.map('map', { scrollWheelZoom: true });
+
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; OpenStreetMap contributors'
@@ -111,39 +144,125 @@ document.addEventListener('DOMContentLoaded', () => {
   map.setView(destLatLng, 14);
   map.whenReady(() => destMarker.openPopup());
 
-  // invalidate helpers
-  const fixSize = () => { try { map.invalidateSize(); } catch(_) {} };
+  const fixSize = () => {
+    try { map.invalidateSize(); } catch (_) {}
+  };
+
   requestAnimationFrame(fixSize);
   setTimeout(fixSize, 150);
   window.addEventListener('resize', fixSize);
 
-  // UI helpers
+  const btn = document.getElementById('btn-mypos');
   const statusEl = document.getElementById('geo-status');
-  const setStatus = (msg='') => { if (statusEl) statusEl.textContent = msg; console.log('[EC] status:', msg); };
+  const distanceEl = document.getElementById('distance-info');
+  const movementEl = document.getElementById('movement-info');
+  const gpsDebugEl = document.getElementById('gps-debug-info');
+  const travelModeEl = document.getElementById('travel-mode');
 
+  if (!btn) {
+    console.warn('[EC] #btn-mypos missing');
+    return;
+  }
+
+  let previousDistance = null;
   let userMarker = null;
+  let accuracyCircle = null;
   let routingControl = null;
+  let currentProfile = null;
   let isLocating = false;
+  let watchId = null;
+  let pollingId = null;
+  let wakeLock = null;
 
-  function locateOnce(timeoutMs=12000){
-    return new Promise((resolve, reject)=>{
-      if (!('geolocation' in navigator)) return reject(new Error('Geolocation not supported'));
-      let done = false;
-      const t = setTimeout(()=>{ if(!done){done=true; reject(new Error('timeout'));}}, timeoutMs);
+  let lastUserLatLng = null;
+  let lastAcceptedLatLng = null;
+  let lastRoutedLatLng = null;
+
+  let gpsAttempts = 0;
+  let gpsCallbacks = 0;
+  let realPositionChanges = 0;
+
+  const MIN_REAL_MOVE_METERS = 8;
+  const MIN_ROUTE_MOVE_METERS = 20;
+  const POLLING_INTERVAL_MS = 10000;
+
+  const setStatus = (msg = '') => {
+    if (statusEl) statusEl.textContent = msg;
+    console.log('[EC] status:', msg);
+  };
+
+  function getTravelMode() {
+    return travelModeEl ? travelModeEl.value : 'walking';
+  }
+
+  function getTravelModeLabel() {
+    return getTravelMode() === 'walking' ? 'Περπάτημα' : 'Αυτοκίνητο';
+  }
+
+  function getOsrmProfile() {
+    return getTravelMode() === 'driving' ? 'car' : 'foot';
+  }
+
+  async function requestWakeLock() {
+    try {
+      if ('wakeLock' in navigator) {
+        wakeLock = await navigator.wakeLock.request('screen');
+        console.log('[EC] screen wake lock active');
+      }
+    } catch (err) {
+      console.warn('[EC] wake lock failed:', err);
+    }
+  }
+
+  document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'visible' && watchId) {
+      await requestWakeLock();
+
+      try {
+        const pos = await locateOnce();
+        handleNewPosition(pos, 'resume GPS');
+      } catch (err) {
+        console.warn('[EC] resume GPS error:', err);
+      }
+    }
+  });
+
+  function locateOnce() {
+    gpsAttempts++;
+
+    return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
-        pos => { if(done) return; done=true; clearTimeout(t); resolve(pos); },
-        err => { if(done) return; done=true; clearTimeout(t); reject(err); },
-        { enableHighAccuracy: true, timeout: timeoutMs, maximumAge: 0 }
+        resolve,
+        reject,
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 0
+        }
       );
     });
   }
 
-  function ensureRoutingControl() {
-    if (routingControl) return routingControl;
+  function removeRoutingControl() {
+    if (routingControl) {
+      map.removeControl(routingControl);
+      routingControl = null;
+      currentProfile = null;
+    }
+  }
 
-    // OSRM router (public demo)
+  function ensureRoutingControl() {
+    const profile = getOsrmProfile();
+
+    if (routingControl && currentProfile === profile) {
+      return routingControl;
+    }
+
+    removeRoutingControl();
+
     const osrmRouter = L.Routing.osrmv1({
-      serviceUrl: 'https://router.project-osrm.org/route/v1'
+      serviceUrl: 'https://router.project-osrm.org/route/v1',
+      profile: profile
     });
 
     routingControl = L.Routing.control({
@@ -152,74 +271,250 @@ document.addEventListener('DOMContentLoaded', () => {
       addWaypoints: false,
       draggableWaypoints: false,
       fitSelectedRoutes: true,
-      show: false,                 // κρύβει το routing panel
+      show: false,
       routeWhileDragging: false,
-      lineOptions: { styles: [{ weight: 5, opacity: 0.9 }] }
+      lineOptions: {
+        styles: [{ weight: 5, opacity: 0.9 }]
+      }
     }).addTo(map);
 
+    currentProfile = profile;
     return routingControl;
   }
 
-  function routeFromTo(fromLatLng, toLatLng) {
+  function routeFromTo(fromLatLng, toLatLng, force = false) {
+    if (!force && lastRoutedLatLng) {
+      const movedForRoute = map.distance(lastRoutedLatLng, fromLatLng);
+      if (movedForRoute < MIN_ROUTE_MOVE_METERS) return;
+    }
+
     const rc = ensureRoutingControl();
     rc.setWaypoints([fromLatLng, toLatLng]);
+    lastRoutedLatLng = fromLatLng;
   }
 
-  const btn = document.getElementById('btn-mypos');
-  if (!btn) { console.warn('[EC] #btn-mypos missing'); return; }
+  function updateMarkerAndAccuracy(userLatLng, accuracy) {
+    if (!userMarker) {
+      userMarker = L.marker(userLatLng)
+        .addTo(map)
+        .bindPopup('Η θέση μου')
+        .openPopup();
+    } else {
+      userMarker.setLatLng(userLatLng);
+    }
+
+    if (accuracyCircle) {
+      accuracyCircle.setLatLng(userLatLng);
+      accuracyCircle.setRadius(accuracy);
+    } else {
+      accuracyCircle = L.circle(userLatLng, {
+        radius: accuracy,
+        weight: 1,
+        fillOpacity: 0.08
+      }).addTo(map);
+    }
+  }
+
+  function updateDistanceAndMovement(userLatLng, accuracy = 10) {
+    const dist = map.distance(userLatLng, destLatLng);
+    const threshold = Math.max(8, accuracy / 2);
+
+    if (distanceEl) {
+      distanceEl.textContent = dist >= 1000
+        ? `Απόσταση από τον προορισμό: ${(dist / 1000).toFixed(2)} km`
+        : `Απόσταση από τον προορισμό: ${Math.round(dist)} m`;
+    }
+
+    if (movementEl) {
+      if (previousDistance === null) {
+        movementEl.textContent = '📍 GPS ενεργό';
+        movementEl.className = 'text-muted';
+      } else if (dist < previousDistance - threshold) {
+        movementEl.textContent = '🟢 Πλησιάζεις τον προορισμό';
+        movementEl.className = 'text-success fw-semibold';
+      } else if (dist > previousDistance + threshold) {
+        movementEl.textContent = '🔴 Απομακρύνεσαι από τον προορισμό';
+        movementEl.className = 'text-danger fw-semibold';
+      }
+    }
+
+    previousDistance = dist;
+  }
+
+  function updateDebug(userLatLng, accuracy, source, changed, movedMeters) {
+    if (!gpsDebugEl) return;
+
+    gpsDebugEl.textContent =
+      `GPS attempts: ${gpsAttempts} | ` +
+      `GPS callbacks: ${gpsCallbacks} | ` +
+      `Real changes: ${realPositionChanges} | ` +
+      `Πηγή: ${source} | ` +
+      `Lat: ${userLatLng.lat.toFixed(6)}, ` +
+      `Lng: ${userLatLng.lng.toFixed(6)} | ` +
+      `Ακρίβεια: ${Math.round(accuracy)} m | ` +
+      `Μετακίνηση: ${Math.round(movedMeters)} m | ` +
+      `Θέση: ${changed ? 'ΝΕΑ' : 'ίδια'} | ` +
+      `Λειτουργία: ${getTravelModeLabel()}`;
+  }
+
+  function handleNewPosition(pos, source = 'watchPosition') {
+    gpsCallbacks++;
+
+    const user = L.latLng(pos.coords.latitude, pos.coords.longitude);
+    const accuracy = pos.coords.accuracy || 10;
+
+    let movedMeters = 0;
+    let changed = true;
+
+    if (lastAcceptedLatLng) {
+      movedMeters = map.distance(lastAcceptedLatLng, user);
+      changed = movedMeters >= MIN_REAL_MOVE_METERS;
+    }
+
+    lastUserLatLng = user;
+
+    updateMarkerAndAccuracy(user, accuracy);
+    updateDebug(user, accuracy, source, changed, movedMeters);
+
+    if (!lastAcceptedLatLng) {
+      lastAcceptedLatLng = user;
+      realPositionChanges++;
+      updateDistanceAndMovement(user, accuracy);
+      routeFromTo(user, destLatLng, true);
+      return;
+    }
+
+    if (!changed) {
+      return;
+    }
+
+    lastAcceptedLatLng = user;
+    realPositionChanges++;
+
+    updateDistanceAndMovement(user, accuracy);
+    routeFromTo(user, destLatLng);
+  }
+
+  function startWatchPosition() {
+    if (watchId) {
+      navigator.geolocation.clearWatch(watchId);
+    }
+
+    watchId = navigator.geolocation.watchPosition(
+      (pos) => handleNewPosition(pos, 'watchPosition'),
+      (err) => console.warn('[EC] watchPosition error:', err),
+      {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 15000
+      }
+    );
+  }
+
+  function startFallbackPolling() {
+    if (pollingId) {
+      clearInterval(pollingId);
+    }
+
+    pollingId = setInterval(async () => {
+      try {
+        const pos = await locateOnce();
+        handleNewPosition(pos, 'fallback polling');
+      } catch (err) {
+        console.warn('[EC] fallback polling error:', err);
+      }
+    }, POLLING_INTERVAL_MS);
+  }
+
+  if (travelModeEl) {
+    travelModeEl.addEventListener('change', () => {
+      lastRoutedLatLng = null;
+
+      if (lastAcceptedLatLng) {
+        routeFromTo(lastAcceptedLatLng, destLatLng, true);
+        updateDebug(
+          lastAcceptedLatLng,
+          10,
+          'mode change',
+          true,
+          0
+        );
+      }
+    });
+  }
 
   btn.addEventListener('click', async (e) => {
     e.preventDefault();
-    console.log('[EC] click: use current location');
-    if (isLocating) { console.log('[EC] already locating, skip'); return; }
+
+    if (isLocating) return;
 
     if (!secureOk) {
-      const m='Η τοποθεσία δουλεύει μόνο σε HTTPS ή σε localhost.';
-      setStatus(m); alert(m); return;
-    }
-    if (!('geolocation' in navigator)) {
-      const m='Ο browser δεν υποστηρίζει εντοπισμό.';
-      setStatus(m); alert(m); return;
+      const m = 'Η τοποθεσία δουλεύει μόνο σε HTTPS ή σε localhost.';
+      setStatus(m);
+      alert(m);
+      return;
     }
 
-    // permission pre-check
+    if (!('geolocation' in navigator)) {
+      const m = 'Ο browser δεν υποστηρίζει εντοπισμό.';
+      setStatus(m);
+      alert(m);
+      return;
+    }
+
     try {
       if (navigator.permissions?.query) {
-        const st = await navigator.permissions.query({ name:'geolocation' });
-        console.log('[EC] permission state =', st.state);
+        const st = await navigator.permissions.query({ name: 'geolocation' });
+
         if (st.state === 'denied') {
-          const m='Η τοποθεσία είναι μπλοκαρισμένη για αυτόν τον ιστότοπο.';
-          setStatus(m); alert(m); return;
+          const m = 'Η τοποθεσία είναι μπλοκαρισμένη για αυτόν τον ιστότοπο.';
+          setStatus(m);
+          alert(m);
+          return;
         }
       }
-    } catch(_) {}
+    } catch (_) {}
 
     isLocating = true;
     btn.disabled = true;
     setStatus('📍 Εντοπισμός θέσης…');
 
     try {
-      const pos = await locateOnce(12000);
-      const user = L.latLng(pos.coords.latitude, pos.coords.longitude);
-      console.log('[EC] got position:', user);
+      previousDistance = null;
+      lastUserLatLng = null;
+      lastAcceptedLatLng = null;
+      lastRoutedLatLng = null;
 
-      // User marker
-      if (userMarker) map.removeLayer(userMarker);
-      userMarker = L.marker(user).addTo(map).bindPopup('Η θέση μου').openPopup();
+      gpsAttempts = 0;
+      gpsCallbacks = 0;
+      realPositionChanges = 0;
 
-      // Route on roads (OSRM)
-      routeFromTo(user, destLatLng);
+      await requestWakeLock();
+
+      const pos = await locateOnce();
+      handleNewPosition(pos, 'initial GPS');
+
+      startWatchPosition();
+      startFallbackPolling();
 
       requestAnimationFrame(fixSize);
       setTimeout(fixSize, 150);
 
-      setStatus('');
+      setStatus('✅ Live GPS ενεργό — κράτησε τη σελίδα ανοιχτή');
+
     } catch (err) {
       console.error('[EC] locate error:', err);
-      const codeMsg = {1:'Άρνηση πρόσβασης.', 2:'Αδυναμία προσδιορισμού.', 3:'Λήξη χρόνου.'};
-      const msg = codeMsg[err?.code] || (err?.message || 'Σφάλμα εντοπισμού.');
+
+      const codeMsg = {
+        1: 'Άρνηση πρόσβασης.',
+        2: 'Αδυναμία προσδιορισμού.',
+        3: 'Λήξη χρόνου.'
+      };
+
+      const msg = codeMsg[err?.code] || err?.message || 'Σφάλμα εντοπισμού.';
       setStatus(msg);
       alert(msg);
+
     } finally {
       isLocating = false;
       btn.disabled = false;
