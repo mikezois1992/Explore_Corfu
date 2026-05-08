@@ -1,0 +1,34 @@
+/* LEAFLET HARD FIXES */
+.leaflet-container img,
+.leaflet-container .leaflet-tile,
+.leaflet-pane img {
+  max-width: none !important;
+  max-height: none !important;
+  display: block !important;
+}
+
+.leaflet-container,
+.leaflet-pane,
+.leaflet-layer,
+.leaflet-tile-container {
+  text-align: left !important;
+}
+
+#map,
+.leaflet-container {
+  position: relative !important;
+  overflow: hidden !important;
+  z-index: 0;
+}
+
+.leaflet-tile {
+  width: 256px !important;
+  height: 256px !important;
+}
+
+/* Βασικές διαστάσεις χάρτη */
+#map { width: 100%; height: 68vh; display: block; clear: both; border-radius: 12px; }
+
+/* ΜΟΝΟ στη σελίδα οδηγιών: βγάλε το global centering του body */
+.directions-page,
+.directions-page * { text-align: initial !important; }
