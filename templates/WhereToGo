@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Where to go</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/template.css') }}">
+
+  <style>
+  body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.where-page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.where-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.25)),
+    var(--where-bg, url("{{ url_for('static', filename='img/img1.jpg') }}"));
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  filter: blur(3px);
+  transform: scale(1.04);
+  z-index: -2;
+}
+
+.where-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.where-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 18px;
+}
+
+.where-card {
+  width: min(760px, 100%);
+  padding: 42px 36px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+  text-align: center;
+}
+
+.where-card h1 {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #2f241d;
+}
+
+.where-subtitle {
+  font-size: 1.08rem;
+  color: #5d5148;
+  margin-bottom: 26px;
+}
+
+.go-form {
+  text-align: left;
+}
+
+.where-search-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.where-search-input {
+  min-height: 52px;
+  border-radius: 16px;
+  border: 1px solid rgba(80, 60, 40, 0.25);
+  padding: 0 18px;
+  font-size: 1rem;
+}
+
+.where-search-btn {
+  min-height: 52px;
+  border-radius: 16px;
+  padding: 0 24px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.where-form-hint {
+  margin-top: 10px;
+  color: #6b625b;
+  font-size: 0.92rem;
+}
+
+.where-icons {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.where-icon-box a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 14px 10px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.68);
+  text-decoration: none;
+  color: #3b2d24;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.where-icon-box a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
+}
+
+.where-icon-box img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+@media (max-width: 680px) {
+  .where-card {
+    padding: 32px 22px;
+    border-radius: 22px;
+  }
+
+  .where-search-row {
+    flex-direction: column;
+  }
+
+  .where-search-btn {
+    width: 100%;
+  }
+
+  .where-icons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.where-page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.18);
+  z-index: -1;
+}
+
+  .where-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 48px 18px;
+}
+
+  .where-card {
+    width: 100%;
+    max-width: 760px;
+    text-align: center;
+  }
+
+  .go-form {
+    max-width: 680px;
+    margin: 2.5rem auto 4rem auto;
+    padding: 1.4rem;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(13, 110, 253, 0.18);
+    border-radius: 26px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(8px);
+  }
+
+  .where-search-row {
+    display: flex;
+    align-items: stretch;
+    background: #fff;
+    border-radius: 20px;
+    padding: 0.35rem;
+    box-shadow: inset 0 0 0 1px #dce6f5;
+  }
+
+  .where-search-input {
+    border: none;
+    box-shadow: none !important;
+    padding: 1rem 1.1rem;
+    font-size: 1rem;
+    border-radius: 18px;
+  }
+
+  .where-search-btn {
+    border: none;
+    border-radius: 17px;
+    padding: 0 1.6rem;
+    font-weight: 700;
+  }
+
+  .where-icons {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .where-icon-box {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0.5rem;
+  }
+
+  .where-icon-box a {
+    text-decoration: none;
+    color: #1f2d3d;
+    font-weight: 500;
+  }
+
+  .where-icon-box img {
+    width: 78px;
+    height: 78px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 0.45rem auto;
+  }
+
+  .where-icon-box:hover {
+    transform: translateY(-4px);
+    transition: 0.2s ease;
+  }
+</style>
+</head>
+
+<body>
+  <div class="where-page">
+
+    <main class="where-main">
+      <section class="where-card">
+        <h1>Where to go in Corfu?</h1>
+
+        <p class="where-subtitle">
+          {{ 'Πληκτρολόγησε έναν προορισμό και δες τη διαδρομή στον χάρτη.' | autotranslate }}
+        </p>
+        <form action="{{ url_for('go') }}" method="get" class="go-form">
+  <label for="go-place" class="form-label">
+    {{ 'Εμφάνιση διαδρομής' | autotranslate }}
+  </label>
+
+  <div class="where-search-row">
+    <input id="go-place"
+           name="place"
+           list="go-places"
+           class="form-control where-search-input"
+           placeholder="{{ 'π.χ. vlaxerena, nisaki...' | autotranslate }}"
+           data-default-bg="{{ url_for('static', filename='img/corfu-bg.jpg') }}"
+           required>
+
+    <button type="submit" class="btn btn-primary where-search-btn">
+      {{ 'Πάμε' | autotranslate }}
+    </button>
+  </div>
+
+  <datalist id="go-places">
+    {% for k, v in ROUTE_DESTINATIONS.items() %}
+      <option value="{{ v.slug }}">{{ v.name }}</option>
+    {% endfor %}
+  </datalist>
+
+  <div class="where-form-hint">
+    {{ 'Διάλεξε από τη λίστα ή γράψε το slug.' | autotranslate }}
+  </div>
+</form>
+      </section>
+       <!-- Icon boxes -->
+      <div class="where-icons">
+        <div class="where-icon-box text-center">
+          <a href="/about">
+            <img src="{{ url_for('static', filename='img/info.png') }}" alt="About">
+            <span>{{ 'About Us' | autotranslate }}</span>
+          </a>
+        </div>
+        <div class="where-icon-box text-center">
+          <a href="/routes">
+            <img src="{{ url_for('static', filename='img/routes.png') }}" alt="Routes">
+            <span>{{ 'Routes' | autotranslate }}</span>
+          </a>
+        </div>
+        <div class="where-icon-box text-center">
+          <a href="/contact">
+            <img src="{{ url_for('static', filename='img/contact.png') }}" alt="Contact">
+            <span>{{ 'Contact' | autotranslate }}</span>
+          </a>
+        </div>
+        <div class="where-icon-box text-center">
+          <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='img/home.png') }}" alt="Home">
+            <span>{{ 'Home' | autotranslate }}</span>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <p>&copy; 2025 MyWebsite. {{ 'Όλα τα δικαιώματα κατοχυρωμένα.' | autotranslate }}</p>
+        <div class="footer-links">
+          <a href="/terms">{{ 'Όροι Χρήσης' | autotranslate }}</a>
+          |
+          <a href="/privacy">{{ 'Πολιτική Απορρήτου' | autotranslate }}</a>
+          |
+          <a href="/">{{ 'Αρχική' | autotranslate }}</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+ <script>
+  const destinationBackgrounds = {
+    {% for key, dest in destinations.items() %}
+      "{{ dest.slug|lower }}": "{{ dest.image }}",
+    {% endfor %}
+  };
+
+  const input = document.getElementById("go-place");
+  const page = document.querySelector(".where-page");
+
+  input.addEventListener("input", function () {
+    const value = input.value.trim().toLowerCase();
+    const image = destinationBackgrounds[value] || input.dataset.defaultBg;
+
+    page.style.setProperty("--where-bg", `url("${image}")`);
+  });
+</script>
+
+</body>
+</html>
