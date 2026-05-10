@@ -137,18 +137,19 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 10px 8px !important;
 }
 
 .search-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px 20px;
+  padding: 10px 8px !important;
   position: relative;
   flex-direction: column;
-  align-items: center;
-
 }
 
 .header-container {
@@ -346,8 +347,28 @@ a {
 
 #routes-map {
   width: 100%;
-  height: 500px;
-  margin: 20px 0;
+  height: 75vh;
+  min-height: 650px;
+  margin: 20px 0 30px 0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  #routes-map {
+    height: 68vh;
+    min-height: 560px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #routes-map {
+    height: 60vh;
+    min-height: 460px;
+    margin: 12px 0 20px 0;
+  }
 }
 
 /* Style images inside Leaflet popups to fully cover the popup area */
@@ -654,4 +675,125 @@ footer {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+/* ===== FIX ΓΙΑ ΤΕΡΑΣΤΙΟ ΚΕΝΟ ΣΤΟ ΚΙΝΗΤΟ ===== */
+
+header,
+header.py-3,
+.header-container,
+.search-area,
+.search-wrapper {
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+@media (max-width: 768px) {
+  header.py-3 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  .search-area {
+    min-height: 0 !important;
+    padding: 8px 6px !important;
+  }
+
+  .search-wrapper {
+    padding: 8px 6px !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .search-container {
+    margin: 0 auto 8px auto !important;
+  }
+}
+/* =====================================================
+   FIX: Να μην μένει λευκό κενό κάτω από το footer στο κινητό
+   ===================================================== */
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+/* Το footer να πηγαίνει στο τέλος της οθόνης όταν η σελίδα είναι κοντή */
+footer,
+.footer {
+  margin-top: auto;
+}
+
+/* Σε mobile, γέμισμα του χώρου κάτω από το footer */
+@media (max-width: 768px) {
+  html {
+    background: #333;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  footer,
+  .footer {
+    margin-bottom: 0 !important;
+    padding-bottom: 24px;
+  }
+}
+
+/* =====================================================
+   ROUTES PAGE SPACING FIX
+   Κατεβάζει λίγο τη μπάρα αναζήτησης κάτω από τον χάρτη
+   ===================================================== */
+
+body.routes-page header {
+  margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+  body.routes-page header {
+    margin-top: 70px;
+  }
+}
+
+/* =====================================================
+   ROUTES MODAL — πληροφορίες marker μπροστά από τον χάρτη
+   ===================================================== */
+
+.route-modal-content {
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.route-modal-img {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.route-modal-info {
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    margin: 1rem;
+  }
+
+  .route-modal-img {
+    max-height: 240px;
+  }
+
+  .route-modal-info {
+    font-size: 0.95rem;
+  }
 }

@@ -4,21 +4,62 @@
 
 {% block head_extra %}
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="{{ url_for('static', filename='js/routes_map.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-  <div class="container-lg py-3">
-    <h1 class="mb-3">{{ 'Διαδρομές'|autotranslate }}</h1>
-    <div id="routes-map" style="height:500px;"></div>
+<script>
+  document.body.classList.add("routes-page");
+</script>
+
+<div class="container-lg py-3">
+  <h1 class="mb-3">{{ 'Διαδρομές'|autotranslate }}</h1>
+
+  <div id="routes-map" style="height:650px; min-height:650px; width:100%;"></div>
+</div>
+
+<!-- Modal πληροφοριών marker -->
+<div class="modal fade" id="routeInfoModal" tabindex="-1" aria-labelledby="routeInfoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content route-modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="routeInfoModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <img id="routeModalImage" src="" alt="" class="route-modal-img">
+
+        <div class="route-modal-info">
+          <p><strong>Υψόμετρο:</strong> <span id="routeModalElevation"></span></p>
+          <p><strong>Έδαφος:</strong> <span id="routeModalTerrain"></span></p>
+          <p id="routeModalDescription"></p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <a id="routeModalLink" href="#" class="btn btn-primary">Άνοιγμα διαδρομής</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Κλείσιμο</button>
+      </div>
+
+    </div>
   </div>
+</div>
 {% endblock %}
 
 {% block scripts_extra %}
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      initLiveSearch();
-    });
-  </script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="{{ url_for('static', filename='js/routes_map.js') }}"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    initLiveSearch();
+
+    if (typeof initRoutesMap === "function") {
+      initRoutesMap();
+    } else {
+      console.error("initRoutesMap δεν βρέθηκε");
+    }
+  });
+</script>
 {% endblock %}

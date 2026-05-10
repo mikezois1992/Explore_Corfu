@@ -132,7 +132,7 @@ const ROUTES = [
     elevation: 'περίπου 130 μέτρα.',
     terrain: 'βραχώδες και ανηφορικό/κατηφορικό, με μονοπάτι πεζοπορικό που κατεβαίνει μέσα από θάμνους, χωμάτινα σημεία και πετρώδη περάσματα', 
     description: 'Η παραλία είναι προσβάσιμη μόνο με πεζοπορία ή βάρκα',
-    image: '/static/img/porto/16.jpg'
+    image: '/static/img/porto/15.jpg'
   },
   {
     title: 'Perama',
@@ -165,33 +165,69 @@ const ROUTES = [
 ];
 
 function initRoutesMap() {
-  const map = L.map('routes-map').setView([39.62, 19.92], 11); // Κέντρο στην Κέρκυρα
+
+  const map = L.map('routes-map').setView([39.62, 19.92], 11);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© OpenStreetMap contributors'
+    attribution: '© OpenStreetMap contributors'
   }).addTo(map);
-  
+
   const bounds = L.latLngBounds([]);
 
   ROUTES.forEach(route => {
-      const popupContent = `
-      <a href="${route.url}">${route.title}</a><br/>
-      <img src="${route.image}" alt="${route.title}" style="width:100px;height:auto;"/><br/>
-      <strong>Υψόμετρο:</strong> ${route.elevation} μ.<br/>
-      <strong>Έδαφος:</strong> ${route.terrain}<br/>
-      ${route.description}
-    `;
-    const marker = L.marker([route.position.lat, route.position.lng])
-      .addTo(map)
-      .bindPopup(popupContent);
-    
+
+    const marker = L.marker([
+      route.position.lat,
+      route.position.lng
+    ]).addTo(map);
+
+    marker.on('click', function () {
+      openRouteModal(route);
+    });
+
     bounds.extend(marker.getLatLng());
+
   });
 
   map.fitBounds(bounds);
+
+  /* FIX για σωστό rendering μετά το load */
+  setTimeout(function () {
+    map.invalidateSize();
+  }, 300);
 }
- 
-
-document.addEventListener('DOMContentLoaded', initRoutesMap);
 
 
+/* =====================================================
+   MODAL ΠΛΗΡΟΦΟΡΙΩΝ MARKER
+   ===================================================== */
+
+function openRouteModal(route) {
+
+  document.getElementById('routeInfoModalLabel').textContent =
+    route.title;
+
+  const image = document.getElementById('routeModalImage');
+
+  image.src = route.image;
+  image.alt = route.title;
+
+  document.getElementById('routeModalElevation').textContent =
+    route.elevation;
+
+  document.getElementById('routeModalTerrain').textContent =
+    route.terrain;
+
+  document.getElementById('routeModalDescription').textContent =
+    route.description;
+
+  const link = document.getElementById('routeModalLink');
+
+  link.href = route.url;
+
+  const modal = new bootstrap.Modal(
+    document.getElementById('routeInfoModal')
+  );
+
+  modal.show();
+}
