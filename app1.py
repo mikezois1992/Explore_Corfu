@@ -1,4 +1,5 @@
-from flask import Flask, render_template, make_response, jsonify, request, redirect, url_for, flash, g, session, hashlib # ΠΡΟΣΘΗΚΗ HASH
+from flask import Flask, render_template, make_response, jsonify, request, redirect, url_for, flash, g, session
+import hashlib # ΠΡΟΣΘΗΚΗ HASH
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
