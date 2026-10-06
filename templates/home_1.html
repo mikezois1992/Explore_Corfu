@@ -133,47 +133,6 @@
   </div>
 </div>
 </div>
-    <div class="icon-box dropdown">
-
-    <a
-        href="#"
-        class="dropdown-toggle"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-    >
-
-        <img
-            src="{{ url_for('static', filename='img/gallery.png') }}"
-            alt="Gallery"
-        >
-
-    </a>
-
-    <ul class="dropdown-menu">
-
-        {% for destination in suggestions %}
-
-        <li>
-
-            <a
-                class="dropdown-item"
-                href="{{ url_for(
-                    'gallery',
-                    destination=destination.title.strip().lower().replace(' ', '-')
-                ) }}"
-            >
-
-                {{ destination.title }}
-
-            </a>
-
-        </li>
-
-        {% endfor %}
-
-    </ul>
-
-</div>
 <footer style="position: relative; left: 0; width: 100%; background-color: #333; color: white; text-align: center; padding: 20px 0; margin: 0; border: none;">
   <div style="max-width: 100%; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; align-items: center;">
     <p style="margin-bottom: 10px;">&copy; 2025 MyWebsite. {{ 'Όλα τα δικαιώματα κατοχυρωμένα.' | autotranslate }}</p>
