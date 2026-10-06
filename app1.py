@@ -296,7 +296,8 @@ def home():
             else:
                     flash(_('Πρέπει να συνδεθείς πρώτα για να κάνεις αναζήτηση.'), 'warning')
                     return redirect(url_for('login'))
-    return render_template('home_1.html')
+   return render_template('home_1.html', suggestions=SUGGESTIONS)
+
 
 # Login page
 @app.route('/login', methods=['GET', 'POST'])
