@@ -1,4 +1,4 @@
-from flask import Flask, render_template, make_response, jsonify, request, redirect, url_for, flash, g, session
+from flask import Flask, render_template, make_response, jsonify, request, redirect, url_for, flash, g, session, hashlib # ΠΡΟΣΘΗΚΗ HASH
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -301,25 +301,30 @@ def home():
 # Login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if 'user_id' in session:  # Ελέγχουμε αν ο χρήστης είναι ήδη συνδεδεμένος
+    if 'user_id' in session:
         session.modified = True
         flash(_('Ήδη είσαι συνδεδεμένος.'), 'info')
-        return redirect(url_for('home'))  # Επιστροφή στην αρχική σελίδα
+        return redirect(url_for('home'))
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
+        # Δημιουργία MD5 hash του password που έδωσε ο χρήστης
+        hashed_password = hashlib.md5(password.encode()).hexdigest()
+
         user = User.query.filter_by(username=username).first()
-        
-        # Έλεγχος για τον χρήστη
-        if user and user.password == password:
-            session['user_id'] = user.id  # Αποθήκευση στο session
-            session['username'] = user.username  # 
+
+        # Σύγκριση του hash με το hash που υπάρχει στη βάση
+        if user and user.password == hashed_password:
+            session['user_id'] = user.id
+            session['username'] = user.username
             flash(_('Η σύνδεση ήταν επιτυχής!'), 'success')
-            return redirect(url_for('home'))  # Μετά την είσοδο πηγαίνουμε στο home
+            return redirect(url_for('home'))
         else:
             flash(_('Λάθος όνομα χρήστη ή κωδικός.'), 'danger')
-            return redirect(url_for('login'))  # Αν υπάρχει λάθος, επιστροφή στο login
-    
+            return redirect(url_for('login'))
+
     return render_template('login.html')
 
 
@@ -328,7 +333,10 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if 'user_id' in session:
-        flash(_('Είσαι ήδη συνδεδεμένος. Κάνε αποσύνδεση για να δημιουργήσεις νέο λογαριασμό.'), 'warning')
+        flash(
+            _('Είσαι ήδη συνδεδεμένος. Κάνε αποσύνδεση για να δημιουργήσεις νέο λογαριασμό.'),
+            'warning'
+        )
         return redirect(url_for('home'))
 
     if request.method == 'POST':
@@ -348,15 +356,24 @@ def register():
             flash(_('Το email χρησιμοποιείται ήδη.'), 'danger')
             return redirect(url_for('register'))
 
-        new_user = User(username=username, email=email, password=password)
+        # Δημιουργία MD5 hash πριν αποθηκευτεί το password
+        hashed_password = hashlib.md5(password.encode()).hexdigest()
+
+        new_user = User(
+            username=username,
+            email=email,
+            password=hashed_password
+        )
+
         db.session.add(new_user)
         db.session.commit()
 
         session['user_id'] = new_user.id
-        session['username'] = new_user.username  
+        session['username'] = new_user.username
+
         flash(_('Η εγγραφή ήταν επιτυχής!'), 'success')
         return redirect(url_for('home'))
-    
+
     return render_template('register.html')
 
 # Ιστορικό αναζητήσεων
