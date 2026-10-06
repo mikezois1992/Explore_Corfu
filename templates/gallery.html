@@ -16,22 +16,32 @@
 
         {% for image in images %}
 
-        <div class="gallery-item">
+       <div class="modal-body text-center position-relative">
 
-            <img
-                src="{{ url_for(
-                    'static',
-                    filename=destination.gallery_folder + '/' + image
-                ) }}"
-                alt="{{ destination.title }}"
-                class="gallery-image"
-                data-bs-toggle="modal"
-                data-bs-target="#galleryModal"
-                onclick="openGalleryImage(this.src)"
-            >
+    <button
+        type="button"
+        class="gallery-nav gallery-prev"
+        onclick="previousImage()"
+    >
+        &#10094;
+    </button>
 
-        </div>
+    <img
+        id="galleryModalImage"
+        src=""
+        class="img-fluid"
+        alt="Gallery image"
+    >
 
+    <button
+        type="button"
+        class="gallery-nav gallery-next"
+        onclick="nextImage()"
+    >
+        &#10095;
+    </button>
+
+</div>
         {% endfor %}
 
     </div>
@@ -78,9 +88,65 @@
 
 
 <script>
+
+let galleryImages = [];
+let currentImageIndex = 0;
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    galleryImages = Array.from(
+        document.querySelectorAll('.gallery-image')
+    );
+
+});
+
 function openGalleryImage(imageSrc) {
-    document.getElementById('galleryModalImage').src = imageSrc;
+
+    currentImageIndex = galleryImages.findIndex(
+        image => image.src === imageSrc
+    );
+
+    document.getElementById(
+        'galleryModalImage'
+    ).src = imageSrc;
 }
+
+
+function nextImage() {
+
+    if (galleryImages.length === 0) {
+        return;
+    }
+
+    currentImageIndex++;
+
+    if (currentImageIndex >= galleryImages.length) {
+        currentImageIndex = 0;
+    }
+
+    document.getElementById(
+        'galleryModalImage'
+    ).src = galleryImages[currentImageIndex].src;
+}
+
+
+function previousImage() {
+
+    if (galleryImages.length === 0) {
+        return;
+    }
+
+    currentImageIndex--;
+
+    if (currentImageIndex < 0) {
+        currentImageIndex = galleryImages.length - 1;
+    }
+
+    document.getElementById(
+        'galleryModalImage'
+    ).src = galleryImages[currentImageIndex].src;
+}
+
 </script>
 
 {% endblock %}
