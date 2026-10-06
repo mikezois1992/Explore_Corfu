@@ -1,0 +1,86 @@
+{% extends "template.html" %}
+
+{% block title %}
+{{ destination.title }} Gallery
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <h1 class="text-center mb-4">
+        {{ destination.title }}
+    </h1>
+
+    <div class="gallery-grid">
+
+        {% for image in images %}
+
+        <div class="gallery-item">
+
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename=destination.gallery_folder + '/' + image
+                ) }}"
+                alt="{{ destination.title }}"
+                class="gallery-image"
+                data-bs-toggle="modal"
+                data-bs-target="#galleryModal"
+                onclick="openGalleryImage(this.src)"
+            >
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
+<div
+    class="modal fade"
+    id="galleryModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+
+        <div class="modal-content bg-dark">
+
+            <div class="modal-header border-0">
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <div class="modal-body text-center">
+
+                <img
+                    id="galleryModalImage"
+                    src=""
+                    class="img-fluid"
+                    alt="Gallery image"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+function openGalleryImage(imageSrc) {
+    document.getElementById('galleryModalImage').src = imageSrc;
+}
+</script>
+
+{% endblock %}
