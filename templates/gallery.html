@@ -1,7 +1,7 @@
 {% extends "template.html" %}
 
 {% block title %}
-{{ destination.title }} Gallery
+{{ destination.name }} Gallery
 {% endblock %}
 
 {% block content %}
@@ -9,39 +9,29 @@
 <div class="container py-4">
 
     <h1 class="text-center mb-4">
-        {{ destination.title }}
+        {{ destination.name }}
     </h1>
 
     <div class="gallery-grid">
 
         {% for image in images %}
 
-       <div class="modal-body text-center position-relative">
+        <div class="gallery-item">
 
-    <button
-        type="button"
-        class="gallery-nav gallery-prev"
-        onclick="previousImage()"
-    >
-        &#10094;
-    </button>
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename=destination.gallery_folder + '/' + image
+                ) }}"
+                alt="{{ destination.name }}"
+                class="gallery-image"
+                data-bs-toggle="modal"
+                data-bs-target="#galleryModal"
+                onclick="openGalleryImage(this.src)"
+            >
 
-    <img
-        id="galleryModalImage"
-        src=""
-        class="img-fluid"
-        alt="Gallery image"
-    >
+        </div>
 
-    <button
-        type="button"
-        class="gallery-nav gallery-next"
-        onclick="nextImage()"
-    >
-        &#10095;
-    </button>
-
-</div>
         {% endfor %}
 
     </div>
@@ -69,7 +59,15 @@
 
             </div>
 
-            <div class="modal-body text-center">
+            <div class="modal-body text-center position-relative">
+
+                <button
+                    type="button"
+                    class="gallery-nav gallery-prev"
+                    onclick="previousImage()"
+                >
+                    &#10094;
+                </button>
 
                 <img
                     id="galleryModalImage"
@@ -77,6 +75,14 @@
                     class="img-fluid"
                     alt="Gallery image"
                 >
+
+                <button
+                    type="button"
+                    class="gallery-nav gallery-next"
+                    onclick="nextImage()"
+                >
+                    &#10095;
+                </button>
 
             </div>
 
@@ -99,6 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
 });
+
 
 function openGalleryImage(imageSrc) {
 
