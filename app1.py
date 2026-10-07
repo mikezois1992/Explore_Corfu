@@ -297,7 +297,7 @@ def home():
             else:
                     flash(_('Πρέπει να συνδεθείς πρώτα για να κάνεις αναζήτηση.'), 'warning')
                     return redirect(url_for('login'))
-   return render_template('home_1.html')
+    return render_template('home_1.html')
 
 # Login page
 @app.route('/login', methods=['GET', 'POST'])
@@ -698,11 +698,6 @@ DESTINATIONS = {
     },
 }
 
-@app.context_processor
-def inject_suggestions():
-    return {
-        'suggestions': SUGGESTIONS
-    }
 
 @app.route('/gallery/<destination>')
 def gallery(destination):
