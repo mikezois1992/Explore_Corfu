@@ -80,21 +80,21 @@
 
   <ul class="dropdown-menu">
 
-    {% for destination in suggestions %}
+    {% for key, destination in ROUTE_DESTINATIONS.items() %}
 
-      <li>
-        <a
-          class="dropdown-item"
-          href="{{ url_for(
-            'gallery',
-            destination=destination.title.strip().lower().replace(' ', '-')
-          ) }}"
-        >
-          {{ destination.title }}
-        </a>
-      </li>
+<li>
+    <a
+      class="dropdown-item"
+      href="{{ url_for(
+        'gallery',
+        destination=destination.slug
+      ) }}"
+    >
+      {{ destination.name }}
+    </a>
+</li>
 
-    {% endfor %}
+{% endfor %}
 
   </ul>
 
