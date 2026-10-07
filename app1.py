@@ -707,14 +707,7 @@ def inject_suggestions():
 @app.route('/gallery/<destination>')
 def gallery(destination):
 
-    selected_destination = None
-
-    for item in SUGGESTIONS:
-        destination_slug = item['title'].strip().lower().replace(' ', '-')
-
-        if destination_slug == destination.lower():
-            selected_destination = item
-            break
+    selected_destination = get_destination(destination)
 
     if not selected_destination:
         return redirect(url_for('home'))
