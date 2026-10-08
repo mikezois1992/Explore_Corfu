@@ -1,4 +1,5 @@
 from flask import Flask, render_template, make_response, jsonify, request, redirect, url_for, flash, g, session
+import hashlib
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -308,10 +309,14 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
+        # Δημιουργία MD5 hash του password που έδωσε ο χρήστης
+        hashed_password = hashlib.md5(password.encode()).hexdigest()
+
         user = User.query.filter_by(username=username).first()
         
         # Έλεγχος για τον χρήστη
-        if user and user.password == password:
+        if user and user.password == hashed_password:
             session['user_id'] = user.id  # Αποθήκευση στο session
             session['username'] = user.username  # 
             flash(_('Η σύνδεση ήταν επιτυχής!'), 'success')
@@ -348,7 +353,14 @@ def register():
             flash(_('Το email χρησιμοποιείται ήδη.'), 'danger')
             return redirect(url_for('register'))
 
-        new_user = User(username=username, email=email, password=password)
+        # Δημιουργία MD5 hash πριν αποθηκευτεί το password
+        hashed_password = hashlib.md5(password.encode()).hexdigest()
+
+        new_user = User(
+            username=username,
+            email=email,
+            password=hashed_password
+        )
         db.session.add(new_user)
         db.session.commit()
 
