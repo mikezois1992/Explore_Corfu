@@ -103,6 +103,21 @@
             <span>{{ 'Routes' | autotranslate }}</span>
           </a>
         </div>
+        <div class="icon-box text-center dropdown">
+          <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{{ url_for('static', filename='img/gallery.svg') }}" alt="Gallery">
+            <span>{{ 'Gallery' | autotranslate }}</span>
+          </a>
+          <ul class="dropdown-menu">
+            {% for key, destination in ROUTE_DESTINATIONS.items() %}
+            <li>
+              <a class="dropdown-item" href="{{ url_for('gallery', destination=destination.slug) }}">
+                {{ destination.name }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
         <div class="icon-box text-center">
           <a href="/contact">
             <img src="{{ url_for('static', filename='img/contact.png') }}" alt="Contact">
