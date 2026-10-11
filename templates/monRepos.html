@@ -12,13 +12,7 @@
     {% set _ = images.append('img/mon repo/' ~ i ~ '.jpg') %}
   {% endfor %}
 
-  {# 
-    ΣΗΜΕΙΩΣΗ:
-    Αν η 8η εικόνα ΔΕΝ είναι μέσα στον φάκελο "img/mon repo/8.jpg" αλλά είναι "img/mon repo8.jpg",
-    τότε ξεσχόλιασε την επόμενη γραμμή:
-    {% set images = images[:7] + ['img/mon repo8.jpg'] + images[8:] %}
-  #}
-
+  
   {% set carousel_id = "carouselMonRepos" %}
 
   <div id="{{ carousel_id }}" class="carousel slide" data-bs-ride="carousel">
